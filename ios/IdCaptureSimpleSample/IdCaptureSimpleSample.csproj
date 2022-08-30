@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-ios</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Scandit.DataCapture.Core.Xamarin" Version="6.14.0" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture.Xamarin" Version="6.14.0" />    <PackageReference Include="Scandit.DataCapture.TextCapture.Xamarin" Version="6.14.0" />
+  </ItemGroup>
+</Project>
