@@ -213,7 +213,7 @@ namespace BarcodeSelectionSimpleSample
             int selectionCount = session.GetCount(barcode);
 
             // Get the human readable name of the symbology and assemble the result to be shown.
-            using SymbologyDescription description = SymbologyDescription.Create(barcode.Symbology);
+            SymbologyDescription description = new SymbologyDescription(barcode.Symbology);
             string result = barcode.Data + " (" + description.ReadableName + ")" + "\nTimes: " + selectionCount; ;
 
             this.ShowResult(result);

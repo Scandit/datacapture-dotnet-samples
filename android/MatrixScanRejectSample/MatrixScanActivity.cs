@@ -51,13 +51,10 @@ namespace MatrixScanRejectSample
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.activity_matrix_scan);
-
-            SetTitle(Resource.String.app_title);
-
-            Initialize();
-
-            FindViewById<Button>(Resource.Id.done_button).Click += (sender, e) =>
+            this.SetContentView(Resource.Layout.activity_matrix_scan);
+            this.SetTitle(Resource.String.app_title);
+            this.Initialize();
+            this.FindViewById<Button>(Resource.Id.done_button).Click += (sender, e) =>
             {
                 var intent = ResultsActivity.GetIntent(
                             this, scanResults);
@@ -145,7 +142,7 @@ namespace MatrixScanRejectSample
             // Until it is completely stopped, it is still possible to receive further results, hence
             // it's a good idea to first disable barcode tracking as well.
             barcodeTracking.Enabled = false;
-            camera.SwitchToDesiredState(FrameSourceState.Off, null);
+            camera.SwitchToDesiredStateAsync(FrameSourceState.Off);
         }
 
         protected override void OnResume()
@@ -189,7 +186,7 @@ namespace MatrixScanRejectSample
             // Switch camera on to start streaming frames.
             // The camera is started asynchronously and will take some time to completely turn on.
             barcodeTracking.Enabled = true;
-            camera.SwitchToDesiredState(FrameSourceState.On, null);
+            camera.SwitchToDesiredStateAsync(FrameSourceState.On);
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)

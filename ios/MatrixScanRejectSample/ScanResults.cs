@@ -18,10 +18,10 @@ namespace MatrixScanRejectSample
 {
     public class ScanResult : IEquatable<ScanResult>
     {
-        public string Symbology { get; set; }
-        public string Data { get; set; }
+        public string Symbology { get; set; } = string.Empty;
+        public string Data { get; set; } = string.Empty;
 
-        public bool Equals(ScanResult other)
+        public bool Equals(ScanResult? other)
         {
             if (other == null)
             {
@@ -31,7 +31,7 @@ namespace MatrixScanRejectSample
             return this.GetHashCode() == other.GetHashCode();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return (obj as ScanResult) != null && this.Equals((ScanResult)obj);
         }

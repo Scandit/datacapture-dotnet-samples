@@ -22,7 +22,7 @@ namespace MatrixScanRejectSample.Data
     {
         public ScanResult(Barcode barcode)
         {
-            using var symbologyDescription = SymbologyDescription.Create(barcode.Symbology);
+            var symbologyDescription = new SymbologyDescription(barcode.Symbology);
             ReadableName = symbologyDescription.ReadableName;
             Data = barcode.Data;
         }

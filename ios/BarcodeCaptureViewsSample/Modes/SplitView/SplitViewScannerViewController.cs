@@ -166,7 +166,7 @@ namespace BarcodeCaptureViewsSample.Modes.SplitView
 
             this.barcodeCaptureOverlay = BarcodeCaptureOverlay.Create(this.barcodeCapture, this.dataCaptureView, BarcodeCaptureOverlayStyle.Frame);
             // Add the laser line viewfinder to the overlay.
-            var viewFinder = LaserlineViewfinder.Create(LaserlineViewfinderStyle.Animated);
+            var viewFinder = new LaserlineViewfinder(LaserlineViewfinderStyle.Animated);
             viewFinder.Width = new FloatWithUnit(value: 0.9f, unit: MeasureUnit.Fraction);
             barcodeCaptureOverlay.Viewfinder = viewFinder;
 

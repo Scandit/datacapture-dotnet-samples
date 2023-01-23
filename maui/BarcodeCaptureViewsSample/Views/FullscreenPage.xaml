@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scandit="clr-namespace:Scandit.DataCapture.Core.UI.Maui;assembly=ScanditCaptureCoreMaui"
+             xmlns:view_models="clr-namespace:BarcodeCaptureViewsSample.ViewModels" 
+             x:Class="BarcodeCaptureViewsSample.Views.FullscreenPage">
+    <ContentPage.BindingContext>
+        <view_models:FullscreenPageViewModel x:Name="viewModel" />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <scandit:DataCaptureView
+                x:Name="dataCaptureView"
+                DataCaptureContext="{Binding DataCaptureContext}"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All" />
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
