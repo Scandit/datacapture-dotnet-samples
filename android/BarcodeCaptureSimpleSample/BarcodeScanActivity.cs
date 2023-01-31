@@ -149,7 +149,7 @@ namespace BarcodeCaptureSimpleSample
             // barcodes on top of the video preview.
             // This is optional, but recommended for better visual feedback.
             BarcodeCaptureOverlay overlay = BarcodeCaptureOverlay.Create(this.barcodeCapture, this.dataCaptureView, BarcodeCaptureOverlayStyle.Frame);
-            overlay.Viewfinder = new RectangularViewfinder(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
+            overlay.Viewfinder = RectangularViewfinder.Create(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
 
             // Add the DataCaptureView to the container.
             var container = FindViewById<FrameLayout>(Resource.Id.data_capture_view_container);
@@ -184,10 +184,12 @@ namespace BarcodeCaptureSimpleSample
             // or even -1 if you do not want codes to be scanned more than once.
 
             // Get the human readable name of the symbology and assemble the result to be shown.
-            SymbologyDescription description = new SymbologyDescription(barcode.Symbology);
+            using (SymbologyDescription description = SymbologyDescription.Create(barcode.Symbology))
+            {
+                string result = "Scanned: " + barcode.Data + " (" + description.ReadableName + ")";
 
-            string result = "Scanned: " + barcode.Data + " (" + description.ReadableName + ")";
-            RunOnUiThread(() => ShowResults(result));
+                RunOnUiThread(() => ShowResults(result));
+            }
         }
 
         public void OnObservationStarted(BarcodeCapture barcodeCapture)

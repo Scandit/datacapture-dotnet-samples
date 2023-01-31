@@ -246,13 +246,19 @@ namespace MatrixScanBubblesSample
         {
             // We set the offset's height to be equal of the 100 percent of our overlay.
             // The minus sign means that the overlay will be above the barcode.
-            return new PointWithUnit(
-                x: new FloatWithUnit(
-                    value: 0,
-                    unit: MeasureUnit.Fraction),
-                y: new FloatWithUnit(
-                    value: -1,
-                    unit: MeasureUnit.Fraction));
+            return new PointWithUnit()
+            {
+                X = new FloatWithUnit()
+                {
+                    Value = 0,
+                    Unit = MeasureUnit.Fraction
+                },
+                Y = new FloatWithUnit()
+                {
+                    Value = -1,
+                    Unit = MeasureUnit.Fraction
+                }
+            };
         }
 
         #endregion

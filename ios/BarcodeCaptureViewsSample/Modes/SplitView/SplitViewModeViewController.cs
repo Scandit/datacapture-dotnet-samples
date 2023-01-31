@@ -61,7 +61,7 @@ namespace BarcodeCaptureViewsSample.Modes.SplitView
             }
 
             // Get the human readable name of the symbology and assemble the result to be shown.
-            string symbology = new SymbologyDescription(barcode.Symbology).ReadableName;
+            string symbology = SymbologyDescription.Create(barcode.Symbology).ReadableName;
 
             DispatchQueue.MainQueue.DispatchAsync(() =>
             {

@@ -3,7 +3,7 @@
           android:versionCode="1"
           android:versionName="1.0"
           package="com.scandit.net-android.barcodecapturerejectsample">
-  <uses-sdk android:minSdkVersion="24"
+  <uses-sdk android:minSdkVersion="21"
             android:targetSdkVersion="31" />
   <application android:allowBackup="true"
                android:icon="@mipmap/ic_launcher"
