@@ -138,7 +138,7 @@ namespace BarcodeCaptureSimpleSample
             this.View.AddSubview(this.dataCaptureView);
 
             this.overlay = BarcodeCaptureOverlay.Create(this.barcodeCapture, this.dataCaptureView, BarcodeCaptureOverlayStyle.Frame);
-            this.overlay.Viewfinder = RectangularViewfinder.Create(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
+            this.overlay.Viewfinder = new RectangularViewfinder(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
         }
 
         public void ShowResult(string result)
@@ -176,7 +176,7 @@ namespace BarcodeCaptureSimpleSample
             // or even -1 if you do not want codes to be scanned more than once.
 
             // Get the human readable name of the symbology and assemble the result to be shown.
-            string symbology = SymbologyDescription.Create(barcode.Symbology).ReadableName;
+            string symbology = new SymbologyDescription(barcode.Symbology).ReadableName;
             string result = string.Format("Scanned {0} ({1})", barcode.Data, symbology);
             this.ShowResult(result);
 

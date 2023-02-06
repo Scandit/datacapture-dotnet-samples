@@ -133,7 +133,7 @@ namespace BarcodeCaptureViewsSample.Modes
             this.barcodeCapture.Enabled = false;
 
             // Get the human readable name of the symbology and assemble the result to be shown.
-            string symbology = SymbologyDescription.Create(barcode.Symbology).ReadableName;
+            string symbology = new SymbologyDescription(barcode.Symbology).ReadableName;
             string result = string.Format("Scanned {0} ({1})", barcode.Data, symbology);
             this.ShowResult(result);
         }

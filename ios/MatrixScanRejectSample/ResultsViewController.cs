@@ -24,10 +24,9 @@ namespace MatrixScanRejectSample
         private const string CellIdentifier = "TableCell";
 
         public ResultsViewController(IntPtr handle) : base(handle)
-        {
-        }
+        { }
 
-        public List<ScanResult> Items { get; set; }
+        public List<ScanResult>? Items { get; set; }
 
         public override void ViewDidLoad()
         {

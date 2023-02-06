@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scandit="clr-namespace:Scandit.DataCapture.Core.UI.Maui;assembly=ScanditCaptureCoreMaui"
+             xmlns:vm="clr-namespace:MatrixScanSimpleSample.ViewModels"
+             x:Class="MatrixScanSimpleSample.Views.MainPage"
+             BindingContext="{StaticResource MainPageViewModel}"
+             Title="MatrixScan Simple">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <scandit:DataCaptureView
+                x:Name="dataCaptureView"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                DataCaptureContext="{Binding DataCaptureContext}" >
+            </scandit:DataCaptureView>
+            <Button Text="DONE"
+                    AbsoluteLayout.LayoutBounds="0.5,0.9,300,45"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    Clicked="ButtonClicked"
+                    BackgroundColor="#58B5C2"
+                    TextColor="White" />
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

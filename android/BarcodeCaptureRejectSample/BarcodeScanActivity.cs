@@ -82,7 +82,7 @@ namespace BarcodeCaptureRejectSample
             // By default, every time a barcode is scanned, a sound (if not in silent mode) and a
             // vibration are played. In the following we are setting a success feedback without sound
             // and vibration.
-            barcodeCapture.Feedback.Success = new Feedback();
+            barcodeCapture.Feedback.Success = new Feedback(vibration: null, sound: null);
 
             // Register self as a listener to get informed whenever a new barcode got recognized.
             barcodeCapture.AddListener(this);
@@ -98,7 +98,7 @@ namespace BarcodeCaptureRejectSample
             this.highlightingBrush = overlay.Brush;
 
             // Add a square viewfinder as we are only scanning square QR codes.
-            overlay.Viewfinder = RectangularViewfinder.Create(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
+            overlay.Viewfinder = new RectangularViewfinder(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
 
             SetContentView(this.dataCaptureView);
         }
@@ -116,7 +116,7 @@ namespace BarcodeCaptureRejectSample
             // Until it is completely stopped, it is still possible to receive further results, hence
             // it's a good idea to first disable barcode capture as well.
             barcodeCapture.Enabled = false;
-            camera.SwitchToDesiredState(FrameSourceState.Off, null);
+            camera.SwitchToDesiredStateAsync(FrameSourceState.Off);
         }
 
         protected override void OnDestroy()
@@ -170,12 +170,10 @@ namespace BarcodeCaptureRejectSample
             // or even -1 if you do not want codes to be scanned more than once.
 
             // Get the human readable name of the symbology and assemble the result to be shown.
-            using (var description = SymbologyDescription.Create(barcode.Symbology))
-            {
-                var result = "Scanned: " + barcode.Data + " (" + description.ReadableName + ")";
+            var description = new SymbologyDescription(barcode.Symbology);
 
-                RunOnUiThread(() => ShowResult(result));
-            }
+            var result = "Scanned: " + barcode.Data + " (" + description.ReadableName + ")";
+            RunOnUiThread(() => ShowResult(result));
         }
 
         private void ShowResult(string result)
@@ -205,7 +203,7 @@ namespace BarcodeCaptureRejectSample
 
         protected override void OnCameraPermissionGranted()
         {
-            ResumeFrameSource();
+            this.ResumeFrameSource();
         }
 
         private void ResumeFrameSource()
@@ -214,14 +212,14 @@ namespace BarcodeCaptureRejectSample
 
             // Switch camera on to start streaming frames.
             // The camera is started asynchronously and will take some time to completely turn on.
-            barcodeCapture.Enabled = true;
-            camera.SwitchToDesiredState(FrameSourceState.On, null);
+            this.barcodeCapture.Enabled = true;
+            this.camera.SwitchToDesiredStateAsync(FrameSourceState.On);
         }
 
         private void DismissScannedCodesDialog()
         {
-            dialog?.Dismiss();
-            dialog = null;
+            this.dialog?.Dismiss();
+            this.dialog = null;
         }
     }
 }

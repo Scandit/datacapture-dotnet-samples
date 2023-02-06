@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationId>com.scandit.net-android.IdCaptureExtendedSample</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.16.1" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.16.1" />
+    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.16.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.1" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.5.1" />
+    <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0.16" />
+    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout" Version="2.1.4.1" />
+    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.9.0" />
+    <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.5.2" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Extensions" Version="2.2.0.14" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.5.1" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Service" Version="2.5.1" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel" Version="2.5.1" />
+    <PackageReference Include="Xamarin.AndroidX.RecyclerView" Version="1.2.1.7" />
+    <PackageReference Include="Xamarin.AndroidX.Transition" Version="1.4.1.7" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.6.1.1" />
+  </ItemGroup>
+</Project>

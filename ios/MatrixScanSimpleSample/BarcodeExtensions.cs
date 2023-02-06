@@ -19,6 +19,6 @@ namespace MatrixScanSimpleSample
     public static class BarcodeExtensions
     {
         public static string ReadableName(this Symbology symbology) =>
-            SymbologyDescription.Create(symbology).ReadableName;
+            new SymbologyDescription(symbology).ReadableName;
     }
 }

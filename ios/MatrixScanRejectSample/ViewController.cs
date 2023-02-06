@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CoreFoundation;
 using Foundation;
+using UIKit;
+
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Barcode.Tracking.Capture;
 using Scandit.DataCapture.Barcode.Tracking.Data;
@@ -26,33 +28,38 @@ using Scandit.DataCapture.Core.Data;
 using Scandit.DataCapture.Core.Source;
 using Scandit.DataCapture.Core.UI;
 using Scandit.DataCapture.Core.UI.Style;
-using UIKit;
 
 namespace MatrixScanRejectSample
 {
-    public partial class ViewController : UIViewController, IBarcodeTrackingListener, IBarcodeTrackingBasicOverlayListener
+    public partial class ViewController : UIViewController, IBarcodeTrackingBasicOverlayListener
     {
         // Enter your Scandit License key here.
         public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-        private DataCaptureContext dataCaptureContext;
-        private Camera camera;
-        private BarcodeTracking barcodeTracking;
+        private DataCaptureContext? dataCaptureContext;
+        private Camera? camera;
+        private DataCaptureView? dataCaptureView;
+        private BarcodeTracking? barcodeTracking;
+        private BarcodeTrackingBasicOverlay? overlay;
 
         private HashSet<ScanResult> scanResults = new HashSet<ScanResult>();
 
-        private Brush defaultBrush;
-        private Brush rejectedBrush;
+        private readonly Brush defaultBrush = new Brush(UIColor.Clear, UIColor.Green, 3);
+        private readonly Brush rejectedBrush = new Brush(UIColor.Clear, UIColor.Red, 3);
 
         public ViewController(IntPtr handle) : base(handle)
-        {
-        }
+        { }
 
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillAppear(animated);
-            // First, disable barcode tracking to stop processing frames.
-            this.barcodeTracking.Enabled = false;
+
+            if (this.barcodeTracking != null)
+            {
+                // First, disable barcode tracking to stop processing frames.
+                this.barcodeTracking.Enabled = false;
+            }
+
             // Switch the camera off to stop streaming frames. The camera is stopped asynchronously.
             this.camera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
         }
@@ -62,10 +69,14 @@ namespace MatrixScanRejectSample
             base.ViewWillAppear(animated);
 
             // Remove the scanned barcodes everytime the barcode tracking starts.
-            this.scanResults?.Clear();
+            this.scanResults.Clear();
 
-            // First, enable barcode tracking to resume processing frames.
-            this.barcodeTracking.Enabled = true;
+            if (this.barcodeTracking != null)
+            {
+                // First, enable barcode tracking to resume processing frames.
+                this.barcodeTracking.Enabled = true;
+            }
+
             // Switch camera on to start streaming frames. The camera is started asynchronously and will take some time to
             // completely turn on.
             this.camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
@@ -77,7 +88,7 @@ namespace MatrixScanRejectSample
             this.InitializeAndStartBarcodeScanning();
         }
 
-        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+        public override void PrepareForSegue(UIStoryboardSegue segue, NSObject? sender)
         {
             base.PrepareForSegue(segue, sender);
 
@@ -87,42 +98,10 @@ namespace MatrixScanRejectSample
             }
         }
 
-        #region IBarcodeTrackingListener
-
-        public void OnSessionUpdated(BarcodeTracking barcodeTracking, BarcodeTrackingSession session, IFrameData frameData)
-        {
-            DispatchQueue.MainQueue.DispatchAsync(() =>
-            {
-                this.scanResults = session.TrackedBarcodes?
-                                          .Values
-                                          .Where(item => this.IsValidBarcode(item.Barcode))
-                                          .Select(v => new ScanResult
-                                                       {
-                                                           Data = v.Barcode.Data,
-                                                           Symbology = v.Barcode.Symbology.ReadableName()
-                                                       })
-                                          .ToHashSet();
-            });
-
-            // Dispose the frame when you have finished processing it. If the frame is not properly disposed,
-            // different issues could arise, e.g. a frozen, non-responsive, or "severely stuttering" video feed.
-            frameData.Dispose();
-        }
-
-        public void OnObservationStarted(BarcodeTracking barcodeTracking)
-        {
-        }
-
-        public void OnObservationStopped(BarcodeTracking barcodeTracking)
-        {
-        }
-
-        #endregion
-
         #region IBarcodeTrackingBasicOverlayListener
         public Brush BrushForTrackedBarcode(BarcodeTrackingBasicOverlay overlay, TrackedBarcode trackedBarcode)
         {
-            if (this.IsValidBarcode(trackedBarcode.Barcode))
+            if (IsValidBarcode(trackedBarcode.Barcode))
             {
                 return this.defaultBrush;
             }
@@ -181,26 +160,46 @@ namespace MatrixScanRejectSample
             // Create new barcode tracking mode with the settings from above.
             this.barcodeTracking = BarcodeTracking.Create(this.dataCaptureContext, barcodeTrackingSettings);
 
-            // Register self as a listener to get informed whenever a new barcode got recognized.
-            this.barcodeTracking.AddListener(this);
+            // Subscribe to session updates to get informed whenever a new barcode got recognized.
+            this.barcodeTracking.SessionUpdated += BarcodeTrackingSessionUpdated;
 
             // To visualize the on-going barcode tracking process on screen, setup a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
-            var dataCaptureView = DataCaptureView.Create(this.dataCaptureContext, this.View.Bounds);
-            dataCaptureView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
-                                               UIViewAutoresizing.FlexibleWidth;
+            this.dataCaptureView = DataCaptureView.Create(this.dataCaptureContext, this.View!.Bounds);
+            this.dataCaptureView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
+                                                    UIViewAutoresizing.FlexibleWidth;
 
-            var overlay = BarcodeTrackingBasicOverlay.Create(this.barcodeTracking, dataCaptureView, BarcodeTrackingBasicOverlayStyle.Frame);
-            overlay.Listener = this;
+            this.overlay = BarcodeTrackingBasicOverlay.Create(this.barcodeTracking,
+                                                              this.dataCaptureView,
+                                                              BarcodeTrackingBasicOverlayStyle.Frame);
+            this.overlay.Listener = this;
 
-            this.defaultBrush = new Brush(UIColor.Clear, UIColor.Green, 3);
-            this.rejectedBrush = new Brush(UIColor.Clear, UIColor.Red, 3);
-
-            this.View.AddSubview(dataCaptureView);
-            this.View.SendSubviewToBack(dataCaptureView);
+            this.View.AddSubview(this.dataCaptureView);
+            this.View.SendSubviewToBack(this.dataCaptureView);
         }
 
-        private bool IsValidBarcode(Barcode barcode)
+        private void BarcodeTrackingSessionUpdated(object? sender, BarcodeTrackingEventArgs args)
+        {
+            var session = args.Session;
+
+            DispatchQueue.MainQueue.DispatchAsync(() =>
+            {
+                if (session.TrackedBarcodes.Any())
+                {
+                    this.scanResults = session.TrackedBarcodes
+                                              .Values
+                                              .Where(item => IsValidBarcode(item.Barcode))
+                                              .Select(v => new ScanResult
+                                              {
+                                                  Data = v.Barcode.Data ?? string.Empty,
+                                                  Symbology = v.Barcode.Symbology.ReadableName()
+                                              })
+                                              .ToHashSet();
+                }
+            });
+        }
+
+        private static bool IsValidBarcode(Barcode barcode)
         {
             // Reject invalid barcodes.
             if (string.IsNullOrEmpty(barcode.Data))

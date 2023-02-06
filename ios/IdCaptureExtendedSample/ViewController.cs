@@ -14,6 +14,8 @@
 
 using System;
 using System.Text;
+using AVFoundation;
+using System.Text.RegularExpressions;
 using CoreFoundation;
 using CoreGraphics;
 using Foundation;
@@ -163,7 +165,8 @@ namespace IdCaptureExtendedSample
             }
         }
 
-        public void OnErrorEncountered(IdCapture capture, NSError error, IdCaptureSession session, IFrameData frameData)
+
+        public void OnErrorEncountered(IdCapture capture, IdCaptureError error, IdCaptureSession session, IFrameData frameData)
         {
             try
             {
@@ -179,11 +182,20 @@ namespace IdCaptureExtendedSample
             }
         }
 
+        public void OnIdCaptureTimedOut(IdCapture idCapture, IdCaptureSession session, IFrameData frameData)
+        {
+            // In this sample we are not interested in this callback.
+        }
+
         public void OnObservationStarted(IdCapture idCapture)
-        { }
+        {
+            // In this sample we are not interested in this callback.
+        }
 
         public void OnObservationStopped(IdCapture idCapture)
-        { }
+        {
+            // In this sample we are not interested in this callback.
+        }
         #endregion
 
         private void SetupRecognition()
@@ -258,7 +270,7 @@ namespace IdCaptureExtendedSample
 
         private void DisplayBackOfCardAlert(CapturedId capturedId)
         {
-            string message = "This document has additional data on the back of the card";
+            string message = "This documents has additional data in the visual inspection zone on the back of the card";
             UIAlertController alertController = UIAlertController.Create(title: "Back of Card", message, UIAlertControllerStyle.Alert);
 
             var scanAction = UIAlertAction.Create(title: "Scan",
@@ -281,14 +293,13 @@ namespace IdCaptureExtendedSample
             this.PresentViewController(alertController, animated: true, completionHandler: null);
         }
 
-        private static string GetErrorMessage(NSError error)
+        private static string GetErrorMessage(IdCaptureError error)
         {
-            int errCode = (int)error.Code;
-            StringBuilder messageBuilder = new StringBuilder(((IdCaptureErrorCode)errCode).ToString());
+            StringBuilder messageBuilder = new StringBuilder(error.Type.ToString());
 
-            if (!string.IsNullOrEmpty(error.LocalizedDescription))
+            if (!string.IsNullOrEmpty(error.Message))
             {
-                messageBuilder.Append($": {error.LocalizedDescription}");
+                messageBuilder.Append($": {error.Message}");
             }
 
             return messageBuilder.ToString();

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:view_models="clr-namespace:BarcodeCaptureViewsSample.ViewModels"
+             x:Class="BarcodeCaptureViewsSample.Views.MainPage">
+    <ContentPage.BindingContext>
+        <view_models:MainPageViewModel x:Name="viewModel"/>
+    </ContentPage.BindingContext>
+    <StackLayout BackgroundColor="LightGray">
+        <Frame Margin="0, 10" CornerRadius="0">
+            <StackLayout BackgroundColor="White">
+                <Label Text="Fullscreen" Padding="5, 15" FontSize="16">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnFullscreenLabelTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="SplitView" Padding="5, 15" FontSize="16">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSplitViewLabelTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </Frame>
+        <Label Text="{Binding Version}" TextColor="Gray" HorizontalTextAlignment="Center" />
+    </StackLayout>
+</ContentPage>
