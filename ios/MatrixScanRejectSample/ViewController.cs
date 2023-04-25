@@ -139,7 +139,7 @@ namespace MatrixScanRejectSample
 
             // Setting the preferred resolution to full HD helps to get a better decode range.
             cameraSettings.PreferredResolution = VideoResolution.FullHd;
-            camera?.ApplySettingsAsync(cameraSettings);
+            this.camera?.ApplySettingsAsync(cameraSettings);
             BarcodeTrackingSettings barcodeTrackingSettings = BarcodeTrackingSettings.Create();
 
             // The settings instance initially has all types of barcodes (symbologies) disabled.
@@ -180,23 +180,18 @@ namespace MatrixScanRejectSample
 
         private void BarcodeTrackingSessionUpdated(object? sender, BarcodeTrackingEventArgs args)
         {
-            var session = args.Session;
+            var barcodes = args.Session.TrackedBarcodes
+                                       .Values
+                                       .Where(item => IsValidBarcode(item.Barcode));
 
-            DispatchQueue.MainQueue.DispatchAsync(() =>
+            this.scanResults = barcodes.Select(v =>
             {
-                if (session.TrackedBarcodes.Any())
+                return new ScanResult
                 {
-                    this.scanResults = session.TrackedBarcodes
-                                              .Values
-                                              .Where(item => IsValidBarcode(item.Barcode))
-                                              .Select(v => new ScanResult
-                                              {
-                                                  Data = v.Barcode.Data ?? string.Empty,
-                                                  Symbology = v.Barcode.Symbology.ReadableName()
-                                              })
-                                              .ToHashSet();
-                }
-            });
+                    Data = v.Barcode.Data ?? string.Empty,
+                    Symbology = v.Barcode.Symbology.ReadableName()
+                };
+            }).ToHashSet();
         }
 
         private static bool IsValidBarcode(Barcode barcode)

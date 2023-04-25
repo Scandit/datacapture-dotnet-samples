@@ -40,7 +40,6 @@ namespace IdCaptureExtendedSample
         private DataCaptureView dataCaptureView;
         private IdCaptureOverlay captureOverlay;
 
-        private bool isScanningBackSide = false;
         private const float modeCollectionHeight = 80;
 
         public ViewController(IntPtr handle) : base(handle)
@@ -62,12 +61,17 @@ namespace IdCaptureExtendedSample
             base.ViewWillAppear(animated);
 
             this.IdCapture.Reset();
-            this.isScanningBackSide = false;
-            this.IdCapture.Enabled = true;
 
             // Switch camera on to start streaming frames. The camera is started asynchronously and will take some time to
             // completely turn on.
             this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+
+            this.IdCapture.Enabled = true;
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -88,37 +92,23 @@ namespace IdCaptureExtendedSample
             {
                 CapturedId capturedId = session.NewlyCapturedId;
 
-                // Pause the IdCapture to not capture while showing the result.
-                this.IdCapture.Enabled = false;
-
                 // Viz documents support multiple sides scanning.
                 // In case the back side is supported and not yet captured we inform the user about the feature.
                 if (capturedId.Viz != null &&
                     capturedId.Viz.BackSideCaptureSupported &&
                     capturedId.Viz.CapturedSides == SupportedSides.FrontOnly)
                 {
-                    // Until the back side is scanned, IdCapture will keep reporting the front side.
-                    // If we are looking for the back side we just return.
-                    if (this.isScanningBackSide)
-                    {
-                        this.IdCapture.Enabled = true;
-                    }
-                    else
-                    {
-                        DispatchQueue.MainQueue.DispatchAsync(() =>
-                        {
-                            this.DisplayBackOfCardAlert(capturedId: capturedId);
-                        });
-                    }
+                    return;
                 }
-                else
+
+                // Pause the IdCapture to not capture while showing the result.
+                this.IdCapture.Enabled = false;
+
+                // Show the result
+                DispatchQueue.MainQueue.DispatchAsync(() =>
                 {
-                    // Show the result
-                    DispatchQueue.MainQueue.DispatchAsync(() =>
-                    {
-                        this.Display(capturedId: capturedId);
-                    });
-                }
+                    this.Display(capturedId: capturedId);
+                });
             }
             finally
             {
@@ -237,7 +227,6 @@ namespace IdCaptureExtendedSample
         private void Configure(Mode mode)
         {
             this.IdCapture?.RemoveListener(this);
-            this.isScanningBackSide = false;
 
             if (this.captureOverlay != null)
             {
@@ -266,31 +255,6 @@ namespace IdCaptureExtendedSample
         {
             var resultView = new ResultViewController(capturedId);
             this.NavigationController?.PushViewController(resultView, animated: true);
-        }
-
-        private void DisplayBackOfCardAlert(CapturedId capturedId)
-        {
-            string message = "This documents has additional data in the visual inspection zone on the back of the card";
-            UIAlertController alertController = UIAlertController.Create(title: "Back of Card", message, UIAlertControllerStyle.Alert);
-
-            var scanAction = UIAlertAction.Create(title: "Scan",
-                                                    UIAlertActionStyle.Default,
-                                                    (UIAlertAction handler) =>
-                                                    {
-                                                        this.isScanningBackSide = true;
-                                                        this.IdCapture.Enabled = true;
-                                                    });
-            alertController.AddAction(scanAction);
-
-            var skipAction = UIAlertAction.Create(title: "Skip",
-                                                    UIAlertActionStyle.Cancel,
-                                                    (UIAlertAction handler) =>
-                                                    {
-                                                        this.IdCapture.Reset();
-                                                        this.Display(capturedId);
-                                                    });
-            alertController.AddAction(skipAction);
-            this.PresentViewController(alertController, animated: true, completionHandler: null);
         }
 
         private static string GetErrorMessage(IdCaptureError error)
