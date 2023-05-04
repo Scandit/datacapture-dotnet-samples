@@ -7,7 +7,7 @@
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.17.0" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.17.0" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.17.1" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.17.1" />
   </ItemGroup>
 </Project>
