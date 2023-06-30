@@ -18,6 +18,6 @@ namespace BarcodeCaptureViewsSample.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     {
-        public string Version => string.Format("Barcode Capture Views Sample</n>{0}", DataCaptureVersion.Version);
+        public string Version => DataCaptureVersion.Version;
     }
 }

@@ -23,7 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanRejectSample", "i
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanSimpleSample", "ios\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{04B8EE9F-7305-4632-965E-3C89CB218980}"
 EndProject
-
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "android", "android", "{C4B55220-4DE9-4983-8CDE-521A747A3369}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeCaptureRejectSample", "android\BarcodeCaptureRejectSample\BarcodeCaptureRejectSample.csproj", "{E21EBF64-3F52-4B84-93DD-81D5A72F6648}"
@@ -44,7 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanBubblesSample", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanSimpleSample", "android\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{D3AEBC86-0165-48A8-9B3B-EDA00114F386}"
 EndProject
-
 
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maui", "maui", "{2A2B2422-5636-4E84-8B73-B65745B4BAA7}"
 EndProject
