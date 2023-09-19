@@ -29,7 +29,7 @@ namespace IdCaptureExtendedSample.Result
         {
             this.Data = new ArrayList(results.Count);
 
-            foreach(var result in results)
+            foreach (var result in results)
             {
                 this.Data.Add(result);
             }

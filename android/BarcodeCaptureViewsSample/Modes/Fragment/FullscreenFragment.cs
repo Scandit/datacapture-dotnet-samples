@@ -101,7 +101,8 @@ namespace BarcodeCaptureViewsSample.Modes.Fragment
                                          .SetTitle("Scanned")
                                          .SetMessage(message)
                                          .SetCancelable(false)
-                                         .SetPositiveButton(Android.Resource.String.Ok, (object sender, DialogClickEventArgs args) => {
+                                         .SetPositiveButton(Android.Resource.String.Ok, (object sender, DialogClickEventArgs args) =>
+                                         {
                                              this.viewModel.ResumeScanning();
                                          })
                                          .Create();

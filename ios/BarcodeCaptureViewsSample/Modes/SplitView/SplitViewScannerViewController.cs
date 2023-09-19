@@ -76,7 +76,8 @@ namespace BarcodeCaptureViewsSample.Modes.SplitView
         private void PauseScanning(object sender, ElapsedEventArgs e)
         {
             this.barcodeCapture.Enabled = false;
-            DispatchQueue.MainQueue.DispatchAsync(() => {
+            DispatchQueue.MainQueue.DispatchAsync(() =>
+            {
                 this.TapToContinueLabel.Hidden = false;
             });
         }

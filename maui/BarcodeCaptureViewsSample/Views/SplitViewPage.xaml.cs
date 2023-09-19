@@ -47,7 +47,7 @@ namespace BarcodeCaptureViewsSample.Views
             base.OnDisappearing();
             this.viewModel.OnSleep();
         }
-        
+
         private void OnClearToolbarItemClicked(object sender, EventArgs args)
         {
             this.viewModel.ClearResults();

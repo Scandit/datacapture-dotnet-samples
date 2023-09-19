@@ -195,9 +195,11 @@ namespace IdCaptureSimpleSample
 
         public void ShowResult(string result)
         {
-            DispatchQueue.MainQueue.DispatchAsync(() => {
+            DispatchQueue.MainQueue.DispatchAsync(() =>
+            {
                 UIAlertController alert = UIAlertController.Create(result, message: null, preferredStyle: UIAlertControllerStyle.Alert);
-                var action = UIAlertAction.Create("OK", UIAlertActionStyle.Default, (UIAlertAction) => {
+                var action = UIAlertAction.Create("OK", UIAlertActionStyle.Default, (UIAlertAction) =>
+                {
                     DataCaptureManager.Instance.IdCapture.Enabled = true;
                 });
                 alert.AddAction(action);

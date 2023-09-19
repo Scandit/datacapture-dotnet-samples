@@ -50,7 +50,6 @@ namespace USDLVerificationSample.Views
             base.OnAppearing();
 
             this.ScanLabel.Text = AlignFrontText;
-            this.viewModel.IdCapture.Reset();
             _ = this.viewModel.OnResumeAsync();
         }
 

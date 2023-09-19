@@ -68,6 +68,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDLVerificationSample", "m
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeCaptureRejectSample", "maui\BarcodeCaptureRejectSample\BarcodeCaptureRejectSample.csproj", "{A61A316B-C6D6-429F-A70E-9830E15342B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanCountSimpleSample", "ios\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{F3F78EEB-50D4-4DFF-8BBE-D83645D9A9C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanCountSimpleSample", "android\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{960D5D26-B410-428E-843E-306628BB39A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanCountSimpleSample", "maui\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{49061101-1AF0-4E76-AEC3-94B036EDE8D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -194,6 +200,18 @@ Global
 		{A61A316B-C6D6-429F-A70E-9830E15342B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A61A316B-C6D6-429F-A70E-9830E15342B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A61A316B-C6D6-429F-A70E-9830E15342B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3F78EEB-50D4-4DFF-8BBE-D83645D9A9C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3F78EEB-50D4-4DFF-8BBE-D83645D9A9C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3F78EEB-50D4-4DFF-8BBE-D83645D9A9C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3F78EEB-50D4-4DFF-8BBE-D83645D9A9C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960D5D26-B410-428E-843E-306628BB39A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960D5D26-B410-428E-843E-306628BB39A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960D5D26-B410-428E-843E-306628BB39A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960D5D26-B410-428E-843E-306628BB39A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49061101-1AF0-4E76-AEC3-94B036EDE8D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49061101-1AF0-4E76-AEC3-94B036EDE8D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49061101-1AF0-4E76-AEC3-94B036EDE8D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49061101-1AF0-4E76-AEC3-94B036EDE8D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,5 +250,8 @@ Global
 		{C4F52559-5E59-441D-8B88-948256D5F751} = {2A2B2422-5636-4E84-8B73-B65745B4BAA7}
 		{6D7D048F-B528-4F01-925F-D4B91BC51199} = {2A2B2422-5636-4E84-8B73-B65745B4BAA7}
 		{A61A316B-C6D6-429F-A70E-9830E15342B3} = {2A2B2422-5636-4E84-8B73-B65745B4BAA7}
+		{F3F78EEB-50D4-4DFF-8BBE-D83645D9A9C0} = {DB79462D-AEF6-48D6-8788-17DA43AAD91C}
+		{960D5D26-B410-428E-843E-306628BB39A1} = {C4B55220-4DE9-4983-8CDE-521A747A3369}
+		{49061101-1AF0-4E76-AEC3-94B036EDE8D1} = {2A2B2422-5636-4E84-8B73-B65745B4BAA7}
 	EndGlobalSection
 EndGlobal

@@ -94,7 +94,7 @@ namespace BarcodeCaptureViewsSample.Modes.Activity
         {
             string scanResultFormat = this.GetString(Resource.String.scan_result_format);
             string message = string.Format(
-                scanResultFormat,                     
+                scanResultFormat,
                 new SymbologyDescription(barcodeResult.Symbology).ReadableName,
                 barcodeResult.Data,
                 barcodeResult.SymbolCount);
@@ -103,7 +103,8 @@ namespace BarcodeCaptureViewsSample.Modes.Activity
                                          .SetTitle("Scanned")
                                          .SetMessage(message)
                                          .SetCancelable(false)
-                                         .SetPositiveButton(Android.Resource.String.Ok, (object sender, DialogClickEventArgs args) => {
+                                         .SetPositiveButton(Android.Resource.String.Ok, (object sender, DialogClickEventArgs args) =>
+                                         {
                                              this.viewModel.ResumeScanning();
                                          })
                                          .Create();

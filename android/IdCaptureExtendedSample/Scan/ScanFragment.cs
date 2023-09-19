@@ -141,7 +141,7 @@ namespace IdCaptureExtendedSample.Scan
         {
             this.modeNavigation = root.FindViewById<BottomNavigationView>(Resource.Id.bottom_bar);
             this.Select(this.mode);
-        }        
+        }
 
         private void ResumeFrameSource()
         {
