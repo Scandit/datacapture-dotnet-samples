@@ -47,8 +47,8 @@
 	  <MauiXaml Update="Views\SplitViewPage.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.1" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.19.1" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.19.1" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.2" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.19.2" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.19.2" />
 	</ItemGroup>
 </Project>
