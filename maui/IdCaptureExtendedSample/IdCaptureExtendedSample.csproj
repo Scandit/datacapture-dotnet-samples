@@ -42,10 +42,10 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.3" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.19.3" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.19.3" />
-    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.19.3" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.4" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.19.4" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.19.4" />
+    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.19.4" />
 	</ItemGroup>
 
 </Project>
