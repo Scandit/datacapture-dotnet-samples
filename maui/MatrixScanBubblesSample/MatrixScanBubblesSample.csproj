@@ -42,9 +42,9 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.4" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.19.4" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.19.4" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.5" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.19.5" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.19.5" />
 	</ItemGroup>
 
 </Project>
