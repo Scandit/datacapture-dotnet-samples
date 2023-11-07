@@ -12,6 +12,7 @@
  * limitations under the License.
  */
 
+using USDLVerificationSample.Models;
 using USDLVerificationSample.Services;
 using USDLVerificationSample.ViewModels;
 using USDLVerificationSample.Views;
@@ -35,6 +36,7 @@ public partial class App : Application
         this.InitializeMainPage();
 
         DependencyService.Register<IMessageService, MessageService>();
+        DependencyService.Register<IDriverLicenseVerificationService, DriverLicenseVerificationService>();
     }
 
     protected override void OnStart()
@@ -62,9 +64,36 @@ public partial class App : Application
 
     private void IdCaptured(object sender, CapturedIdEventArgs args)
     {
-        App.Current.Dispatcher.DispatchAsync(() =>
+        App.Current.Dispatcher.DispatchAsync(async () =>
         {
-            this.navigationPage.PushAsync(new ResultPage(args.CapturedId, args.VerificationResult));
+            var scanPage = this.navigationPage.CurrentPage as ScanPage;
+            scanPage?.VerificationChecksRunning();
+
+            DriverLicenseVerificationResult verificationResult =
+                await DependencyService.Get<IDriverLicenseVerificationService>().VerifyAsync(args.CapturedId);
+
+            scanPage?.VerificationChecksCompleted();
+
+            bool barcodeError = verificationResult.BarcodeVerificationError.HasValue &&
+                              verificationResult.BarcodeVerificationError.Value;
+
+            if (barcodeError)
+            {
+                await DependencyService.Get<IMessageService>()
+                    .ShowAlertAsync(
+                        "An error was encountered. " +
+                        "Please make sure that " +
+                        "your Scandit license key permits barcode verification.")
+                    .ContinueWith((t) => {
+                        // On alert dialog completion resume the IdCapture.
+                        DataCaptureManager.Instance.IdCapture.Reset();
+                        DataCaptureManager.Instance.IdCapture.Enabled = true;
+                    });
+            }
+            else
+            {
+                await this.navigationPage.PushAsync(new ResultPage(args.CapturedId, verificationResult));
+            }
         });
     }
 }

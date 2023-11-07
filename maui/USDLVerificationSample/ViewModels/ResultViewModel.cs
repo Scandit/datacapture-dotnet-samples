@@ -15,6 +15,7 @@
 using Scandit.DataCapture.Core.UI.Maui.Platform;
 using Scandit.DataCapture.ID.Data;
 using Scandit.DataCapture.ID.Verification.AamvaVizBarcode;
+using USDLVerificationSample.Models;
 using USDLVerificationSample.Results;
 using USDLVerificationSample.Results.Presenters;
 
@@ -33,13 +34,16 @@ namespace USDLVerificationSample.ViewModels
         public ImageSource? IdBackImage { get; private set; }
 
         public bool ImagesVisible { get; private set; }
-        public bool ChecksPassed { get; private set; }
+        public bool FrontAndBackMatch { get; private set; }
         public bool ExpirationVisible => !string.IsNullOrEmpty(this.ExpirationText);
         public bool IsExpired { get; private set; }
+        public bool BarcodeVerificationPass { get; private set; }
+        public bool BarcodeVerificationVisible => !string.IsNullOrEmpty(this.BarcodeVerificationText);
         public string ExpirationText { get; private set; }
-        public string VerificationText { get; private set; }
+        public string FrontAndBackMatchText { get; private set; }
+        public string BarcodeVerificationText { get; private set; }
 
-        public ResultViewModel(CapturedId capturedId, AamvaVizBarcodeComparisonResult verificationResult)
+        public ResultViewModel(CapturedId capturedId, DriverLicenseVerificationResult verificationResult)
         {
             IResultPresenter resultPresenter = this.factory.Create(capturedId);
 
@@ -48,28 +52,33 @@ namespace USDLVerificationSample.ViewModels
             this.IdFrontImage = capturedId.GetImageBitmapForType(IdImageType.IdFront)?.FromPlatform().Source;
             this.IdBackImage = capturedId.GetImageBitmapForType(IdImageType.IdBack)?.FromPlatform().Source;
             this.ImagesVisible = this.FaceImage != null || this.IdFrontImage != null || this.IdBackImage != null;
+            this.FrontAndBackMatch = verificationResult.FrontAndBackMatchResult;
+            this.FrontAndBackMatchText = this.FrontAndBackMatch ?
+                "Information on front and back matches." :
+                "Information on front and back does not match.";
 
-            this.ChecksPassed = verificationResult.ChecksPassed;
-            this.VerificationText = this.ChecksPassed ?
-                "Information on front and back match." :
-                "Information on front and back do not match.";
-
-            if (this.ChecksPassed && capturedId.DateOfExpiry != null)
+            if (this.FrontAndBackMatch && verificationResult.Expired.HasValue)
             {
-                this.IsExpired = capturedId.DateOfExpiry.Date < DateTime.Now.Date;
-
-                if (!this.IsExpired)
-                {
-                    this.ExpirationText = "Document is not expired.";
-                }
-                else
-                {
-                    this.ExpirationText = "Document is expired.";
-                }
+                this.IsExpired = verificationResult.Expired.Value;
+                this.ExpirationText = this.IsExpired ?
+                    "Document is expired." :
+                    "Document is not expired.";
             }
             else
             {
                 this.ExpirationText = string.Empty;
+            }
+
+            if (verificationResult.BarcodeVerificationResult.HasValue)
+            {
+                this.BarcodeVerificationPass = verificationResult.BarcodeVerificationResult.Value;
+                this.BarcodeVerificationText = this.BarcodeVerificationPass ?
+                    "Verification checks passed." :
+                    "Verification checks failed.";
+            }
+            else
+            {
+                this.BarcodeVerificationText = string.Empty;
             }
         }
     }
