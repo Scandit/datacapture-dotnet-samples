@@ -16,14 +16,10 @@
                 AbsoluteLayout.LayoutFlags="All"
                 DataCaptureContext="{Binding DataCaptureContext}" >
             </scandit:DataCaptureView>
-            <Label x:Name = "VerificationCheckLabel"
+            <Label x:Name = "ScanLabel"
                    FontSize="Large"
                    TextColor="White"
-                   BackgroundColor="Gray"
-                   Opacity="0.5"
-                   IsVisible="false"
-                   Text="Running verification checks"
-                   AbsoluteLayout.LayoutBounds="0.5,0.5"
+                   AbsoluteLayout.LayoutBounds="0.5,0.1"
                    AbsoluteLayout.LayoutFlags="PositionProportional" />
         </AbsoluteLayout>
     </ContentPage.Content>

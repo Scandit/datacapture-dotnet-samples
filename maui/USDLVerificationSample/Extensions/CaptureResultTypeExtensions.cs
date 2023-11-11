@@ -33,15 +33,5 @@ namespace USDLVerificationSample.Extensions
                 _ => "No Result",
             };
         }
-
-        public static string GetResultTypes(this CapturedResultType resultType)
-        {
-            return string.Join(", ",
-                Enum.GetValues(typeof(CapturedResultType))
-                    .Cast<Enum>()
-                    .Where(m => resultType.HasFlag(m))
-                    .Cast<CapturedResultType>()
-                    .Select(i => i.GetName()));
-        }
     }
 }

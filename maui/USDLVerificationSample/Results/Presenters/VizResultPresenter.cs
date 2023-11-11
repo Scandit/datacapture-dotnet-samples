@@ -21,15 +21,15 @@ namespace USDLVerificationSample.Results.Presenters
     {
         public VizResultPresenter(CapturedId capturedId) : base(capturedId)
         {
-            if (!capturedId.CapturedResultTypes.HasFlag(CapturedResultType.VizResult))
+            if (capturedId.CapturedResultType != CapturedResultType.VizResult)
             {
                 throw new ArgumentException("Unexpected null VizResult");
             }
 
-            this.Rows.Concat(GetVizRows(capturedId));
+            this.Rows.Concat(this.GetVizRows(capturedId));
         }
 
-        private static IList<ResultEntry> GetVizRows(CapturedId capturedId)
+        private IList<ResultEntry> GetVizRows(CapturedId capturedId)
         {
             var vizResult = capturedId.Viz;
 
