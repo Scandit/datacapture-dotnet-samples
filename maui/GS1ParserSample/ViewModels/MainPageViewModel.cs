@@ -121,13 +121,13 @@ namespace GS1ParserSample.ViewModels
         private Task ResumeFrameSource()
         {
             this.BarcodeCapture.Enabled = true;
-
+            
             // Switch camera on to start streaming frames.
             // The camera is started asynchronously and will take some time to completely turn on.
             return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
         }
 
-        #region IBarcodeCaptureListener
+#region IBarcodeCaptureListener
         public void OnObservationStarted(BarcodeCapture barcodeCapture)
         { }
 
@@ -183,6 +183,6 @@ namespace GS1ParserSample.ViewModels
 
         public void OnSessionUpdated(BarcodeCapture barcodeCapture, BarcodeCaptureSession session, IFrameData frameData)
         { }
-        #endregion
+#endregion
     }
 }

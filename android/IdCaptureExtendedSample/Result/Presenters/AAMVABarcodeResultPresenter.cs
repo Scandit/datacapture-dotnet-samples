@@ -32,7 +32,7 @@ namespace IdCaptureExtendedSample.Result.Presenters
             }
 
             if (capturedId.CapturedResultType != CapturedResultType.AamvaBarcodeResult)
-            {
+            { 
                 throw new ArgumentException("Unexpected null AAMVABarcodeResult");
             }
 

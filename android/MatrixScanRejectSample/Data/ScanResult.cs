@@ -35,7 +35,7 @@ namespace MatrixScanRejectSample.Data
 
         public String ReadableName { get; private set; }
 
-        public String Data { get; private set; }
+        public String Data { get;  private set; }
 
         public int DescribeContents()
         {

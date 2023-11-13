@@ -94,7 +94,7 @@ namespace MatrixScanSimpleSample
             else
             {
                 base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
+            }            
         }
 
         protected abstract void OnCameraPermissionGranted();

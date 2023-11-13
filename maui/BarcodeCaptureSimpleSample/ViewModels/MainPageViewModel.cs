@@ -23,9 +23,10 @@ namespace DebugAppMaui.ViewModels
         private IViewfinder viewfinder;
 
         public Camera? Camera { get; } = DataCaptureManager.Instance.CurrentCamera;
+
         public DataCaptureContext DataCaptureContext { get; } = DataCaptureManager.Instance.DataCaptureContext;
+
         public BarcodeCapture BarcodeCapture { get; } = DataCaptureManager.Instance.BarcodeCapture;
-        public Feedback Feedback { get; } = Feedback.DefaultFeedback;
 
         public IViewfinder Viewfinder
         {
@@ -106,9 +107,6 @@ namespace DebugAppMaui.ViewModels
             // Get the human readable name of the symbology and assemble the result to be shown.
             SymbologyDescription description = new SymbologyDescription(barcode.Symbology);
             string result = "Scanned: " + barcode.Data + " (" + description.ReadableName + ")";
-
-            // We also want to emit a feedback (vibration and, if enabled, sound).
-            this.Feedback.Emit();
 
             DependencyService.Get<IMessageService>().Show(result)
                                                     .ContinueWith(task => this.BarcodeCapture.Enabled = true);

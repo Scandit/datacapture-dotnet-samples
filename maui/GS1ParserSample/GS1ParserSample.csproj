@@ -23,9 +23,6 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -42,10 +39,10 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.6" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.19.6" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.19.6" />
-    <PackageReference Include="Scandit.DataCapture.Parser" Version="6.19.6" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.18.3" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.18.3" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.18.3" />
+    <PackageReference Include="Scandit.DataCapture.Parser" Version="6.18.3" />
 	</ItemGroup>
 
 </Project>

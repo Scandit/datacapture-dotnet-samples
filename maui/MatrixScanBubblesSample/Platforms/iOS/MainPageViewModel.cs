@@ -20,8 +20,8 @@ using Scandit.DataCapture.Barcode.Tracking.UI.Overlay;
 
 namespace MatrixScanBubblesSample.ViewModels
 {
-    public partial class MainPageViewModel
-    {
+	public partial class MainPageViewModel
+	{
         #region IBarcodeTrackingAdvancedOverlay
         public UIKit.UIView ViewForTrackedBarcode(BarcodeTrackingAdvancedOverlay overlay, TrackedBarcode trackedBarcode)
         {

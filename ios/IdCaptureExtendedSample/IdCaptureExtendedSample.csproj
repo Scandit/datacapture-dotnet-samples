@@ -5,15 +5,9 @@
     <ImplicitUsings>true</ImplicitUsings>
     <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <CreatePackage>false</CreatePackage>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <CreatePackage>false</CreatePackage>
-  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.19.6" />
-    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.19.6" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.19.6" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.18.3" />
+    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.18.3" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.18.3" />
   </ItemGroup>
 </Project>

@@ -14,12 +14,12 @@
 
 namespace BarcodeSelectionSimpleSample;
 
-[Register("AppDelegate")]
+[Register ("AppDelegate")]
 public class AppDelegate : UIApplicationDelegate
 {
-    public override UIWindow Window { get; set; }
+	  public override UIWindow Window { get; set; }
 
-    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+    public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
     {
         // create a new window instance based on the screen size
         this.Window = new UIWindow(UIScreen.MainScreen.Bounds);

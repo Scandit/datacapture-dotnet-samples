@@ -14,4 +14,4 @@
 
 using BarcodeCaptureSimpleSample;
 
-UIApplication.Main(args, null, typeof(AppDelegate));
+UIApplication.Main (args, null, typeof (AppDelegate));

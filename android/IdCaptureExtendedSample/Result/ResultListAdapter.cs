@@ -20,7 +20,7 @@ using Object = Java.Lang.Object;
 namespace IdCaptureExtendedSample.Result
 {
     public class ResultListAdapter : ListAdapter
-    {
+    { 
         public ResultListAdapter(IList entries) : base(new ItemCallback())
         {
             this.SubmitList(entries);

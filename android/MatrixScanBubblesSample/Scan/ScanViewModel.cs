@@ -59,7 +59,7 @@ namespace MatrixScanBubblesSample.Scan
             if (!this.IsFrozen())
             {
                 this.ResumeScanningInternal();
-            }
+            }            
         }
 
         public void PauseScanning()
@@ -75,7 +75,7 @@ namespace MatrixScanBubblesSample.Scan
             if (!this.IsFrozen())
             {
                 this.StartFrameSourceInternal();
-            }
+            }            
         }
 
         public void StopFrameSource()
@@ -83,7 +83,7 @@ namespace MatrixScanBubblesSample.Scan
             if (!this.IsFrozen())
             {
                 this.StopFrameSourceInternal();
-            }
+            }            
         }
 
         public void ToggleFreeze()
@@ -220,7 +220,7 @@ namespace MatrixScanBubblesSample.Scan
 
         private void RemoveBubbleViewForIdentifierOnMainThread(int identifier)
         {
-            this.mainHandler.Post(() =>
+            this.mainHandler.Post(() => 
             {
                 this.listener?.RemoveBubbleView(identifier);
             });

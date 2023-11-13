@@ -361,7 +361,7 @@ namespace IdCaptureSimpleSample
             AppendField(builder, "Date of Expiry: ", result.DateOfExpiry);
             AppendField(builder, "Date of Issue: ", result.DateOfIssue);
         }
-
+        
         private static string GetDescriptionForSouthAfricaDlResult(CapturedId capturedId)
         {
             var builder = new StringBuilder();
@@ -373,7 +373,7 @@ namespace IdCaptureSimpleSample
             AppendField(builder, "Personal ID number type: ", southAfricanDrivingLicense?.PersonalIdNumberType);
             return builder.ToString();
         }
-
+        
         private static string GetDescriptionForSouthAfricanIdResult(CapturedId capturedId)
         {
             var builder = new StringBuilder();
@@ -385,7 +385,7 @@ namespace IdCaptureSimpleSample
             AppendField(builder, "Country of birth ISO: ", southAfricanId?.CountryOfBirthIso);
             return builder.ToString();
         }
-
+        
         private static string GetDescriptionForArgentinianIdResult(CapturedId capturedId)
         {
             var builder = new StringBuilder();

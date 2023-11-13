@@ -17,7 +17,7 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         this.InitializeComponent();
-
+        
         // Initialization of DataCaptureView happens on handler changed event.
         this.dataCaptureView.HandlerChanged += DataCaptureViewHandlerChanged;
     }

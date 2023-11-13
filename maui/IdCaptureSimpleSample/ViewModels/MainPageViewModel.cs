@@ -94,8 +94,7 @@ namespace IdCaptureSimpleSample.ViewModels
             // The error message can be retrieved from the IdCaptureError class type.
             DependencyService.Get<IMessageService>()
                              .ShowAsync(GetErrorMessage(error))
-                             .ContinueWith((task) =>
-                             {
+                             .ContinueWith((task) => {
                                  // On alert dialog completion resume the IdCapture.
                                  this.IdCapture.Enabled = true;
                              });
@@ -122,8 +121,7 @@ namespace IdCaptureSimpleSample.ViewModels
 
             DependencyService.Get<IMessageService>()
                              .ShowAsync("Document not supported")
-                             .ContinueWith((task) =>
-                             {
+                             .ContinueWith((task) => {
                                  // On alert dialog completion resume the IdCapture.
                                  this.IdCapture.Enabled = true;
                              });

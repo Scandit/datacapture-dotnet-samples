@@ -209,8 +209,7 @@ namespace BarcodeCaptureSimpleSample
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             this.dialog = builder.SetCancelable(false)
                                  .SetTitle(result)
-                                 .SetPositiveButton(Android.Resource.String.Ok, (Object sender, DialogClickEventArgs args) =>
-                                 {
+                                 .SetPositiveButton(Android.Resource.String.Ok, (Object sender, DialogClickEventArgs args) => {
                                      this.barcodeCapture.Enabled = true;
                                  })
                                  .Create();

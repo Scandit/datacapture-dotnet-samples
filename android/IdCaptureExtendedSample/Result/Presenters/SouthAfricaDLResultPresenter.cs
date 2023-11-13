@@ -63,7 +63,7 @@ namespace IdCaptureExtendedSample.Result.Presenters
                                                title: "Professional Driving Permit - Date of Expiry"));
             }
 
-            foreach (var vehicleRestriction in southAfricaDlBarcodeResult.VehicleRestrictions)
+            foreach(var vehicleRestriction in southAfricaDlBarcodeResult.VehicleRestrictions)
             {
                 southAfricaDlRows.Append(
                     new ResultEntry(value: vehicleRestriction.Code,
