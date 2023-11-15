@@ -53,7 +53,7 @@ namespace MatrixScanBubblesSample.Scan.Bubbles
 
             // We want to show the scanned code when tapping on the bubble. To do so, it's enough to
             // just add a regular View.OnClickListener on the view.
-            this.Root.SetOnClickListener(new OnClickListener(() => this.ToggleText()));         
+            this.Root.SetOnClickListener(new OnClickListener(() => this.ToggleText()));
             this.textCode.Text = code;
             this.ShowCurrentData();
         }

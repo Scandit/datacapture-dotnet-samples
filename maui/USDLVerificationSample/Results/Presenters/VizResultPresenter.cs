@@ -33,7 +33,7 @@ namespace USDLVerificationSample.Results.Presenters
         {
             var vizResult = capturedId.Viz;
 
-            var vizRows = new [] {
+            var vizRows = new[] {
                 new ResultEntry(value: vizResult.AdditionalNameInformation, title: "Additional Name Information"),
                 new ResultEntry(value: vizResult.AdditionalAddressInformation, title: "Additional Address Information"),
                 new ResultEntry(value: vizResult.PlaceOfBirth, title: "Place of Birth"),

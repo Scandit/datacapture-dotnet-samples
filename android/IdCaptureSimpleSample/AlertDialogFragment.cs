@@ -25,7 +25,7 @@ namespace IdCaptureSimpleSample
         private static readonly string KeyMessage = "message";
 
         private ICallbacks callbacks;
-    
+
         public override void OnAttach(Context context)
         {
             base.OnAttach(context);

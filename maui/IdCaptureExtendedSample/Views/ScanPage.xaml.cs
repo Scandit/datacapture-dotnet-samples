@@ -45,7 +45,6 @@ namespace IdCaptureExtendedSample.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            this.ConfigureIdCaptureOverlay();
             _ = this.viewModel.OnResumeAsync();
         }
 

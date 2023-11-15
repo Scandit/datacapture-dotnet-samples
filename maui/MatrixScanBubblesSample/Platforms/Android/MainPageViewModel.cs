@@ -20,8 +20,8 @@ using Scandit.DataCapture.Barcode.Tracking.UI.Overlay;
 
 namespace MatrixScanBubblesSample.ViewModels
 {
-	public partial class MainPageViewModel
-	{
+    public partial class MainPageViewModel
+    {
         #region IBarcodeTrackingAdvancedOverlay
 
         public Android.Views.View ViewForTrackedBarcode(BarcodeTrackingAdvancedOverlay overlay, TrackedBarcode trackedBarcode)
@@ -34,9 +34,9 @@ namespace MatrixScanBubblesSample.ViewModels
                 stockOverlay = new StockOverlay(trackedBarcode.Barcode.Data, this.shelfCount, this.backRoom);
                 this.overlays[identifier] = stockOverlay;
             }
-            
+
             stockOverlay.IsVisible = !this.ShouldHideOverlay?.Invoke(trackedBarcode) ?? true;
-           
+
             return stockOverlay.ToPlatform(new MauiContext(MainApplication.Current.Services, MainApplication.Context));
         }
         #endregion

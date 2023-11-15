@@ -142,7 +142,8 @@ namespace IdCaptureExtendedSample
 
                 // Pause the IdCapture to not capture while showing the result.
                 this.IdCapture.Enabled = false;
-                this.ShowResult(title: string.Empty, message: "Document not supported", completion: () => {
+                this.ShowResult(title: string.Empty, message: "Document not supported", completion: () =>
+                {
                     // Resume the idCapture.
                     this.IdCapture.Enabled = true;
                 });
@@ -241,9 +242,11 @@ namespace IdCaptureExtendedSample
 
         private void ShowResult(string title, string message, Action completion = null)
         {
-            DispatchQueue.MainQueue.DispatchAsync(() => {
+            DispatchQueue.MainQueue.DispatchAsync(() =>
+            {
                 UIAlertController alert = UIAlertController.Create(title, message, preferredStyle: UIAlertControllerStyle.Alert);
-                var action = UIAlertAction.Create("OK", UIAlertActionStyle.Default, (UIAlertAction) => {
+                var action = UIAlertAction.Create("OK", UIAlertActionStyle.Default, (UIAlertAction) =>
+                {
                     completion?.Invoke();
                 });
                 alert.AddAction(action);

@@ -165,7 +165,7 @@ namespace IdCaptureExtendedSample.ViewModels
             // The camera is started asynchronously and will take some time to completely turn on.
             return this.model.CurrentCamera?.SwitchToDesiredStateAsync(FrameSourceState.On);
         }
-    
+
         private static string GetErrorMessage(IdCaptureError error)
         {
             return new StringBuilder(error.Type.ToString()).Append($": {error.Message}").ToString();
