@@ -15,17 +15,19 @@
 using USDLVerificationSample.ViewModels;
 using Scandit.DataCapture.ID.Data;
 using Scandit.DataCapture.ID.Verification.AamvaVizBarcode;
+using USDLVerificationSample.Models;
 
 namespace USDLVerificationSample.Views
 {
     public partial class ResultPage : ContentPage
     {
-        public ResultPage(CapturedId capturedId, AamvaVizBarcodeComparisonResult verificationResult)
+        public ResultPage(CapturedId capturedId, DriverLicenseVerificationResult verificationResult)
         {
             this.InitializeComponent();
             var resultViewModel = new ResultViewModel(capturedId, verificationResult);
-            this.VerificationLabel.TextColor = resultViewModel.ChecksPassed ? Colors.Green : Colors.Red;
+            this.FrontAndBackMatchLabel.TextColor = resultViewModel.FrontAndBackMatch ? Colors.Green : Colors.Red;
             this.ExpirationLabel.TextColor = !resultViewModel.IsExpired ? Colors.Green : Colors.Red;
+            this.BarcodeVerificationLabel.TextColor = resultViewModel.BarcodeVerificationPass ? Colors.Green : Colors.Red;
             this.BindingContext = resultViewModel;
         }
     }

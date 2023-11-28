@@ -20,13 +20,10 @@ namespace USDLVerificationSample.Views
     public partial class ScanPage : ContentPage
     {
         private IdCaptureOverlay overlay;
-        public readonly string AlignFrontText = "Align front of document";
-        public readonly string AlignBackText = "Align back of document";
 
         public ScanPage()
         {
             this.InitializeComponent();
-            this.viewModel.AlignBack += AlignBack;
 
             // Initialization of DataCaptureView happens on handler changed event.
             this.dataCaptureView.HandlerChanged += DataCaptureViewHandlerChanged;
@@ -45,11 +42,19 @@ namespace USDLVerificationSample.Views
             remove { this.viewModel.IdCaptured -= value; }
         }
 
+        public void VerificationChecksRunning()
+        {
+            this.VerificationCheckLabel.IsVisible = true;
+        }
+
+        public void VerificationChecksCompleted()
+        {
+            this.VerificationCheckLabel.IsVisible = false;
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            this.ScanLabel.Text = AlignFrontText;
             _ = this.viewModel.OnResumeAsync();
         }
 
@@ -57,14 +62,6 @@ namespace USDLVerificationSample.Views
         {
             base.OnDisappearing();
             this.viewModel.OnSleepAsync();
-        }
-
-        private void AlignBack(object sender, EventArgs e)
-        {
-            App.Current.Dispatcher.DispatchAsync(() =>
-            {
-                this.ScanLabel.Text = AlignBackText;
-            });
         }
     }
 }
