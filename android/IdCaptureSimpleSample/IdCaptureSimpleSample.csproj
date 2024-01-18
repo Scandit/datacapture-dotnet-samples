@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-android32</TargetFramework>
+    <TargetFramework>net6.0-android</TargetFramework>
     <SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,8 +9,8 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.21.1" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.21.1" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.20.3" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.20.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.1" />

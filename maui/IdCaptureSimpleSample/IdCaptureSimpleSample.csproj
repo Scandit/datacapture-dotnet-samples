@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android32</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net6.0-ios</TargetFrameworks>
+		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>IdCaptureSimpleSampleMaui</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -43,10 +42,10 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.21.1" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.21.1" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.21.1" />
-    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.21.1" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.20.3" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.20.3" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.20.3" />
+    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.20.3" />
 	</ItemGroup>
 
 </Project>
