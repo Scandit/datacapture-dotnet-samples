@@ -13,7 +13,7 @@
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.20.3" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.20.3" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.21.2" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.21.2" />
   </ItemGroup>
 </Project>
