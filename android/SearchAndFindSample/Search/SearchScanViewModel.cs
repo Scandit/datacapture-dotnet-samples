@@ -35,7 +35,7 @@ public class SearchScanViewModel : ViewModel
 
     public SearchScanViewModel()
     {
-        // Register self as a listener to get informed whenever a new barcode got recognized.
+        // Subscribe to BarcodeScanned event to get informed of captured barcodes.
         this.BarcodeCapture.BarcodeScanned += BarcodeScanned;
     }
 
@@ -43,7 +43,7 @@ public class SearchScanViewModel : ViewModel
     {
         this.dataCaptureManager.Camera?.ApplySettingsAsync(BarcodeCapture.RecommendedCameraSettings);
         this.dataCaptureManager.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
-        this.DataCaptureContext.AddMode(this.BarcodeCapture);        
+        this.DataCaptureContext.AddMode(this.BarcodeCapture);
         this.BarcodeCapture.Enabled = true;
     }
 
@@ -56,7 +56,7 @@ public class SearchScanViewModel : ViewModel
 
     public void OnSearchClicked()
     {
-        lock(this)
+        lock (this)
         {
             if (this.lastScannedBarcode != null)
             {

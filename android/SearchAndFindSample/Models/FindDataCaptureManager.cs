@@ -45,8 +45,12 @@ public class FindDataCaptureManager
         this.BarcodeFind.ApplySettingsAsync(settings);
     }
 
-    public void SetupSearchedItems(String data)
+    public void SetupSearchedItems(string data)
     {
+        // Create the Barcode Find Item with the scanned barcode data.
+        // If you have more information about the product (such as name or image) that you want
+        // to display, you can pass a BarcodeFindItemContent object to the content parameter below.
+
         ICollection<BarcodeFindItem> items = new HashSet<BarcodeFindItem>();
         items.Add(new BarcodeFindItem(new BarcodeFindItemSearchOptions(data), content: null));
 

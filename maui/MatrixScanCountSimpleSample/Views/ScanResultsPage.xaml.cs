@@ -30,7 +30,7 @@ namespace MatrixScanCountSimpleSample.Views
             this.InitializeComponent();
 
             this.Items = this.GetViewCells(scanResults);
-			this.MyListView.ItemsSource = Items;
+            this.MyListView.ItemsSource = Items;
             this.listener = listener;
 
             this.scanButton.Text = isOrderCompleted ? "Scan next order" : "Resume scanning";
@@ -61,7 +61,7 @@ namespace MatrixScanCountSimpleSample.Views
 
             // Get unique items.
             index = 0;
-            foreach(var uniqueItem in scanItems.Where(i => i.Quantity == 1))
+            foreach (var uniqueItem in scanItems.Where(i => i.Quantity == 1))
             {
                 items.Add(new ViewCellData(uniqueItem, ++index));
             };

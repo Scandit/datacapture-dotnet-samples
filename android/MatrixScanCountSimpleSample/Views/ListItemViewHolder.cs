@@ -20,7 +20,7 @@ using MatrixScanCountSimpleSample.Data;
 
 namespace MatrixScanCountSimpleSample.Views
 {
-	public class ListItemViewHolder : RecyclerView.ViewHolder
+    public class ListItemViewHolder : RecyclerView.ViewHolder
     {
         private readonly TextView productDescriptionTextView;
         private readonly TextView gtinTextView;

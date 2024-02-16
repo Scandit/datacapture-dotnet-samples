@@ -99,9 +99,7 @@ namespace USDLVerificationSample.ViewModels
                 }
                 else
                 {
-                    // Front and back were scanned; perform a verification of the captured ID.
-                    var result = AamvaVizBarcodeComparisonVerifier.Create().Verify(capturedId);
-                    this.IdCaptured?.Invoke(this, new CapturedIdEventArgs(capturedId, result));
+                    this.IdCaptured?.Invoke(this, new CapturedIdEventArgs(capturedId));
                 }
             }
             else

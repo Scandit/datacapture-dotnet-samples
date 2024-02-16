@@ -84,7 +84,8 @@ public partial class App : Application
                         "An error was encountered. " +
                         "Please make sure that " +
                         "your Scandit license key permits barcode verification.")
-                    .ContinueWith((t) => {
+                    .ContinueWith((t) =>
+                    {
                         // On alert dialog completion resume the IdCapture.
                         DataCaptureManager.Instance.IdCapture.Reset();
                         DataCaptureManager.Instance.IdCapture.Enabled = true;

@@ -1,0 +1,207 @@
+﻿/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+using Android.Content.PM;
+using Android.Graphics;
+using AndroidX.RecyclerView.Widget;
+using ListBuildingSample.Extensions;
+using ListBuildingSample.Models;
+using ListBuildingSample.Views;
+using Scandit.DataCapture.Barcode.Data;
+using Scandit.DataCapture.Barcode.Spark.Capture;
+using Scandit.DataCapture.Barcode.Spark.UI;
+using Scandit.DataCapture.Core.Capture;
+
+namespace ListBuildingSample
+{
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    public class MainActivity : CameraPermissionActivity
+    {
+        // There is a Scandit sample license key set below here.
+        // This license key is enabled for sample evaluation only.
+        // If you want to build your own application, get your license key by signing up for a trial at https://ssl.scandit.com/dashboard/sign-up?p=test
+        public static string SCANDIT_LICENSE_KEY = "AfUkdmKlRiP5FdlOFQnOhu4V3j5LFKttPGTWXFd7CkuRaTAstDqq78RrBm2ZG9LRu1T8CNgP6oLScGrUoEwfmP1TUXonIGCl2g9Fo5NYtmK/aEV8FX/YcdRKfWS5bJrTcWGDHdcsJxT6Me5C3RMdWZkdqeR5GEjDzT6dO4ZPWOBbNLjpkgZ0/MjtYQPKqSV+bSZC7+ekFaXovSKWfXV89BXtta/6sZHFJOMKxyvzh6zw5yA+NDR67OXoWKCrrNq4AOuBlt1ZelIHCqjQgTy/SZG110eJr5e4pth38Bx0fXE8FGX92BoxwJr1EG+P5CEJF8EFMy2zf87aJQYuzHmg0nM7czcNqLUd9F23uxntZYjKlwgWmmSzev/ozaumEvbW9RVW1bUQmV8pQ1SWILBuzQPeAw8iWOWgnTH18tH7cT+fUJumvM2rn7LWx9JYLAKBKRuwe2sDh3l5eqobZKdarIRsKVgXa4pw+gkYKuplzTo+Bzh70rbmtgq3IJ8hSpdoZITzfUQSwXkrgdQa5Cmrpxz9gXManBRt01h3eFXG7znZU9w0+uzzV/b5e6MQcPncODrCQOq0kfEBYgRoLAwVCOKnxyWQkqRbUpsTN2wy2MTg10flYhR/zf1eXdiUjgPUhWj8LtmgxJELYky7uMu46abfCkAw73e+12iJmlf9/tmTFk34La9ZQiF/BYps5h327ZW8qobay+Esx1i9dsaFKYt/nCN8jZdUYD/df+/vApyK4PMbph9EPRe5u0alg8BqpEExnkQsy1W7r85yngO/rxSXsY6rTMoTXb/87ul8uQnsrD41ZLtFdzo0OlbNTeNOI1mJz/E6/SOLbRRK";
+
+        private DataCaptureContext dataCaptureContext = null!;
+        private SparkScan sparkScan = null!;
+        private SparkScanView sparkScanView = null!;
+
+        private readonly ResultListAdapter resultListAdapter = new();
+        private TextView resultCountTextView = null!;
+
+        protected override void OnCreate(Bundle? savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            this.SetContentView(Resource.Layout.activity_main);
+
+            // Initialize spark scan and start the barcode recognition.
+            this.Initialize();
+
+            // Setup RecyclerView for results
+            RecyclerView? recyclerView = this.FindViewById<RecyclerView>(Resource.Id.result_recycler);
+            recyclerView?.SetLayoutManager(new LinearLayoutManager(this));
+
+            DividerItemDecoration divider =
+                new(this, LinearLayoutManager.Vertical)
+                {
+                    Drawable = this.GetDrawable(Resource.Drawable.recycler_divider)
+                };
+            recyclerView?.AddItemDecoration(divider);
+            recyclerView?.SetAdapter(this.resultListAdapter);
+
+            this.resultCountTextView = this.FindViewById<TextView>(Resource.Id.item_count)!;
+            this.SetItemCount(0);
+
+            // Set up the button that clears the result list
+            Button? clearButton = this.FindViewById<Button>(Resource.Id.clear_list);
+
+            if (clearButton != null)
+            {
+                clearButton.Click += this.ClearButtonClick;
+            }
+
+            this.resultListAdapter.ListChanged += this.ResultListAdapterListChanged;
+        }
+
+        private void ResultListAdapterListChanged(object? sender, EventArgs e)
+        {
+            this.SetItemCount(this.resultListAdapter.ItemCount);
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            this.sparkScanView.OnPause();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            this.sparkScanView.OnResume();
+
+            // Check for camera permission and request it, if it hasn't yet been granted.
+            this.RequestCameraPermission();
+        }
+
+        protected override void OnCameraPermissionGranted()
+        {
+        }
+
+        private void ClearButtonClick(object? sender, EventArgs e)
+        {
+            this.resultListAdapter.ClearResults();
+        }
+
+        private void SetItemCount(int count)
+        {
+            this.RunOnUiThread(() =>
+            {
+                this.resultCountTextView.Text =
+                    Resources?.GetQuantityString(Resource.Plurals.results_amount, count, count);
+            });
+        }
+
+        private void Initialize()
+        {
+            // Create data capture context using your license key.
+            this.dataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
+
+            // The spark scan process is configured through SparkScan settings
+            // which are then applied to the spark scan instance that manages the spark scan.
+            SparkScanSettings settings = new SparkScanSettings();
+
+            // The settings instance initially has all types of barcodes (symbologies) disabled.
+            // For the purpose of this sample we enable a very generous set of symbologies.
+            // In your own app ensure that you only enable the symbologies that your app requires
+            // as every additional enabled symbology has an impact on processing times.
+            HashSet<Symbology> symbologies = new()
+            {
+                Symbology.Ean13Upca,
+                Symbology.Ean8,
+                Symbology.Upce,
+                Symbology.Code39,
+                Symbology.Code128,
+                Symbology.InterleavedTwoOfFive
+            };
+            settings.EnableSymbologies(symbologies);
+
+            // Some linear/1d barcode symbologies allow you to encode variable-length data.
+            // By default, the Scandit Data Capture SDK only scans barcodes in a certain length range.
+            // If your application requires scanning of one of these symbologies, and the length is
+            // falling outside the default range, you may need to adjust the "active symbol counts"
+            // for this symbology. This is shown in the following few lines of code for one of the
+            // variable-length symbologies.
+            settings.GetSymbologySettings(Symbology.Code39).ActiveSymbolCounts =
+                new short[] { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+
+            // Create new spark scan mode with the settings from above.
+            this.sparkScan = new SparkScan(settings);
+
+            // Subsribe to BarcodeScanned event to get informed whenever a new barcode got recognized.
+            this.sparkScan.BarcodeScanned += this.BarcodeScanned;
+
+            // The SparkScanCoordinatorLayout container will make sure that the main layout of the view
+            // will not break when the SparkScanView will be attached.
+            // When creating the SparkScanView instance use the SparkScanCoordinatorLayout
+            // as a parent view.
+            SparkScanCoordinatorLayout container = this.FindViewById<SparkScanCoordinatorLayout>(Resource.Id.spark_scan_coordinator)!;
+
+            // You can customize the SparkScanView using SparkScanViewSettings.
+            SparkScanViewSettings viewSettings = new SparkScanViewSettings();
+
+            // Creating the instance of SparkScanView. The instance will be automatically added
+            // to the container.
+            this.sparkScanView =
+                SparkScanView.Create(container, this.dataCaptureContext, this.sparkScan, viewSettings);
+        }
+
+        private void BarcodeScanned(object? sender, SparkScanEventArgs args)
+        {
+            if (args.Session.NewlyRecognizedBarcodes.Count == 0)
+            {
+                return;
+            }
+
+            var frame = args.FrameData?.ImageBuffers.First().ToImage();
+            var barcode = args.Session.NewlyRecognizedBarcodes.First();
+
+            Task.Factory.StartNew(() =>
+            {
+                Bitmap thumbnail = barcode.GetBarcodeImage(frame) ?? Bitmap.CreateBitmap(1, 1, Bitmap.Config.Argb8888!)!;
+
+                this.RunOnUiThread(() =>
+                {
+                    if (barcode.Data == "123456789")
+                    {
+                        var feedback = new SparkScanViewErrorFeedback(message: "This code should not have been scanned",
+                                                                      resumeCapturingDelay: TimeSpan.FromSeconds(60));
+                        this.sparkScanView.EmitFeedback(feedback);
+                    }
+                    else
+                    {
+                        this.sparkScanView.EmitFeedback(new SparkScanViewSuccessFeedback());
+
+                        var itemNumber = this.resultListAdapter.ItemCount + 1;
+                        this.resultListAdapter.AddListItem(
+                            new ListItem(
+                                thumbnail,
+                                itemNumber,
+                                barcode.Symbology,
+                                barcode.Data));
+                    }
+                });
+            });
+        }
+    }
+}

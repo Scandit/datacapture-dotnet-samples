@@ -24,7 +24,7 @@ using Scandit.DataCapture.Barcode.Tracking.Data;
 namespace MatrixScanCountSimpleSample
 {
     public sealed class BarcodeManager
-	{
+    {
         private static readonly Lazy<BarcodeManager> instance = new Lazy<BarcodeManager>(() =>
             new BarcodeManager(), LazyThreadSafetyMode.PublicationOnly);
 
@@ -35,7 +35,7 @@ namespace MatrixScanCountSimpleSample
         public static BarcodeManager Instance => instance.Value;
 
         private BarcodeManager()
-		{}
+        { }
 
         public void Initialize(BarcodeCount barcodeCount)
         {

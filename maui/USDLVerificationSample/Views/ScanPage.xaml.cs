@@ -56,11 +56,17 @@ namespace USDLVerificationSample.Views
         {
             base.OnAppearing();
             _ = this.viewModel.OnResumeAsync();
+
+            if (this.overlay != null)
+            {
+                this.dataCaptureView.AddOverlay(this.overlay);
+            }
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            this.dataCaptureView.RemoveOverlay(this.overlay);
             this.viewModel.OnSleepAsync();
         }
     }

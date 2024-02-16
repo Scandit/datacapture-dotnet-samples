@@ -52,9 +52,9 @@ namespace MatrixScanCountSimpleSample
             }
         }
 
-        protected override void OnCreate (Bundle? savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
-            base.OnCreate (savedInstanceState);
+            base.OnCreate(savedInstanceState);
 
             this.SetContentView(Resource.Layout.activity_results);
             this.doneButtonStyle = (DoneButtonStyle)this.Intent!.GetIntExtra(

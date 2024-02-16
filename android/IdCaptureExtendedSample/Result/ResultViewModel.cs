@@ -28,7 +28,7 @@ namespace IdCaptureExtendedSample.Result
         private readonly ResultPresenterFactory factory = new ResultPresenterFactory();
 
         public ResultUiState UiState { get; private set; }
-        
+
         public ResultViewModel(CapturedId capturedId)
         {
             IResultPresenter resultPresenter = this.factory.Create(capturedId);

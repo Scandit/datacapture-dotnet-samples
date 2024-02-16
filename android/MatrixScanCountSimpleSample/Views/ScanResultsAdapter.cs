@@ -22,7 +22,7 @@ using MatrixScanCountSimpleSample.Data;
 
 namespace MatrixScanCountSimpleSample.Views
 {
-	  public class ScanResultsAdapter : RecyclerView.Adapter
+    public class ScanResultsAdapter : RecyclerView.Adapter
     {
         private readonly Context context;
         private readonly List<ScanItem> nonUniqueItems = new List<ScanItem>();

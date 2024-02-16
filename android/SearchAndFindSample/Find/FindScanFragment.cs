@@ -29,7 +29,7 @@ public class FindScanFragment : Fragment
     private const string FieldData = "data";
 
     public FindScanFragment(Barcode barcode)
-    {     
+    {
         Bundle arguments = new Bundle();
         arguments.PutInt(FieldSymbology, (int)barcode.Symbology);
         arguments.PutString(FieldData, barcode.Data);
@@ -48,7 +48,7 @@ public class FindScanFragment : Fragment
         if (this.viewModelFactory == null)
         {
             Bundle arguments = this.Arguments ?? throw new ArgumentNullException(nameof(savedInstanceState));
-            Symbology symbology = (Symbology) arguments.GetInt(FieldSymbology);
+            Symbology symbology = (Symbology)arguments.GetInt(FieldSymbology);
             string data = arguments.GetString(FieldData) ?? string.Empty;
             this.viewModelFactory = new FindScanViewModelFactory(symbology, data);
         }
@@ -59,7 +59,7 @@ public class FindScanFragment : Fragment
 
     public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
     {
-        ViewGroup? rootView = (ViewGroup?) inflater.Inflate(Resource.Layout.fragment_find, container, false);
+        ViewGroup? rootView = (ViewGroup?)inflater.Inflate(Resource.Layout.fragment_find, container, false);
 
         if (rootView == null)
         {
@@ -82,7 +82,7 @@ public class FindScanFragment : Fragment
     public override void OnViewCreated(View view, Bundle? savedInstanceState)
     {
         base.OnViewCreated(view, savedInstanceState);
-    
+
         this.barcodeFindView.StartSearching();
         this.barcodeFindView.FinishButtonTapped += FinishButtonTapped;
     }

@@ -27,7 +27,7 @@ namespace MatrixScanCountSimpleSample
         public static CameraManager Instance => instance.Value;
 
         private CameraManager()
-		{ }
+        { }
 
         public void Initialize(DataCaptureContext dataCaptureContext)
         {
