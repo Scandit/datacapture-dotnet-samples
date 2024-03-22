@@ -42,9 +42,9 @@
 		<MauiFont Include="Resources\Fonts\*" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Scandit.DataCapture.Core" Version="6.22.1" />
-		<PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.22.1" />
-		<PackageReference Include="Scandit.DataCapture.Barcode" Version="6.22.1" />
-		<PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="6.22.1" />
+		<PackageReference Include="Scandit.DataCapture.Core" Version="6.23.0" />
+		<PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.23.0" />
+		<PackageReference Include="Scandit.DataCapture.Barcode" Version="6.23.0" />
+		<PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="6.23.0" />
 	</ItemGroup>
 </Project>

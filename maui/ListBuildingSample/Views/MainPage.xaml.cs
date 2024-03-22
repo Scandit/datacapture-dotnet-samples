@@ -12,16 +12,36 @@
  * limitations under the License.
  */
 
-using Scandit.DataCapture.Barcode.Spark.UI;
+using Scandit.DataCapture.Barcode.Data;
+using Scandit.DataCapture.Barcode.Spark.Feedback;
 
 namespace ListBuildingSample.Views;
 
-public partial class MainPage : ContentPage
+public partial class MainPage : ContentPage, ISparkScanFeedbackDelegate
 {
+    private SparkScanBarcodeErrorFeedback errorFeedback;
+    private SparkScanBarcodeSuccessFeedback successFeedback;
+    
     public MainPage()
     {
         this.InitializeComponent();
         this.SubscribeToViewModelEvents();
+        this.SetupSparkScanFeedback();
+        this.SparkScanView.Loaded += SparkScanView_Loaded;
+    }
+
+    private void SparkScanView_Loaded(object sender, EventArgs e)
+    {
+        this.SparkScanView.Feedback = this;
+    }
+
+    private void SetupSparkScanFeedback()
+    {
+        this.errorFeedback = new SparkScanBarcodeErrorFeedback(
+            message: "This code should not have been scanned",
+            resumeCapturingDelay: TimeSpan.FromSeconds(60));
+
+        this.successFeedback = new SparkScanBarcodeSuccessFeedback();
     }
 
     private void SubscribeToViewModelEvents()
@@ -29,18 +49,6 @@ public partial class MainPage : ContentPage
         this.viewModel.Sleep += (object sender, EventArgs args) =>
         {
             this.SparkScanView.PauseScanning();
-        };
-
-        this.viewModel.ErrorFeedback += (object sender, EventArgs args) =>
-        {
-            var feedback = new SparkScanViewErrorFeedback(message: "This code should not have been scanned",
-                                                          resumeCapturingDelay: TimeSpan.FromSeconds(60));
-            this.SparkScanView.EmitFeedback(feedback);
-        };
-
-        this.viewModel.SuccessFeedback += (object sender, EventArgs args) =>
-        {
-            this.SparkScanView.EmitFeedback(new SparkScanViewSuccessFeedback());
         };
     }
 
@@ -59,5 +67,15 @@ public partial class MainPage : ContentPage
     private void ButtonClicked(object sender, EventArgs e)
     {
         this.viewModel.ClearScannedItems();
+    }
+
+    SparkScanBarcodeFeedback ISparkScanFeedbackDelegate.GetFeedbackForBarcode(Barcode barcode)
+    {
+        if (ViewModels.MainPageViewModel.IsBarcodeValid(barcode))
+        {
+            return this.successFeedback;
+        }
+
+        return this.errorFeedback;
     }
 }

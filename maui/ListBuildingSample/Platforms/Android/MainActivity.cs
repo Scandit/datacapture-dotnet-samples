@@ -19,7 +19,7 @@ namespace ListBuildingSample;
 
 [Activity(
     Theme = "@style/Maui.SplashTheme",
-    MainLauncher = true,
+    MainLauncher = true, 
     ConfigurationChanges = ConfigChanges.ScreenSize |
                            ConfigChanges.Orientation |
                            ConfigChanges.UiMode |
