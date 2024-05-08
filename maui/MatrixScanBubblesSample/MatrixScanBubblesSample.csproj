@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android32</TargetFrameworks>
+		<TargetFrameworks>net6.0-android33</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net6.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>MatrixScanBubblesSample</RootNamespace>
@@ -43,9 +43,9 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.23.2" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.23.2" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.23.2" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.24.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.24.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.24.0" />
 	</ItemGroup>
 
 </Project>

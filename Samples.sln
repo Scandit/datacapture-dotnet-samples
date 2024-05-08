@@ -86,6 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextCaptureSample", "maui\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USDLVerificationSample", "maui\USDLVerificationSample\USDLVerificationSample.csproj", "{BFE48B9F-CF6F-4DAE-A301-0A0DBFE5F261}"
 EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -248,6 +249,10 @@ Global
 		{BFE48B9F-CF6F-4DAE-A301-0A0DBFE5F261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFE48B9F-CF6F-4DAE-A301-0A0DBFE5F261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFE48B9F-CF6F-4DAE-A301-0A0DBFE5F261}.Release|Any CPU.Build.0 = Release|Any CPU
+		
+		
+		
+		
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -292,6 +297,7 @@ Global
 		{99E09A5F-5F42-4740-B3FD-449889C392C8} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{A86876ED-C0AB-4494-8C25-5C65A4160D3D} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{BFE48B9F-CF6F-4DAE-A301-0A0DBFE5F261} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
+		
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8210E346-571A-4093-B84D-F86DAC98612F}
