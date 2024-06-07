@@ -43,11 +43,11 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.24.0" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.24.0" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.24.0" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture.AamvaBarcodeVerification" Version="6.24.0" />
-    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.24.0" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.24.1" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.24.1" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="6.24.1" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture.AamvaBarcodeVerification" Version="6.24.1" />
+    <PackageReference Include="Scandit.DataCapture.TextCapture" Version="6.24.1" />
 	</ItemGroup>
 
 </Project>
