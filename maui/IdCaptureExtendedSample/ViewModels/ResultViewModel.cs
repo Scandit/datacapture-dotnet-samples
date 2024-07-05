@@ -14,10 +14,10 @@
 
 #nullable enable
 
+using IdCaptureExtendedSample.Platform;
 using IdCaptureExtendedSample.Results;
 using IdCaptureExtendedSample.Results.Presenters;
 using Scandit.DataCapture.ID.Data;
-using Scandit.DataCapture.Core.UI.Maui.Platform;
 
 namespace IdCaptureExtendedSample.ViewModels
 {
@@ -38,9 +38,9 @@ namespace IdCaptureExtendedSample.ViewModels
             IResultPresenter resultPresenter = this.factory.Create(capturedId);
 
             this.Items = resultPresenter.Rows.ToList();
-            this.FaceImage = capturedId.GetImageBitmapForType(IdImageType.Face)?.FromPlatform().Source;
-            this.IdFrontImage = capturedId.GetImageBitmapForType(IdImageType.IdFront)?.FromPlatform().Source;
-            this.IdBackImage = capturedId.GetImageBitmapForType(IdImageType.IdBack)?.FromPlatform().Source;
+            this.FaceImage = capturedId.GetImageBitmapForType(IdImageType.Face)?.FromPlatform();
+            this.IdFrontImage = capturedId.GetImageBitmapForType(IdImageType.IdFront)?.FromPlatform();
+            this.IdBackImage = capturedId.GetImageBitmapForType(IdImageType.IdBack)?.FromPlatform();
 
             this.ImagesVisible = this.FaceImage != null || this.IdFrontImage != null || this.IdBackImage != null;
         }

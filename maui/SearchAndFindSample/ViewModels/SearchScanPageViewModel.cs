@@ -27,19 +27,27 @@ public class SearchScanPageViewModel : BaseViewModel
     {
         // Subscribe to BarcodeScanned event to get informed of captured barcodes.
         this.barcodeCapture.BarcodeScanned += BarcodeScanned;
-
-        // Subscribe to Application messages to get informed of application life-cycle.
-        MessagingCenter.Subscribe(
-            subscriber: this,
-            message: App.MessageKeys.OnResume,
-            callback: async (App? app) => await this.ResumeScanningAsync());
-        MessagingCenter.Subscribe(
-            subscriber: this,
-            message: App.MessageKeys.OnSleep,
-            callback: (App? app) => this.PauseScanning());
     }
 
-    public async Task ResumeScanningAsync()
+    public void ResetBarcode()
+    {
+        lock (this)
+        {
+            this.LastScannedBarcode = null;
+        }
+    }
+
+    public void DisableMode()
+    {
+        this.IsActive = false;
+    }
+
+    public void EnableMode()
+    {
+        this.IsActive = true;
+    }
+
+    public async override Task ResumeAsync()
     {
         var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
@@ -58,18 +66,14 @@ public class SearchScanPageViewModel : BaseViewModel
         }
     }
 
-    public void PauseScanning()
+    public async override Task SleepAsync()
     {
         this.dataCaptureContext.RemoveMode(this.barcodeCapture);
-        this.dataCaptureManager.Camera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
         this.barcodeCapture.Enabled = false;
-    }
 
-    public void ResetBarcode()
-    {
-        lock (this)
+        if (this.dataCaptureManager.Camera != null)
         {
-            this.LastScannedBarcode = null;
+            await this.dataCaptureManager.Camera.SwitchToDesiredStateAsync(FrameSourceState.Off);
         }
     }
 

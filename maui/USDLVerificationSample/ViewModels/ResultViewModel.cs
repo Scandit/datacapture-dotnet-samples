@@ -12,10 +12,9 @@
  * limitations under the License.
  */
 
-using Scandit.DataCapture.Core.UI.Maui.Platform;
 using Scandit.DataCapture.ID.Data;
-using Scandit.DataCapture.ID.Verification.AamvaVizBarcode;
 using USDLVerificationSample.Models;
+using USDLVerificationSample.Platform;
 using USDLVerificationSample.Results;
 using USDLVerificationSample.Results.Presenters;
 
@@ -48,9 +47,9 @@ namespace USDLVerificationSample.ViewModels
             IResultPresenter resultPresenter = this.factory.Create(capturedId);
 
             this.Items = resultPresenter.Rows.ToList();
-            this.FaceImage = capturedId.GetImageBitmapForType(IdImageType.Face)?.FromPlatform().Source;
-            this.IdFrontImage = capturedId.GetImageBitmapForType(IdImageType.IdFront)?.FromPlatform().Source;
-            this.IdBackImage = capturedId.GetImageBitmapForType(IdImageType.IdBack)?.FromPlatform().Source;
+            this.FaceImage = capturedId.GetImageBitmapForType(IdImageType.Face)?.FromPlatform();
+            this.IdFrontImage = capturedId.GetImageBitmapForType(IdImageType.IdFront)?.FromPlatform();
+            this.IdBackImage = capturedId.GetImageBitmapForType(IdImageType.IdBack)?.FromPlatform();
             this.ImagesVisible = this.FaceImage != null || this.IdFrontImage != null || this.IdBackImage != null;
             this.FrontAndBackMatch = verificationResult.FrontAndBackMatchResult;
             this.FrontAndBackMatchText = this.FrontAndBackMatch ?

@@ -19,8 +19,10 @@ public class FindBarcodePageViewModel : BaseViewModel
     public DataCaptureContext DataCaptureContext => this.dataCaptureManager.DataCaptureContext;
     public BarcodeFind BarcodeFind => this.findCaptureManager.BarcodeFind;
 
-    // With the BarcodeFindViewSettings, we can defined haptic and sound feedback,
-    // as well as change the visual feedback for found barcodes.
+    /// <summary>
+    /// With the BarcodeFindViewSettings, we can defined haptic and sound feedback,
+    /// as well as change the visual feedback for found barcodes.
+    /// </summary>
     public BarcodeFindViewSettings ViewSettings { get; private set; }
 
     public FindBarcodePageViewModel(Symbology symbology, string data)
@@ -32,5 +34,27 @@ public class FindBarcodePageViewModel : BaseViewModel
 
         // We setup the list of searched items.
         this.findCaptureManager.SetupSearchedItems(data);
+    }
+
+    public void DisableMode()
+    {
+        this.IsActive = false;
+    }
+
+    public void EnableMode()
+    {
+        this.IsActive = true;
+    }
+
+    public override Task ResumeAsync()
+    {
+        this.BarcodeFind.Start();
+        return Task.CompletedTask;
+    }
+
+    public override Task SleepAsync()
+    {
+        this.BarcodeFind.Pause();
+        return Task.CompletedTask;
     }
 }

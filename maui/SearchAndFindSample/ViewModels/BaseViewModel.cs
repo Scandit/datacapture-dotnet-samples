@@ -14,15 +14,83 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.Messaging;
+using SearchAndFindSample.Models;
 
 namespace SearchAndFindSample.ViewModels;
 
-public class BaseViewModel : INotifyPropertyChanged
+/// <summary>
+/// Provides an abstract base class for a view model that supports property change notification and handling
+/// incoming ApplicationMessage events.
+/// </summary>
+public abstract class BaseViewModel : INotifyPropertyChanged, IRecipient<ApplicationMessage>
 {
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected BaseViewModel()
+    {
+        this.SubscribeToMessages();
+    }
+
+    /// <summary>
+    /// Notifies subscribers about property changes.
+    /// </summary>
+    public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the mode implemented by derived class is active.
+    /// </summary>
+    /// <remarks>
+    /// This property is used for responding to application lifecycle events, ensuring that only the active mode is
+    /// enabled or disabled as needed.
+    /// </remarks>
+    protected bool IsActive { get; set; }
+
+    /// <summary>
+    /// When overridden in a derived class, handles the application's resume event.
+    /// </summary>
+    public abstract Task ResumeAsync();
+
+    /// <summary>
+    /// When overridden in a derived class, handles the application's sleep event.
+    /// </summary>
+    public abstract Task SleepAsync();
+
+    /// <summary>
+    /// Receives a message of type ApplicationMessage.
+    /// </summary>
+    /// <param name="message">The message to be received and processed.</param>
+    public void Receive(ApplicationMessage message)
+    {
+        switch (message.Value)
+        {
+            case App.MessageKey.OnResume:
+                {
+                    if (this.IsActive)
+                    {
+                        MainThread.InvokeOnMainThreadAsync(this.ResumeAsync);
+                    }
+                    break;
+                }
+            case App.MessageKey.OnSleep:
+                {
+                    MainThread.InvokeOnMainThreadAsync(this.SleepAsync);
+                    break;
+                }
+
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Subscribes to application messages to handle lifecycle events.
+    /// </summary>
+    private void SubscribeToMessages()
+    {
+        WeakReferenceMessenger.Default.Register(recipient: this);
     }
 }

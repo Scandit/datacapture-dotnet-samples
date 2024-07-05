@@ -18,9 +18,10 @@ namespace SearchAndFindSample.ViewModels;
 
 public class BarcodeCodeEventArgs : EventArgs
 {
-    private Barcode barcode;
+    private readonly Barcode barcode;
 
     public string Code => this.barcode.Data ?? string.Empty;
+
     public Barcode Barcode => this.barcode;
 
     public BarcodeCodeEventArgs(Barcode barcode)

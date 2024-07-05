@@ -38,10 +38,18 @@ public partial class FindBarcodePage : ContentPage
 #endif
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        this.viewModel.EnableMode();
+    }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
 
+        this.viewModel.DisableMode();
         this.barcodeFindView.OnPause();
         this.barcodeFindView.StopSearching();
     }

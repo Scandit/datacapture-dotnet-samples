@@ -31,27 +31,29 @@ public partial class SearchScanPage : ContentPage
     {
         base.OnAppearing();
         this.scannedCodeView.IsVisible = false;
-        _ = this.viewModel.ResumeScanningAsync();
+        this.viewModel.EnableMode();
+        _ = this.viewModel.ResumeAsync();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        this.viewModel.PauseScanning();
+        this.viewModel.DisableMode();
+        _ = this.viewModel.SleepAsync();
     }
 
     private void SetupDataCaptureView(object? sender, EventArgs args)
     {
         // Add a barcode capture overlay to the data capture view to set a viewfinder UI.
-        BarcodeCaptureOverlay overlay = BarcodeCaptureOverlay.Create(
+        this.overlay = BarcodeCaptureOverlay.Create(
             this.viewModel.BarcodeCapture, BarcodeCaptureOverlayStyle.Frame);
         this.dataCaptureView.AddOverlay(overlay);
 
         // We add the aim viewfinder to the overlay.
-        overlay.Viewfinder = new AimerViewfinder();
+        this.overlay.Viewfinder = new AimerViewfinder();
 
         // Adjust the overlay's barcode highlighting to display a light green rectangle.
-        overlay.Brush = new Brush(
+        this.overlay.Brush = new Brush(
             fillColor: Color.FromArgb("#8028D380").ToPlatform(),
             strokeColor: Colors.Transparent.ToPlatform(),
             strokeWidth: 0f);
