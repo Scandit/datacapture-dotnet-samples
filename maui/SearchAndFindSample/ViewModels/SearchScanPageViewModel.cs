@@ -93,9 +93,9 @@ public class SearchScanPageViewModel : BaseViewModel
     {
         lock (this)
         {
-            if (args.Session.NewlyRecognizedBarcodes.Any())
+            if (args.Session.NewlyRecognizedBarcode != null)
             {
-                this.LastScannedBarcode = args.Session.NewlyRecognizedBarcodes.First();
+                this.LastScannedBarcode = args.Session.NewlyRecognizedBarcode;
 
                 // This method is invoked on a non-UI thread, so in order to perform UI work,
                 // we have to switch to the main thread.

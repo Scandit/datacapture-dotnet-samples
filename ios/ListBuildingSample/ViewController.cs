@@ -211,12 +211,12 @@ namespace ListBuildingSample
 
         private void BarcodeScanned(object? sender, SparkScanEventArgs args)
         {
-            if (args.Session.NewlyRecognizedBarcodes.Count == 0)
+            if (args.Session.NewlyRecognizedBarcode == null)
             {
                 return;
             }
 
-            var barcode = args.Session.NewlyRecognizedBarcodes.First();
+            var barcode = args.Session.NewlyRecognizedBarcode;
             var frame = args.FrameData?.ImageBuffers.Last().ToImage();
             var location = barcode.GetBarcodeLocation(frame);
             var thumbnail = frame?.CropImage((int)location.X, (int)location.Y, (int)location.Width, (int)location.Height);

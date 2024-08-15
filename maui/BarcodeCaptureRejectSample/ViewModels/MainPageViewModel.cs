@@ -87,12 +87,12 @@ namespace BarcodeCaptureRejectSample.ViewModels
 
         private void OnBarcodeScanned(object? sender, BarcodeCaptureEventArgs args)
         {
-            if (!args.Session.NewlyRecognizedBarcodes.Any())
+            if (args.Session.NewlyRecognizedBarcode == null)
             {
                 return;
             }
 
-            Barcode barcode = args.Session.NewlyRecognizedBarcodes[0];
+            Barcode barcode = args.Session.NewlyRecognizedBarcode;
 
             // If the code scanned doesn't start with "09:", we will just ignore it and continue
             // scanning.

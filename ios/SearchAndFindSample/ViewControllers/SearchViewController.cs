@@ -170,9 +170,9 @@ public partial class SearchViewController : UIViewController
     {
         lock (this)
         {
-            if (args.Session.NewlyRecognizedBarcodes.Any())
+            if (args.Session.NewlyRecognizedBarcode != null)
             {
-                var barcode = args.Session.NewlyRecognizedBarcodes.FirstOrDefault();
+                var barcode = args.Session.NewlyRecognizedBarcode;
                 this.displayedData = barcode?.Data;
                 this.symbology = barcode?.Symbology;
 

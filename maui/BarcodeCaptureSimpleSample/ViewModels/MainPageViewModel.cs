@@ -87,12 +87,12 @@ namespace DebugAppMaui.ViewModels
 
         private void OnBarcodeScanned(object? sender, BarcodeCaptureEventArgs args)
         {
-            if (!args.Session.NewlyRecognizedBarcodes.Any())
+            if (args.Session.NewlyRecognizedBarcode == null)
             {
                 return;
             }
 
-            Barcode barcode = args.Session.NewlyRecognizedBarcodes[0];
+            Barcode barcode = args.Session.NewlyRecognizedBarcode;
 
             // Stop recognizing barcodes for as long as we are displaying the result. There won't be any new results until
             // the capture mode is enabled again. Note that disabling the capture mode does not stop the camera, the camera

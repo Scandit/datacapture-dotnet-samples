@@ -78,10 +78,9 @@ public class SearchScanViewModel : ViewModel
     {
         lock (this)
         {
-            if (args.Session.NewlyRecognizedBarcodes.Any() &&
-                args.Session.NewlyRecognizedBarcodes.FirstOrDefault() != null)
+            if (args.Session.NewlyRecognizedBarcode != null)
             {
-                this.lastScannedBarcode = args.Session.NewlyRecognizedBarcodes[0];
+                this.lastScannedBarcode = args.Session.NewlyRecognizedBarcode;
                 string code = this.lastScannedBarcode.Data ?? string.Empty;
 
                 // This method is invoked on a non-UI thread, so in order to perform UI work,

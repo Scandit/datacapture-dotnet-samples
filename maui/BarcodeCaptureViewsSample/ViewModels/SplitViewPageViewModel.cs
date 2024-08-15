@@ -36,7 +36,7 @@ namespace BarcodeCaptureViewsSample.ViewModels
 
         public DataCaptureContext DataCaptureContext => this.dataCaptureManger.DataCaptureContext;
         public BarcodeCapture BarcodeCapture => this.dataCaptureManger.BarcodeCapture;
-        public IViewfinder Viewfinder { get; } = new LaserlineViewfinder(LaserlineViewfinderStyle.Animated);
+        public IViewfinder Viewfinder { get; } = new AimerViewfinder();
         public ICollection<ScanResult> Results { get; } = new ObservableCollection<ScanResult>();
 
         public bool IsTapToContinueVisible
@@ -147,7 +147,7 @@ namespace BarcodeCaptureViewsSample.ViewModels
 
         public void OnBarcodeScanned(BarcodeCapture barcodeCapture, BarcodeCaptureSession session, IFrameData frameData)
         {
-            if (!session.NewlyRecognizedBarcodes.Any())
+            if (session.NewlyRecognizedBarcode == null)
             {
                 return;
             }
@@ -156,7 +156,7 @@ namespace BarcodeCaptureViewsSample.ViewModels
             this.scannerTimeoutTimer.Stop();
             this.scannerTimeoutTimer.Start();
 
-            Barcode barcode = session.NewlyRecognizedBarcodes[0];
+            Barcode barcode = session.NewlyRecognizedBarcode;
 
             // Get the human readable name of the symbology and assemble the result to be shown.
             SymbologyDescription description = new SymbologyDescription(barcode.Symbology);
@@ -168,6 +168,6 @@ namespace BarcodeCaptureViewsSample.ViewModels
 
         public void OnSessionUpdated(BarcodeCapture barcodeCapture, BarcodeCaptureSession session, IFrameData frameData)
         { }
-        #endregion        
+        #endregion
     }
 }
