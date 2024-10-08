@@ -242,11 +242,21 @@ public class ProductManager
 
     private bool PickItem(string itemData)
     {
-        return _database.VerifyProductInDatabase(itemData);
+        // In a real-world application, consider invoking a database method
+        // to verify if the product represented by 'itemData' is valid.
+        // Example: return _database.VerifyProductInDatabase(itemData);
+
+        // For now, let's assume the product is always valid.
+        return true;
     }
 
     private bool UnpickItem(string itemData)
     {
-        return _database.VerifyProductInDatabase(itemData);
+        // In a real-world application, consider invoking a database method
+        // to verify if the product represented by 'itemData' is valid.
+        // Example: return _database.VerifyProductInDatabase(itemData);
+
+        // For now, let's assume the product is always valid.
+        return true;
     }
 }

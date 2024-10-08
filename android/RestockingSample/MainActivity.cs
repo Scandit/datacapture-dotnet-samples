@@ -12,11 +12,12 @@
  * limitations under the License.
  */
 
+using Android.Content.PM;
 using RestockingSample.Pick;
 
 namespace RestockingSample;
 
-[Activity(Label = "@string/app_name", MainLauncher = true)]
+[Activity(Label = "@string/app_name", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
 public class MainActivity : CameraPermissionActivity
 {
     protected override void OnCreate(Bundle? savedInstanceState)

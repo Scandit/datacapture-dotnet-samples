@@ -70,6 +70,7 @@ public class ResultListCell : UITableViewCell
                 _notInListLabel.Hidden = product.InList;
                 break;
             case 1:
+                _iconImageView.Image = UIImage.FromBundle(name: "ProductImage");
                 _notInListLabel.Hidden = true;
                 break;
         }

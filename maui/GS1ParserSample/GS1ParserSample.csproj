@@ -43,10 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.27.2" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.27.2" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.27.2" />
-    <PackageReference Include="Scandit.DataCapture.Parser" Version="6.27.2" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.28.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.28.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.28.0" />
+    <PackageReference Include="Scandit.DataCapture.Parser" Version="6.28.0" />
   </ItemGroup>
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.22" />

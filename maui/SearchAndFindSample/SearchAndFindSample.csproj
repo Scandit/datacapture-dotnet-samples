@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net7.0-android33</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net7.0-ios</TargetFrameworks>
@@ -9,22 +8,17 @@
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <!-- Display name -->
     <ApplicationTitle>SearchAndFindSample</ApplicationTitle>
-
     <!-- App Identifier -->
     <ApplicationId>com.scandit.net-maui.searchandfindsample</ApplicationId>
     <ApplicationIdGuid>3d1d2a14-665d-473f-986a-566cef7e593f</ApplicationIdGuid>
-
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
-
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
     <CreatePackage>false</CreatePackage>
     <MtouchLink>SdkOnly</MtouchLink>
@@ -47,10 +41,10 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.27.2" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.27.2" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.27.2" />
-    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="6.27.2" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.28.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.28.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.28.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="6.28.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
   </ItemGroup>
   <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
