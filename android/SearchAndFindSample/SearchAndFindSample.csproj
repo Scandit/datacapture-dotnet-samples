@@ -8,8 +8,8 @@
     <ApplicationId>com.scandit.net-android.SearchAndFindSample</ApplicationId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.28.0" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.28.0" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="6.28.1" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.28.1" />
     <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.8.2.1" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.7" /> 
     <PackageReference Include="Xamarin.AndroidX.ConstraintLayout" Version="2.1.4.10" />
