@@ -12,12 +12,13 @@
  * limitations under the License.
  */
 
+using System.Net.Mime;
 using ObjCRuntime;
 using RestockingSample.Models;
 
 namespace RestockingSample.Views;
 
-public class ResultListCell : UITableViewCell
+public class ResultListCell(NativeHandle handle) : UITableViewCell(handle)
 {
     private const int IdentifierLeadingMargin = 75;
     private const int IdentifierTopMargin = 10;
@@ -25,6 +26,9 @@ public class ResultListCell : UITableViewCell
     private const int BarcodeImageLeadingMargin = 15;
     private const int BarcodeImageTopMargin = 10;
     private const int BarcodeImageSize = 50;
+    private const int StatusImageTrailingMargin = 15;
+    private const int StatusImageTopMargin = 10;
+    private const int StatusImageSize = 50;
     private const int SubtitleLeadingMargin = 75;
     private const int SubtitleTopMargin = 35;
     private const int SubtitleHeight = 15;
@@ -32,18 +36,14 @@ public class ResultListCell : UITableViewCell
     private const int NotInListTopMargin = 50;
     private const int NotInListHeight = 15;
 
-    private UILabel? _identifierLabel;    
+    private UILabel? _identifierLabel;
     private UILabel? _dataLabel;
     private UILabel? _notInListLabel;
     private UIImageView? _iconImageView;
+    private UIImageView? _iconStatusView;
 
     public const string Identifier = nameof(ResultListCell);
     public const int CellHeight = 70;
-
-    public ResultListCell(NativeHandle handle) : base(handle)
-    {
-        // Note: this .ctor should not contain any initialization logic.
-    }
 
     public void Configure(DisplayProduct product, NSIndexPath indexPath)
     {
@@ -55,22 +55,24 @@ public class ResultListCell : UITableViewCell
         _dataLabel.Text = product.BarcodeData;
         _notInListLabel ??= CreateNotInListLabel();
         _iconImageView ??= CreateIconImage();
+        _iconStatusView ??= CreateStatusImage();
 
         switch (indexPath.Section)
         {
             case 0:
                 if (!product.InList)
                 {
-                    _iconImageView.Image = UIImage.FromBundle(name: "NotInList");
+                    _iconStatusView.Image = UIImage.FromBundle(name: "NotInList");
                 }
                 else if (product.Picked)
                 {
-                    _iconImageView.Image = UIImage.FromBundle(name: "Picked");
+                    _iconStatusView.Image = UIImage.FromBundle(name: "Picked");
                 }
                 _notInListLabel.Hidden = product.InList;
                 break;
             case 1:
                 _iconImageView.Image = UIImage.FromBundle(name: "ProductImage");
+                _iconStatusView.Image = null;
                 _notInListLabel.Hidden = true;
                 break;
         }
@@ -88,12 +90,32 @@ public class ResultListCell : UITableViewCell
         this.ContentView.AddConstraints(new[]
         {
             iconImageView.LeadingAnchor.ConstraintEqualTo(this.ContentView.LeadingAnchor, BarcodeImageLeadingMargin),
-            iconImageView.TopAnchor.ConstraintEqualTo(this.ContentView.TopAnchor, BarcodeImageTopMargin),
+            iconImageView.TopAnchor.ConstraintEqualTo(this.ContentView.TopAnchor,BarcodeImageTopMargin),
             iconImageView.HeightAnchor.ConstraintEqualTo(BarcodeImageSize),
             iconImageView.WidthAnchor.ConstraintEqualTo(BarcodeImageSize)
         });
 
         return iconImageView;
+    }
+    
+    private UIImageView CreateStatusImage()
+    {
+        var imageView = new UIImageView
+        {
+            TranslatesAutoresizingMaskIntoConstraints = false,
+            Image = null
+        };
+
+        this.ContentView.AddSubview(imageView);
+        this.ContentView.AddConstraints(new[]
+        {
+            imageView.TrailingAnchor.ConstraintEqualTo(this.ContentView.TrailingAnchor,-StatusImageTrailingMargin),
+            imageView.TopAnchor.ConstraintEqualTo(this.ContentView.TopAnchor, StatusImageTopMargin),
+            imageView.HeightAnchor.ConstraintEqualTo(StatusImageSize),
+            imageView.WidthAnchor.ConstraintEqualTo(StatusImageSize)
+        });
+
+        return imageView;
     }
 
     private UILabel CreateIdentifierLabel(DisplayProduct product)

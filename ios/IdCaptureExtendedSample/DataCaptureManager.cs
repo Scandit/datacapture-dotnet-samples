@@ -25,22 +25,26 @@ namespace IdCaptureExtendedSample
     {
         private static readonly string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-        private static readonly Lazy<DataCaptureManager> instance = new Lazy<DataCaptureManager>(() => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<DataCaptureManager> INSTANCE = new(
+            valueFactory: () => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
+        private Mode Mode { get; set; } = Mode.Barcode;
+        
+        private readonly List<IIdCaptureDocument> acceptedDocuments = [
+            new IdCard(IdCaptureRegion.Any),
+            new DriverLicense(IdCaptureRegion.Any),
+            new Passport(IdCaptureRegion.Any),
+        ];
 
         public DataCaptureContext DataCaptureContext { get; private set; }
         public Camera Camera { get; private set; }
         public IdCapture IdCapture { get; private set; }
-        public Mode Mode { get; set; } = Mode.Barcode;
 
-        public static DataCaptureManager Instance
-        {
-            get { return instance.Value; }
-        }
+        public static DataCaptureManager Instance => INSTANCE.Value;
 
         private DataCaptureManager()
         {
             // Create DataCaptureContext using your license key.
-            this.DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
+            DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
         }
 
         public void InitializeCamera()
@@ -50,67 +54,70 @@ namespace IdCaptureExtendedSample
             //
             // Since we are going to perform IdCapture in this sample, we initiate the camera with
             // the recommended settings for this mode.
-            this.Camera = Camera.GetDefaultCamera();
+            Camera = Camera.GetDefaultCamera();
 
-            if (this.Camera != null)
+            if (Camera != null)
             {
                 // Use the settings recommended by IdCapture.
-                this.Camera.ApplySettingsAsync(IdCapture.RecommendedCameraSettings);
-                this.DataCaptureContext.SetFrameSourceAsync(this.Camera);
+                Camera.ApplySettingsAsync(IdCapture.RecommendedCameraSettings);
+                DataCaptureContext.SetFrameSourceAsync(Camera);
             }
         }
 
         public void ConfigureIdCapture(Mode mode)
         {
-            this.Mode = mode;
-            this.DataCaptureContext.RemoveAllModes();
+            Mode = mode;
 
             // Create a mode responsible for recognizing documents. This mode is automatically added
             // to the passed DataCaptureContext.
-            IdCaptureSettings settings = new IdCaptureSettings();
+            var settings = new IdCaptureSettings();
 
-            switch (this.Mode)
+            switch (Mode)
             {
                 case Mode.VIZ:
-                    this.ConfigureVIZMode(settings);
+                    ConfigureVizMode(settings);
                     break;
                 case Mode.MRZ:
-                    this.ConfigureMRZMode(settings);
+                    ConfigureMrzMode(settings);
                     break;
                 case Mode.Barcode:
                 default:
-                    this.ConfigureBarcodeMode(settings);
+                    ConfigureBarcodeMode(settings);
                     break;
             }
 
-            this.IdCapture = IdCapture.Create(this.DataCaptureContext, settings);
+            if (IdCapture == null)
+            {
+                IdCapture = IdCapture.Create(DataCaptureContext, settings);
+            }
+            else
+            {
+                IdCapture.ApplySettings(settings);
+            }
         }
 
         private void ConfigureBarcodeMode(IdCaptureSettings settings)
         {
-            settings.SupportedDocuments = IdDocumentType.AamvaBarcode |
-                                          IdDocumentType.ArgentinaIdBarcode |
-                                          IdDocumentType.ColombiaIdBarcode |
-                                          IdDocumentType.SouthAfricaDlBarcode |
-                                          IdDocumentType.SouthAfricaIdBarcode |
-                                          IdDocumentType.UsUsIdBarcode;
-        }
-
-        private void ConfigureVIZMode(IdCaptureSettings settings)
-        {
-            settings.SupportedDocuments = IdDocumentType.DlViz | IdDocumentType.IdCardViz;
+            settings.AcceptedDocuments = acceptedDocuments;
+            settings.ScannerType = 
+                new SingleSideScanner(barcode: true, machineReadableZone: false, visualInspectionZone: false);
             settings.SetShouldPassImageTypeToResult(IdImageType.Face, true);
-            settings.SetShouldPassImageTypeToResult(IdImageType.IdBack, true);
-            settings.SetShouldPassImageTypeToResult(IdImageType.IdFront, true);
-            settings.SupportedSides = SupportedSides.FrontAndBack;
         }
 
-        private void ConfigureMRZMode(IdCaptureSettings settings)
+        private void ConfigureVizMode(IdCaptureSettings settings)
         {
-            settings.SupportedDocuments = IdDocumentType.VisaMrz |
-                                          IdDocumentType.PassportMrz |
-                                          IdDocumentType.IdCardMrz |
-                                          IdDocumentType.SwissDlMrz;
+            settings.AcceptedDocuments = acceptedDocuments;
+            settings.ScannerType = 
+                new SingleSideScanner(barcode: false, machineReadableZone: false, visualInspectionZone: true);
+            settings.SetShouldPassImageTypeToResult(IdImageType.Face, true);
+            settings.SetShouldPassImageTypeToResult(IdImageType.CroppedDocument, true);
+        }
+
+        private void ConfigureMrzMode(IdCaptureSettings settings)
+        {
+            settings.AcceptedDocuments = acceptedDocuments;
+            settings.ScannerType = 
+                new SingleSideScanner(barcode: false, machineReadableZone: true, visualInspectionZone: false);
         }
     }
 }

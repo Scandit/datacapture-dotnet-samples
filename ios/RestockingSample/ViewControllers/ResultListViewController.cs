@@ -38,6 +38,7 @@ public class ResultListViewController : UIViewController
         base.ViewDidLoad();
         this.SetupTableView();
         this.SetupFooterView();
+        this.Title = "Result List";
     }
 
     private void SetupTableView()

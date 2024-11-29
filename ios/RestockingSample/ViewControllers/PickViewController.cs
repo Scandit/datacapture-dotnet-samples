@@ -40,6 +40,7 @@ public class PickViewController : UIViewController, IBarcodePickActionListener, 
     {
         base.ViewDidLoad();
         this.SetupRecognition();
+        this.Title = "Restocking";
     }
 
     public void SetupRecognition()

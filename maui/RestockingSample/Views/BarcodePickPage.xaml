@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scandit="clr-namespace:Scandit.DataCapture.Barcode.Pick.UI.Maui;assembly=ScanditBarcodeCaptureMaui"
+             xmlns:vm="clr-namespace:RestockingSample.ViewModels"
+             x:Class="RestockingSample.Views.BarcodePickPage">
+    <ContentPage.BindingContext>
+        <vm:BarcodePickViewModel x:Name="_viewModel" />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <AbsoluteLayout x:Name="Layout">
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

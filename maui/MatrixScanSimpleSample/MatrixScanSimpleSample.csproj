@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0-android33</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net7.0-ios</TargetFrameworks>
+    <TargetFrameworks>net8.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>MatrixScanSimpleSample</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -20,11 +20,11 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
 
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <ItemGroup>
@@ -43,11 +43,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="6.28.1" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="6.28.1" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="6.28.1" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="7.0.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="7.0.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="7.0.0" />
   </ItemGroup>
-  <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
-    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8" Version="1.8.22" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
   </ItemGroup>
 </Project>

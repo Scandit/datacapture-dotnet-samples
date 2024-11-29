@@ -28,7 +28,7 @@ public class FindScanViewModel : ViewModel
 
     public FindScanViewModel(Symbology symbology, string data)
     {
-        // We change the barcode tracking settings to enable only the previously scanned symbology.
+        // We change the barcode batch settings to enable only the previously scanned symbology.
         this.findCaptureManager.SetupForSymbology(symbology);
 
         // We setup the list of searched items.

@@ -13,13 +13,13 @@
  */
 
 using MatrixScanSimpleSample.ViewModels;
-using Scandit.DataCapture.Barcode.Tracking.UI.Overlay;
+using Scandit.DataCapture.Barcode.Batch.UI.Overlay;
 
 namespace MatrixScanSimpleSample.Views
 {
     public partial class MainPage : ContentPage
     {
-        private BarcodeTrackingBasicOverlay overlay;
+        private BarcodeBatchBasicOverlay overlay;
         private readonly MainPageViewModel viewModel;
 
         public MainPage()
@@ -45,7 +45,7 @@ namespace MatrixScanSimpleSample.Views
 
         private void DataCaptureViewHandlerChanged(object? sender, EventArgs e)
         {
-            this.overlay = BarcodeTrackingBasicOverlay.Create(this.viewModel.BarcodeTracking, BarcodeTrackingBasicOverlayStyle.Frame);
+            this.overlay = BarcodeBatchBasicOverlay.Create(this.viewModel.BarcodeBatch, BarcodeBatchBasicOverlayStyle.Frame);
             this.overlay.Listener = this.viewModel;
 
             this.dataCaptureView.AddOverlay(overlay);

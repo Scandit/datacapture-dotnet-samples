@@ -25,19 +25,17 @@ namespace IdCaptureExtendedSample.Result
 {
     public class ResultViewModel : ViewModel, IParcelable, IParcelableCreator
     {
-        private readonly ResultPresenterFactory factory = new ResultPresenterFactory();
-
         public ResultUiState UiState { get; private set; }
 
         public ResultViewModel(CapturedId capturedId)
         {
-            IResultPresenter resultPresenter = this.factory.Create(capturedId);
+            IResultPresenter resultPresenter = new CommonResultPresenter(capturedId);
 
             this.UiState = new ResultUiState(resultPresenter.Rows)
             {
-                FaceImage = capturedId.GetImageBitmapForType(IdImageType.Face),
-                IdFrontImage = capturedId.GetImageBitmapForType(IdImageType.IdFront),
-                IdBackImage = capturedId.GetImageBitmapForType(IdImageType.IdBack)
+                FaceImage = capturedId.Images?.Face,
+                IdFrontImage = capturedId.Images?.GetCroppedDocument(IdSide.Front),
+                IdBackImage = capturedId.Images?.GetCroppedDocument(IdSide.Back)
             };
         }
 
@@ -75,7 +73,7 @@ namespace IdCaptureExtendedSample.Result
             dest.WriteList(this.UiState.Data);
 
             byte[] idFaceImageBytes = this.GetFaceImageBytes();
-            byte[] idFrontImageBytes = this.GetIdBackImageBytes();
+            byte[] idFrontImageBytes = this.GetIdFrontImageBytes();
             byte[] idBackImageBytes = this.GetIdBackImageBytes();
 
             if (idFaceImageBytes != null)

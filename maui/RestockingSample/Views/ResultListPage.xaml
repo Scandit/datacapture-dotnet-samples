@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RestockingSample.Views.ResultListPage"
+             Title="Result List">
+    <AbsoluteLayout>
+        <Grid
+            AbsoluteLayout.LayoutBounds="0,0,1,0.75"
+            AbsoluteLayout.LayoutFlags="SizeProportional">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0"
+                    IsVisible="{Binding IsPicklistVisible}">
+                <Label Text="Picklist"
+                       Margin="5"
+                       FontSize="Medium"/>
+                <ListView ItemsSource="{Binding PickedResults}"
+                          HorizontalScrollBarVisibility="Never"
+                          VerticalScrollBarVisibility="Default"
+                          SelectionMode="None"
+                          SeparatorVisibility="Default"
+                          HasUnevenRows="True"
+                          VerticalOptions="StartAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="55"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0"
+                                           Margin="10"
+                                           Source="{Binding ItemImageSource}"/>
+                                    <StackLayout Grid.Column="1"
+                                                 Orientation="Vertical"
+                                                 Padding="10, 5">
+                                        <Label Text="{Binding Identifier}"
+                                               FontSize="Default"
+                                               TextColor="Black"/>
+                                        <Label Text="{Binding BarcodeData}"
+                                               FontSize="Small"
+                                               TextColor="Gray"/>
+                                        <Label Text="Picked item not in pick list"
+                                               FontSize="Micro"
+                                               IsVisible="{Binding ShowWarning}"
+                                               TextColor="Red"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <StackLayout Grid.Row="1"
+                    IsVisible="{Binding IsScanResultsVisible}">
+                <Label Text="{Binding InventoryLabel}"
+                       Margin="5"
+                       FontSize="Medium"/>
+                <ListView ItemsSource="{Binding ScanResults}"
+                          HorizontalScrollBarVisibility="Never"
+                          VerticalScrollBarVisibility="Default"
+                          SelectionMode="None"
+                          SeparatorVisibility="Default"
+                          HasUnevenRows="True"
+                          VerticalOptions="StartAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="55"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0"
+                                           Margin="10"
+                                           Source="{Binding ItemImageSource}"/>
+                                    <StackLayout Grid.Column="1"
+                                                 Orientation="Vertical"
+                                                 Padding="10, 5">
+                                        <Label Text="{Binding Identifier}"
+                                               FontSize="Default"
+                                               TextColor="Black"/>
+                                        <Label Text="{Binding BarcodeData}"
+                                               FontSize="Small"
+                                               TextColor="Gray"/>
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+        <Button Text="CONTINUE SCANNING"
+                Clicked="ContinueButtonClicked"
+                AbsoluteLayout.LayoutBounds="0.5,0.95,300,45"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                BackgroundColor="Black"
+                BorderColor="Black"
+                BorderWidth="2"
+                TextColor="White">
+        </Button>
+    </AbsoluteLayout>
+</ContentPage>

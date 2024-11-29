@@ -13,6 +13,7 @@
  */
 
 using Scandit.DataCapture.Barcode.Data;
+using Scandit.DataCapture.Barcode.Find.UI;
 using SearchAndFindSample.ViewModels;
 
 namespace SearchAndFindSample.Views;
@@ -49,6 +50,9 @@ public partial class FindBarcodePage : ContentPage
 #if __ANDROID__
         this.barcodeFindView.OnResume();
 #endif
+
+        this.barcodeFindView.FinishButtonTapped += 
+            (object? sender, FinishButtonTappedEventArgs args) => FinishButtonClicked();
     }
 
     protected override void OnAppearing()
@@ -67,7 +71,7 @@ public partial class FindBarcodePage : ContentPage
         this.barcodeFindView.StopSearching();
     }
 
-    private void FinishButtonClicked(object? sender, EventArgs args)
+    private void FinishButtonClicked()
     {
         if (Application.Current?.MainPage is NavigationPage navigation)
         {

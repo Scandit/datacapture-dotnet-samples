@@ -22,7 +22,7 @@ using Scandit.DataCapture.Barcode.Count.Capture;
 using Scandit.DataCapture.Barcode.Count.UI;
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Core.Capture;
-using Scandit.DataCapture.Barcode.Tracking.Data;
+using Scandit.DataCapture.Barcode.Batch.Data;
 
 namespace MatrixScanCountSimpleSample
 {

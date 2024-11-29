@@ -16,20 +16,13 @@ using RestockingSample.Models;
 
 namespace RestockingSample.Views;
 
-public class TableDelegate : UITableViewDelegate
+public class TableDelegate(TableSource source) : UITableViewDelegate
 {
-    private readonly TableSource _source;
-
-    public TableDelegate(TableSource source)
-    {
-        _source = source;
-    }
-
     public override UIView GetViewForHeader(UITableView tableView, nint section)
     {
         var view = tableView.DequeueReusableHeaderFooterView(ResultListSectionHeaderView.Identifier)
             as ResultListSectionHeaderView ?? throw new InvalidOperationException("Cannot retrieve view header");
-        var items = _source.GetItemsForSection((int)section);
+        var items = source.GetItemsForSection((int)section);
         view.Configure(section, items ?? new List<DisplayProduct>());
 
         return view;

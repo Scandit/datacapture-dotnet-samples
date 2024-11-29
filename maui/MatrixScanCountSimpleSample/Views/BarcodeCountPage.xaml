@@ -15,6 +15,7 @@
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
                 DataCaptureContext="{Binding DataCaptureContext}"
+                ShouldShowTorchControl="True"
                 BarcodeCount="{Binding BarcodeCount}"
                 ViewStyle="Icon">
             </scandit:BarcodeCountView>

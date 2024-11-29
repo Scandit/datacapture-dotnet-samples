@@ -72,25 +72,8 @@ namespace IdCaptureExtendedSample.Scan
         }
 
         #region IIdCaptureListener
-        public void OnErrorEncountered(IdCapture capture, IdCaptureError error, IdCaptureSession session, IFrameData frameData)
+        public void OnIdCaptured(IdCapture capture, CapturedId capturedId)
         {
-            // Implement to handle an error encountered during the capture process.
-            this.listener?.ShowError(GetErrorMessage(error));
-        }
-
-        public void OnIdCaptured(IdCapture capture, IdCaptureSession session, IFrameData frameData)
-        {
-            CapturedId capturedId = session.NewlyCapturedId;
-
-            // Viz documents support multiple sides scanning.
-            // In case the back side is supported and not yet captured we inform the user about the feature.
-            if (capturedId.Viz != null &&
-                capturedId.Viz.BackSideCaptureSupported &&
-                capturedId.Viz.CapturedSides == SupportedSides.FrontOnly)
-            {
-                return;
-            }
-
             // Pause the IdCapture to not capture while showing the result.
             this.PauseScanning();
 
@@ -98,16 +81,7 @@ namespace IdCaptureExtendedSample.Scan
             this.listener?.ShowIdCaptured(capturedId);
         }
 
-        public void OnIdLocalized(IdCapture mode, IdCaptureSession session, IFrameData data)
-        {
-            // Implement to handle a personal identification document or its part localized within
-            // a frame. A document or its part is considered localized when it's detected in a frame,
-            // but its data is not yet extracted.
-
-            // In this sample we are not interested in this callback.
-        }
-
-        public void OnIdRejected(IdCapture mode, IdCaptureSession session, IFrameData data)
+        public void OnIdRejected(IdCapture mode, CapturedId capturedId, RejectionReason reason)
         {
             // Implement to handle documents recognized in a frame, but rejected.
             // A document or its part is considered rejected when (a) it's valid, but not enabled in the settings,
@@ -115,38 +89,11 @@ namespace IdCaptureExtendedSample.Scan
             // but the data is encoded in an unexpected/incorrect format.
             this.listener?.ShowIdRejected();
         }
-
-        public void OnIdCaptureTimedOut(IdCapture mode, IdCaptureSession session, IFrameData data)
-        {
-            // In this sample we are not interested in this callback.
-        }
-
-        public void OnObservationStarted(IdCapture idCapture)
-        {
-            // In this sample we are not interested in this callback.
-        }
-
-        public void OnObservationStopped(IdCapture idCapture)
-        {
-            // In this sample we are not interested in this callback.
-        }
         #endregion
 
         private void SetupRecognition()
         {
             this.dataCaptureManager.InitializeCamera();
-        }
-
-        private static string GetErrorMessage(IdCaptureError error)
-        {
-            StringBuilder messageBuilder = new StringBuilder(error.Type.ToString());
-
-            if (!string.IsNullOrEmpty(error.Message))
-            {
-                messageBuilder.Append($": {error.Message}");
-            }
-
-            return messageBuilder.ToString();
         }
     }
 }

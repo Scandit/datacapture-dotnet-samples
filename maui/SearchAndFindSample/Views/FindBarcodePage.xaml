@@ -15,10 +15,6 @@
                 BarcodeFind="{Binding BarcodeFind}"
                 BarcodeFindViewSettings="{Binding ViewSettings}">
             </scandit:BarcodeFindView>
-            <ImageButton Source="finish_icon.png"
-                         AbsoluteLayout.LayoutBounds="0.9,0.9,50,50"
-                         AbsoluteLayout.LayoutFlags="PositionProportional"
-                         Clicked="FinishButtonClicked" />
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -28,7 +28,12 @@ public class AppDelegate : UIApplicationDelegate
 
         // Create a UIViewController with a single UILabel
         var vc = new PickViewController();
-        Window.RootViewController = new UINavigationController(vc);
+        var navigation = new UINavigationController(vc);
+        navigation.NavigationBar.TitleTextAttributes = new UIStringAttributes
+        {
+            ForegroundColor = UIColor.White
+        };
+        Window.RootViewController = navigation;
 
         // Make the window visible
         Window.MakeKeyAndVisible();

@@ -142,7 +142,7 @@ public partial class SearchViewController : UIViewController
         // Subscribe to BarcodeScanned event to get informed of captured barcodes.
         this.barcodeCapture.BarcodeScanned += BarcodeScanned;
 
-        // To visualize the on-going barcode tracking process on screen, setup a data capture view that renders the
+        // To visualize the on-going barcode batch process on screen, setup a data capture view that renders the
         // camera preview. The view must be connected to the data capture context.
         this.captureView = DataCaptureView.Create(context: context, frame: this.View?.Bounds ?? CGRect.Empty);
         this.captureView.AutoresizingMask =

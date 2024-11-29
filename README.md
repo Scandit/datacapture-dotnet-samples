@@ -8,8 +8,6 @@ This repository contains both simple and advanced samples that show you how use 
 
 **Barcode Capture Reject Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/BarcodeCaptureRejectSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/BarcodeCaptureRejectSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/BarcodeCaptureRejectSample)))
 
-**Barcode Capture Views Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/BarcodeCaptureViewsSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/BarcodeCaptureViewsSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/BarcodeCaptureViewsSample)))
-
 ### Scan One of Many Barcodes (Barcode Selection)
 
 Barcode Selection is a pre-built component that provides a UI for selecting the right code when codes are crowded (and cannot be selected programmatically).
@@ -27,6 +25,14 @@ Consider Barcode Selection when **accuracy** is more important than **speed**.
 
 
 **Barcode Selection Simple Sample (**.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/BarcodeSelectionSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/BarcodeSelectionSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/BarcodeSelectionSimpleSample)))
+
+### Search for Barcodes (**MatrixScan Find)**
+
+MatrixScan Find is a pre-built component that uses AR overlays to highlight items that match predefined criteria.
+
+![MSFind.png](https://github.com/Scandit/.github/blob/main/images/MSFind.png)
+
+**Seach  & Find Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/SearchAndFindSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/SearchAndFindSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/SearchAndFindSample)))
 
 ### ID Scanning and Verification Samples
 

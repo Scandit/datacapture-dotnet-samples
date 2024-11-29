@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-using RestockingSample;
+namespace RestockingSample;
 
 public class Application
 {
@@ -20,7 +20,7 @@ public class Application
     // Your Scandit License key is available via your Scandit SDK web account.
     public static string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         UIApplication.Main(args, null, typeof(AppDelegate));
     }

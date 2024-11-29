@@ -20,9 +20,9 @@ using Foundation;
 using UIKit;
 
 using Scandit.DataCapture.Barcode.Data;
-using Scandit.DataCapture.Barcode.Tracking.Capture;
-using Scandit.DataCapture.Barcode.Tracking.Data;
-using Scandit.DataCapture.Barcode.Tracking.UI.Overlay;
+using Scandit.DataCapture.Barcode.Batch.Capture;
+using Scandit.DataCapture.Barcode.Batch.Data;
+using Scandit.DataCapture.Barcode.Batch.UI.Overlay;
 using Scandit.DataCapture.Core.Capture;
 using Scandit.DataCapture.Core.Data;
 using Scandit.DataCapture.Core.Source;
@@ -31,7 +31,7 @@ using Scandit.DataCapture.Core.UI.Style;
 
 namespace MatrixScanRejectSample
 {
-    public partial class ViewController : UIViewController, IBarcodeTrackingBasicOverlayListener
+    public partial class ViewController : UIViewController, IBarcodeBatchBasicOverlayListener
     {
         // Enter your Scandit License key here.
         // Your Scandit License key is available via your Scandit SDK web account.
@@ -40,8 +40,8 @@ namespace MatrixScanRejectSample
         private DataCaptureContext? dataCaptureContext;
         private Camera? camera;
         private DataCaptureView? dataCaptureView;
-        private BarcodeTracking? barcodeTracking;
-        private BarcodeTrackingBasicOverlay? overlay;
+        private BarcodeBatch? barcodeBatch;
+        private BarcodeBatchBasicOverlay? overlay;
 
         private HashSet<ScanResult> scanResults = new HashSet<ScanResult>();
 
@@ -55,10 +55,10 @@ namespace MatrixScanRejectSample
         {
             base.ViewWillAppear(animated);
 
-            if (this.barcodeTracking != null)
+            if (this.barcodeBatch != null)
             {
-                // First, disable barcode tracking to stop processing frames.
-                this.barcodeTracking.Enabled = false;
+                // First, disable barcode batch to stop processing frames.
+                this.barcodeBatch.Enabled = false;
             }
 
             // Switch the camera off to stop streaming frames. The camera is stopped asynchronously.
@@ -69,13 +69,13 @@ namespace MatrixScanRejectSample
         {
             base.ViewWillAppear(animated);
 
-            // Remove the scanned barcodes everytime the barcode tracking starts.
+            // Remove the scanned barcodes everytime the barcode batch starts.
             this.scanResults.Clear();
 
-            if (this.barcodeTracking != null)
+            if (this.barcodeBatch != null)
             {
-                // First, enable barcode tracking to resume processing frames.
-                this.barcodeTracking.Enabled = true;
+                // First, enable barcode batch to resume processing frames.
+                this.barcodeBatch.Enabled = true;
             }
 
             // Switch camera on to start streaming frames. The camera is started asynchronously and will take some time to
@@ -99,8 +99,8 @@ namespace MatrixScanRejectSample
             }
         }
 
-        #region IBarcodeTrackingBasicOverlayListener
-        public Brush BrushForTrackedBarcode(BarcodeTrackingBasicOverlay overlay, TrackedBarcode trackedBarcode)
+        #region IBarcodeBatchBasicOverlayListener
+        public Brush BrushForTrackedBarcode(BarcodeBatchBasicOverlay overlay, TrackedBarcode trackedBarcode)
         {
             if (IsValidBarcode(trackedBarcode.Barcode))
             {
@@ -112,7 +112,7 @@ namespace MatrixScanRejectSample
             }
         }
 
-        public void OnTrackedBarcodeTapped(BarcodeTrackingBasicOverlay overlay, TrackedBarcode trackedBarcode)
+        public void OnTrackedBarcodeTapped(BarcodeBatchBasicOverlay overlay, TrackedBarcode trackedBarcode)
         {
             // Handle barcode click if necessary.
         }
@@ -134,14 +134,14 @@ namespace MatrixScanRejectSample
                 this.dataCaptureContext.SetFrameSourceAsync(this.camera);
             }
 
-            // Use the recommended camera settings for the BarcodeTracking mode as default settings.
+            // Use the recommended camera settings for the BarcodeBatch mode as default settings.
             // The preferred resolution is automatically chosen, which currently defaults to HD on all devices.
-            CameraSettings cameraSettings = BarcodeTracking.RecommendedCameraSettings;
+            CameraSettings cameraSettings = BarcodeBatch.RecommendedCameraSettings;
 
             // Setting the preferred resolution to full HD helps to get a better decode range.
             cameraSettings.PreferredResolution = VideoResolution.FullHd;
             this.camera?.ApplySettingsAsync(cameraSettings);
-            BarcodeTrackingSettings barcodeTrackingSettings = BarcodeTrackingSettings.Create();
+            BarcodeBatchSettings barcodeBatchSettings = BarcodeBatchSettings.Create();
 
             // The settings instance initially has all types of barcodes (symbologies) disabled.
             // For the purpose of this sample we enable a very generous set of symbologies.
@@ -156,30 +156,30 @@ namespace MatrixScanRejectSample
                 Symbology.Code128
             };
 
-            barcodeTrackingSettings.EnableSymbologies(symbologies);
+            barcodeBatchSettings.EnableSymbologies(symbologies);
 
-            // Create new barcode tracking mode with the settings from above.
-            this.barcodeTracking = BarcodeTracking.Create(this.dataCaptureContext, barcodeTrackingSettings);
+            // Create new barcode batch mode with the settings from above.
+            this.barcodeBatch = BarcodeBatch.Create(this.dataCaptureContext, barcodeBatchSettings);
 
             // Subscribe to session updates to get informed whenever a new barcode got recognized.
-            this.barcodeTracking.SessionUpdated += BarcodeTrackingSessionUpdated;
+            this.barcodeBatch.SessionUpdated += BarcodeBatchSessionUpdated;
 
-            // To visualize the on-going barcode tracking process on screen, setup a data capture view
+            // To visualize the on-going barcode batch process on screen, setup a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
             this.dataCaptureView = DataCaptureView.Create(this.dataCaptureContext, this.View!.Bounds);
             this.dataCaptureView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
                                                     UIViewAutoresizing.FlexibleWidth;
 
-            this.overlay = BarcodeTrackingBasicOverlay.Create(this.barcodeTracking,
+            this.overlay = BarcodeBatchBasicOverlay.Create(this.barcodeBatch,
                                                               this.dataCaptureView,
-                                                              BarcodeTrackingBasicOverlayStyle.Frame);
+                                                              BarcodeBatchBasicOverlayStyle.Frame);
             this.overlay.Listener = this;
 
             this.View.AddSubview(this.dataCaptureView);
             this.View.SendSubviewToBack(this.dataCaptureView);
         }
 
-        private void BarcodeTrackingSessionUpdated(object? sender, BarcodeTrackingEventArgs args)
+        private void BarcodeBatchSessionUpdated(object? sender, BarcodeBatchEventArgs args)
         {
             var barcodes = args.Session.TrackedBarcodes
                                        .Values

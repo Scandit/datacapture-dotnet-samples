@@ -20,7 +20,6 @@ namespace IdCaptureExtendedSample.Result
 {
     public partial class ResultViewController : UIViewController
     {
-        private readonly ResultPresenterFactory factory = new ResultPresenterFactory();
         private readonly TableViewManager tableViewManager;
 
         private UITableView tableView;
@@ -29,7 +28,7 @@ namespace IdCaptureExtendedSample.Result
 
         public ResultViewController(CapturedId capturedId)
         {
-            IResultPresenter presenter = this.factory.Create(capturedId);
+            IResultPresenter presenter = new CommonResultPresenter(capturedId);
             this.tableViewManager = new TableViewManager(presenter);
         }
 

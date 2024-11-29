@@ -57,12 +57,13 @@ namespace USDLVerificationSample.Models
 
             // Create a mode responsible for recognizing documents. This mode is automatically added
             // to the passed DataCaptureContext.
-            IdCaptureSettings settings = new IdCaptureSettings();
-            settings.SupportedDocuments = IdDocumentType.DlViz;
+            IdCaptureSettings settings = new()
+            {
+                AcceptedDocuments = [new DriverLicense(IdCaptureRegion.Us)]
+            };
             settings.SetShouldPassImageTypeToResult(IdImageType.Face, true);
-            settings.SetShouldPassImageTypeToResult(IdImageType.IdBack, true);
-            settings.SetShouldPassImageTypeToResult(IdImageType.IdFront, true);
-            settings.SupportedSides = SupportedSides.FrontAndBack;
+            settings.SetShouldPassImageTypeToResult(IdImageType.CroppedDocument, true);
+            settings.ScannerType = new FullDocumentScanner();
 
             this.IdCapture = IdCapture.Create(this.DataCaptureContext, settings);
         }

@@ -13,7 +13,6 @@
  */
 
 using Scandit.DataCapture.ID.Data;
-using Scandit.DataCapture.ID.Verification.AamvaVizBarcode;
 
 namespace USDLVerificationSample.ViewModels
 {

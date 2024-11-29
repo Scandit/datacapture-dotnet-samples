@@ -17,17 +17,12 @@ using RestockingSample.Models;
 
 namespace RestockingSample.Views;
 
-public class ResultListSectionHeaderView : UITableViewHeaderFooterView
+public class ResultListSectionHeaderView(NativeHandle handle) : UITableViewHeaderFooterView(handle)
 {
-    private const int leadingMargin = 16;
+    private const int LeadingMargin = 16;
     private UILabel? _headerLabel;
 
     public const string Identifier = nameof(ResultListSectionHeaderView);
-
-    public ResultListSectionHeaderView(NativeHandle handle) : base(handle)
-    {
-        // Note: this .ctor should not contain any initialization logic.
-    }
 
     public void Configure(nint section, IList<DisplayProduct> items)
     {
@@ -59,7 +54,7 @@ public class ResultListSectionHeaderView : UITableViewHeaderFooterView
         this.ContentView.AddConstraints(new []
         {
             headerLabel.TopAnchor.ConstraintEqualTo(this.ContentView.TopAnchor),
-            headerLabel.LeadingAnchor.ConstraintEqualTo(this.ContentView.LeadingAnchor, leadingMargin)
+            headerLabel.LeadingAnchor.ConstraintEqualTo(this.ContentView.LeadingAnchor, LeadingMargin)
         });
 
         return headerLabel;

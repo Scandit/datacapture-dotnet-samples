@@ -21,32 +21,37 @@ namespace IdCaptureExtendedSample.Models
 {
     public class ScannerModel
     {
-        public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
+        private const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-        private static readonly Lazy<ScannerModel> instance = new Lazy<ScannerModel>(() => new ScannerModel(), LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<ScannerModel> INSTANCE = new Lazy<ScannerModel>(() => new ScannerModel(), LazyThreadSafetyMode.PublicationOnly);
+        private readonly List<IIdCaptureDocument> acceptedDocuments = [
+            new IdCard(IdCaptureRegion.Any),
+            new DriverLicense(IdCaptureRegion.Any),
+            new Passport(IdCaptureRegion.Any),
+        ];
 
-        public static ScannerModel Instance => instance.Value;
+        public static ScannerModel Instance => INSTANCE.Value;
 
         public Mode Mode { get; private set; } = Mode.Barcode;
 
         private ScannerModel()
         {
-            this.CurrentCamera?.ApplySettingsAsync(this.CameraSettings);
+            CurrentCamera?.ApplySettingsAsync(CameraSettings);
 
             // Create data capture context using your license key and set the camera as the frame source.
-            this.DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
-            this.DataCaptureContext.SetFrameSourceAsync(this.CurrentCamera);
+            DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
+            DataCaptureContext.SetFrameSourceAsync(CurrentCamera);
 
-            this.ConfigureIdCapture(this.Mode);
+            ConfigureIdCapture(Mode);
         }
 
         #region DataCaptureContext
-        public DataCaptureContext DataCaptureContext { get; private set; }
+        public DataCaptureContext DataCaptureContext { get; }
         #endregion
 
         #region CamerSettings
-        public Camera CurrentCamera { get; set; } = Camera.GetCamera(CameraPosition.WorldFacing);
-        public CameraSettings CameraSettings { get; set; } = IdCapture.RecommendedCameraSettings;
+        public Camera CurrentCamera { get; } = Camera.GetCamera(CameraPosition.WorldFacing);
+        private CameraSettings CameraSettings { get; } = IdCapture.RecommendedCameraSettings;
         #endregion
 
         #region IdCapture
@@ -56,55 +61,58 @@ namespace IdCaptureExtendedSample.Models
 
         public void ConfigureIdCapture(Mode mode)
         {
-            this.Mode = mode;
-            this.DataCaptureContext.RemoveAllModes();
+            Mode = mode;
 
             // Create a mode responsible for recognizing documents. This mode is automatically added
             // to the passed DataCaptureContext.
-            IdCaptureSettings settings = new IdCaptureSettings();
+            var settings = new IdCaptureSettings();
 
-            switch (this.Mode)
+            switch (Mode)
             {
                 case Mode.VIZ:
-                    this.ConfigureVIZMode(settings);
+                    ConfigureVizMode(settings);
                     break;
                 case Mode.MRZ:
-                    this.ConfigureMRZMode(settings);
+                    ConfigureMrzMode(settings);
                     break;
                 case Mode.Barcode:
                 default:
-                    this.ConfigureBarcodeMode(settings);
+                    ConfigureBarcodeMode(settings);
                     break;
             }
 
-            this.IdCapture = IdCapture.Create(this.DataCaptureContext, settings);
+            if (IdCapture == null)
+            {
+                IdCapture = IdCapture.Create(DataCaptureContext, settings);
+            }
+            else
+            {
+                IdCapture.ApplySettings(settings);
+            }
         }
 
         private void ConfigureBarcodeMode(IdCaptureSettings settings)
         {
-            settings.SupportedDocuments = IdDocumentType.AamvaBarcode |
-                                          IdDocumentType.ArgentinaIdBarcode |
-                                          IdDocumentType.ColombiaIdBarcode |
-                                          IdDocumentType.SouthAfricaDlBarcode |
-                                          IdDocumentType.SouthAfricaIdBarcode |
-                                          IdDocumentType.UsUsIdBarcode;
+            settings.AcceptedDocuments = acceptedDocuments;
+            settings.ScannerType = 
+                new SingleSideScanner(barcode: true, machineReadableZone: false, visualInspectionZone: false);
+            settings.SetShouldPassImageTypeToResult(IdImageType.Face, shouldPass: true);
         }
 
-        private void ConfigureVIZMode(IdCaptureSettings settings)
+        private void ConfigureVizMode(IdCaptureSettings settings)
         {
-            settings.SupportedDocuments = IdDocumentType.DlViz | IdDocumentType.IdCardViz;
-            settings.SetShouldPassImageTypeToResult(IdImageType.Face, true);
-            settings.SetShouldPassImageTypeToResult(IdImageType.IdBack, true);
-            settings.SetShouldPassImageTypeToResult(IdImageType.IdFront, true);
-            settings.SupportedSides = SupportedSides.FrontAndBack;
+            settings.AcceptedDocuments = acceptedDocuments;
+            settings.ScannerType = 
+                new SingleSideScanner(barcode: false, machineReadableZone: false, visualInspectionZone: true);
+            settings.SetShouldPassImageTypeToResult(IdImageType.Face, shouldPass: true);
+            settings.SetShouldPassImageTypeToResult(IdImageType.CroppedDocument, shouldPass: true);
         }
 
-        private void ConfigureMRZMode(IdCaptureSettings settings)
+        private void ConfigureMrzMode(IdCaptureSettings settings)
         {
-            settings.SupportedDocuments = IdDocumentType.VisaMrz |
-                                          IdDocumentType.PassportMrz |
-                                          IdDocumentType.IdCardMrz |
-                                          IdDocumentType.SwissDlMrz;
+            settings.AcceptedDocuments = acceptedDocuments;
+            settings.ScannerType = 
+                new SingleSideScanner(barcode: false, machineReadableZone: true, visualInspectionZone: false);
         }
     }
 }

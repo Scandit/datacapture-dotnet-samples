@@ -16,10 +16,10 @@ using Microsoft.Maui.Platform;
 using MatrixScanSimpleSample.Models;
 
 using Scandit.DataCapture.Barcode.Data;
-using Scandit.DataCapture.Barcode.Tracking.Capture;
-using Scandit.DataCapture.Barcode.Tracking.Data;
-using Scandit.DataCapture.Barcode.Tracking.UI;
-using Scandit.DataCapture.Barcode.Tracking.UI.Overlay;
+using Scandit.DataCapture.Barcode.Batch.Capture;
+using Scandit.DataCapture.Barcode.Batch.Data;
+using Scandit.DataCapture.Barcode.Batch.UI;
+using Scandit.DataCapture.Barcode.Batch.UI.Overlay;
 using Scandit.DataCapture.Core.Capture;
 using Scandit.DataCapture.Core.Data;
 using Scandit.DataCapture.Core.Source;
@@ -27,14 +27,14 @@ using Brush = Scandit.DataCapture.Core.UI.Style.Brush;
 
 namespace MatrixScanSimpleSample.ViewModels
 {
-    public class MainPageViewModel : BaseViewModel, IBarcodeTrackingListener, IBarcodeTrackingBasicOverlayListener
+    public class MainPageViewModel : BaseViewModel, IBarcodeBatchListener, IBarcodeBatchBasicOverlayListener
     {
         private readonly Brush highlightedBrush;
         private readonly HashSet<ScanResult> scanResults = new HashSet<ScanResult>();
 
         public Camera Camera { get; private set; } = ScannerModel.Instance.CurrentCamera;
         public DataCaptureContext DataCaptureContext { get; private set; } = ScannerModel.Instance.DataCaptureContext;
-        public BarcodeTracking BarcodeTracking { get; private set; } = ScannerModel.Instance.BarcodeTracking;
+        public BarcodeBatch BarcodeBatch { get; private set; } = ScannerModel.Instance.BarcodeBatch;
 
         public IEnumerable<ScanResult> ScanResults { get => this.scanResults; }
 
@@ -51,9 +51,9 @@ namespace MatrixScanSimpleSample.ViewModels
             // Switch camera off to stop streaming frames.
             // The camera is stopped asynchronously and will take some time to completely turn off.
             // Until it is completely stopped, it is still possible to receive further results, hence
-            // it's a good idea to first disable barcode tracking as well.
+            // it's a good idea to first disable barcode batch as well.
 
-            this.BarcodeTracking.Enabled = false;
+            this.BarcodeBatch.Enabled = false;
             return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
         }
 
@@ -84,29 +84,29 @@ namespace MatrixScanSimpleSample.ViewModels
         private void InitializeScanner()
         {
             // Register self as a listener to get informed whenever a new barcode got recognized.
-            this.BarcodeTracking.AddListener(this);
+            this.BarcodeBatch.AddListener(this);
         }
 
         private Task ResumeFrameSource()
         {
             this.scanResults.Clear();
-            this.BarcodeTracking.Enabled = true;
+            this.BarcodeBatch.Enabled = true;
 
             // Switch camera on to start streaming frames.
             // The camera is started asynchronously and will take some time to completely turn on.
             return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
         }
 
-        #region IBarcodeTrackingListener
-        public void OnObservationStarted(BarcodeTracking barcodeTracking)
+        #region IBarcodeBatchListener
+        public void OnObservationStarted(BarcodeBatch barcodeBatch)
         { }
 
-        public void OnObservationStopped(BarcodeTracking barcodeTracking)
+        public void OnObservationStopped(BarcodeBatch barcodeBatch)
         { }
 
-        public void OnSessionUpdated(BarcodeTracking barcodeTracking, BarcodeTrackingSession session, IFrameData frameData)
+        public void OnSessionUpdated(BarcodeBatch barcodeBatch, BarcodeBatchSession session, IFrameData frameData)
         {
-            // This method is called whenever objects are updated and it's the right place to react to the tracking results.
+            // This method is called whenever objects are updated and it's the right place to react to the batch results.
             lock (this.scanResults)
             {
                 foreach (var trackedBarcode in session.AddedTrackedBarcodes)
@@ -127,13 +127,13 @@ namespace MatrixScanSimpleSample.ViewModels
         }
         #endregion
 
-        #region IBarcodeTrackingBasicOverlayListener
-        public Brush BrushForTrackedBarcode(BarcodeTrackingBasicOverlay overlay, TrackedBarcode trackedBarcode)
+        #region IBarcodeBatchBasicOverlayListener
+        public Brush BrushForTrackedBarcode(BarcodeBatchBasicOverlay overlay, TrackedBarcode trackedBarcode)
         {
             return this.highlightedBrush;
         }
 
-        public void OnTrackedBarcodeTapped(BarcodeTrackingBasicOverlay overlay, TrackedBarcode trackedBarcode)
+        public void OnTrackedBarcodeTapped(BarcodeBatchBasicOverlay overlay, TrackedBarcode trackedBarcode)
         { }
         #endregion
     }

@@ -154,7 +154,7 @@ public class SearchScanFragment : CameraPermissionFragment, View.IOnClickListene
         this.SubscribeToViewModelEvents(this.viewModel);
 
         // Resume scanning by enabling and re-adding the barcode capture mode.
-        // Since barcode tracking and barcode capture modes are not compatible (meaning they cannot
+        // Since barcode batch and barcode capture modes are not compatible (meaning they cannot
         // be added at the same time to the same data capture context) we're also removing and
         // adding them back whenever the scanning is paused/resumed.
         this.viewModel.ResumeScanning();
@@ -165,7 +165,7 @@ public class SearchScanFragment : CameraPermissionFragment, View.IOnClickListene
         this.UnsubsribeFromViewModelEvents(this.viewModel);
 
         // Pause scanning by disabling the barcode capture mode.
-        // Since barcode tracking and barcode capture modes are not compatible (meaning they cannot
+        // Since barcode batch and barcode capture modes are not compatible (meaning they cannot
         // be added at the same time to the same data capture context) we're also removing and
         // adding them back whenever the scanning is paused/resumed.
         this.viewModel.PauseScanning();
