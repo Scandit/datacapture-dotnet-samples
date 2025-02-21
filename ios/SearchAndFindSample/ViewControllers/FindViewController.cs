@@ -70,6 +70,9 @@ public partial class FindViewController : UIViewController
             return;
         }
 
+        // Make sure barcode find is the only mode associated with the context.
+        this.context.RemoveAllModes();
+
         // The settings instance initially has all types of barcodes (symbologies) disabled. For the purpose of this
         // sample we enable just the symbology of the barcode to find. In your own app ensure that you only enable the
         // symbologies that your app requires as every additional enabled symbology has an impact on processing times.

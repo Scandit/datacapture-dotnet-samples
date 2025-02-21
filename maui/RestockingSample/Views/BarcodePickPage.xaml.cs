@@ -23,7 +23,7 @@ namespace RestockingSample.Views;
 
 public partial class BarcodePickPage : ContentPage, IRecipient<ApplicationMessage>
 {
-    private BarcodePickView _barcodePickView;
+    private readonly BarcodePickView _barcodePickView;
 
     public BarcodePickPage()
     {
@@ -54,7 +54,7 @@ public partial class BarcodePickPage : ContentPage, IRecipient<ApplicationMessag
         // items on screen to pick or unpick them.
         _barcodePickView.AddActionListener(_viewModel);
 
-        // Assigns an event handler to the Finish button that navigates the user 
+        // Assigns an event handler to the Finish button that navigates the user
         // to the product list upon clicking.
         _barcodePickView.FinishButtonTapped += (sender, args) => FinishButtonClicked();
     }
@@ -74,9 +74,6 @@ public partial class BarcodePickPage : ContentPage, IRecipient<ApplicationMessag
                     MainThread.InvokeOnMainThreadAsync(_barcodePickView.OnPause);
                     break;
                 }
-
-            default:
-                break;
         }
     }
 
@@ -133,11 +130,7 @@ public partial class BarcodePickPage : ContentPage, IRecipient<ApplicationMessag
     private void ResetResults()
     {
         _barcodePickView.Stop();
-        _barcodePickView.OnDestroy();
+        _barcodePickView.Reset();
         ProductManager.Instance.ClearPickedAndScanned();
-        Layout.Remove(_barcodePickView);
-        Layout.ChildAdded += async (sender, args) => await OnResumeAsync();
-        _viewModel.SetupRecognition();
-        _barcodePickView = CreateBarcodePickView(_viewModel.BarcodePick);
     }
 }

@@ -38,4 +38,13 @@ public partial class ResultListPage : ContentPage
             navigation.PopToRootAsync(animated: true);
         }
     }
+    
+    private void FinishButtonClicked(object? sender, EventArgs e)
+    {
+        if (Application.Current?.MainPage is NavigationPage navigation)
+        {
+            _onExitAction?.Invoke();
+            navigation.PopToRootAsync(animated: true);
+        }
+    }
 }
