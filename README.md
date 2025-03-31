@@ -4,9 +4,9 @@ This repository contains both simple and advanced samples that show you how use 
 
 ### Single Scanning (Barcode Capture)
 
-**Barcode Capture Simple Sample (**.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/BarcodeCaptureSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/BarcodeCaptureSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/BarcodeCaptureSimpleSample)))
+**Barcode Capture Simple Sample (**.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureSimpleSample)))
 
-**Barcode Capture Reject Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/BarcodeCaptureRejectSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/BarcodeCaptureRejectSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/BarcodeCaptureRejectSample)))
+**Barcode Capture Reject Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureRejectSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureRejectSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureRejectSample)))
 
 ### Scan One of Many Barcodes (Barcode Selection)
 
@@ -18,13 +18,11 @@ Consider Barcode Selection when **accuracy** is more important than **speed**.
 
   ![AimToSelect.png](https://github.com/Scandit/.github/blob/main/images/AimToSelect.png)
 
-
 - **Tap to select** is quicker when you need to select several barcodes, as demonstrated by the **Catalog Reordering Sample** (yep, those are teeth).
 
   ![TapToSelect.png](https://github.com/Scandit/.github/blob/main/images/TapToSelect.png)
 
-
-**Barcode Selection Simple Sample (**.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/BarcodeSelectionSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/BarcodeSelectionSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/BarcodeSelectionSimpleSample)))
+**Barcode Selection Simple Sample (**.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeSelectionSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeSelectionSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeSelectionSimpleSample)))
 
 ### Search for Barcodes (**MatrixScan Find)**
 
@@ -32,7 +30,7 @@ MatrixScan Find is a pre-built component that uses AR overlays to highlight item
 
 ![MSFind.png](https://github.com/Scandit/.github/blob/main/images/MSFind.png)
 
-**Seach  & Find Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/SearchAndFindSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/SearchAndFindSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/SearchAndFindSample)))
+**Seach & Find Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample)))
 
 ### ID Scanning and Verification Samples
 
@@ -40,19 +38,19 @@ ID Scanning Samples demonstrate the features of the ID Capture API and demonstra
 
 ![IDScanning.png](https://github.com/Scandit/.github/blob/main/images/IDScanning.png)
 
-**ID Capture Simple Sample** (.NET ([Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/IdCaptureSimpleSample), [iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/IdCaptureSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/IdCaptureSimpleSample)))
+**ID Capture Simple Sample** (.NET ([Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/02_ID_Scanning_Samples/IdCaptureSimpleSample), [iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/02_ID_Scanning_Samples/IdCaptureSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/02_ID_Scanning_Samples/IdCaptureSimpleSample)))
 
-**US Drivers’ License Verification Sample** ([.NET Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/USDLVerificationSample))
+**US Drivers’ License Verification Sample** ([.NET Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/02_ID_Scanning_Samples/USDLVerificationSample))
 
-**ID Capture Extended Sample** (.NET ([Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/IdCaptureExtendedSample), [iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/IdCaptureExtendedSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/IdCaptureExtendedSample)))
+**ID Capture Extended Sample** (.NET ([Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/02_ID_Scanning_Samples/IdCaptureExtendedSample), [iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/02_ID_Scanning_Samples/IdCaptureExtendedSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/02_ID_Scanning_Samples/IdCaptureExtendedSample)))
 
 ### MatrixScan AR Sam**ples**
 
-**MatrixScan Simple Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/MatrixScanSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/MatrixScanSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/MatrixScanSimpleSample)))
+**MatrixScan Simple Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanSimpleSample)))
 
-**MatrixScan Bubbles Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/MatrixScanBubblesSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/MatrixScanBubblesSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/MatrixScanBubblesSample)))
+**MatrixScan Bubbles Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanBubblesSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanBubblesSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanBubblesSample)))
 
-**MatrixScan Reject Sample** (.NET([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/MatrixScanRejectSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/MatrixScanRejectSample)))
+**MatrixScan Reject Sample** (.NET([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanRejectSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/03_Advanced_Batch_Scanning_Samples/01_Batch_Scanning_and_AR_Info_Lookup/MatrixScanRejectSample)))
 
 ## Samples on Other Frameworks
 
@@ -68,7 +66,7 @@ Once you get the sample up and running, go find some barcodes to scan. Don’t f
 
 ## Trial Signup
 
-To add the Scandit Data Capture SDK to your app, sign up for your Scandit Developer Account  and get instant access to your license key: [https://ssl.scandit.com/dashboard/sign-up?p=test](https://ssl.scandit.com/dashboard/sign-up?p=test)
+To add the Scandit Data Capture SDK to your app, sign up for your Scandit Developer Account and get instant access to your license key: [https://ssl.scandit.com/dashboard/sign-up?p=test](https://ssl.scandit.com/dashboard/sign-up?p=test)
 
 ## Support
 

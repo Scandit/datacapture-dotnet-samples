@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scandit="clr-namespace:Scandit.DataCapture.Barcode.Find.UI.Maui;assembly=ScanditBarcodeCaptureMaui"
+             xmlns:viewmodels="clr-namespace:SearchAndFindSample.ViewModels"
+             x:DataType="viewmodels:FindBarcodePageViewModel"
+             x:Class="SearchAndFindSample.Views.FindBarcodePage">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <scandit:BarcodeFindView
+                x:Name="BarcodeFindView"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                DataCaptureContext="{Binding DataCaptureContext}"
+                BarcodeFind="{Binding BarcodeFind}"
+                BarcodeFindViewSettings="{Binding ViewSettings}">
+            </scandit:BarcodeFindView>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

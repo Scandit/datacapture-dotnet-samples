@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:scandit="clr-namespace:Scandit.DataCapture.Core.UI.Maui;assembly=ScanditCaptureCoreMaui"
+             xmlns:viewmodels="clr-namespace:SearchAndFindSample.ViewModels"
+             x:DataType="viewmodels:SearchScanPageViewModel"
+             x:Class="SearchAndFindSample.Views.SearchScanPage"
+             Title="BARCODE CAPTURE">
+    <ContentPage.BindingContext>
+        <viewmodels:SearchScanPageViewModel x:Name="ViewModel"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <scandit:DataCaptureView
+                x:Name="DataCaptureView"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                DataCaptureContext="{Binding DataCaptureContext}">
+            </scandit:DataCaptureView>
+            <Frame
+                x:Name="ScannedCodeView"
+                AbsoluteLayout.LayoutBounds="0,1,1,0.2"
+                AbsoluteLayout.LayoutFlags="All"
+                IsVisible="false"
+                BackgroundColor="White"
+                CornerRadius="15" AnchorY="-15">
+                <HorizontalStackLayout VerticalOptions="Center">
+                    <Label x:Name="ScannedCodeLabel"
+                           VerticalTextAlignment="Center"
+                           FontAttributes="Bold"
+                           TextColor="#2b2828"
+                           FontSize="Header" />
+                    <ImageButton Source="search_icon.png"
+                                 x:Name="SearchButton" />
+                </HorizontalStackLayout>
+            </Frame>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

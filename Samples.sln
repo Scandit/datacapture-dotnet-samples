@@ -9,80 +9,77 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iOS", "iOS", "{EACAB90D-3A7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MAUI", "MAUI", "{55AEC4BC-8040-42B5-B633-836B7A7AF4C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeCaptureRejectSample", "ios\BarcodeCaptureRejectSample\BarcodeCaptureRejectSample.csproj", "{A4BF00B4-F349-4428-8B8A-A9F8C9AD597C}"
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeCaptureSimpleSample", "ios\01_Single_Scanning_Samples\02_Barcode_Scanning_with_Low_Level_API\BarcodeCaptureSimpleSample\BarcodeCaptureSimpleSample.csproj", "{869962D8-7AFB-4758-A434-ED14D2099021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeCaptureSimpleSample", "ios\BarcodeCaptureSimpleSample\BarcodeCaptureSimpleSample.csproj", "{869962D8-7AFB-4758-A434-ED14D2099021}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeSelectionSimpleSample", "ios\01_Single_Scanning_Samples\02_Barcode_Scanning_with_Low_Level_API\BarcodeSelectionSimpleSample\BarcodeSelectionSimpleSample.csproj", "{EDE98B01-BD69-4C21-8E39-C8CA9978579D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeSelectionSimpleSample", "ios\BarcodeSelectionSimpleSample\BarcodeSelectionSimpleSample.csproj", "{EDE98B01-BD69-4C21-8E39-C8CA9978579D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdCaptureExtendedSample", "ios\02_ID_Scanning_Samples\IdCaptureExtendedSample\IdCaptureExtendedSample.csproj", "{B831CEE2-3A5C-4EA7-A084-BC8EB59AC86C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdCaptureExtendedSample", "ios\IdCaptureExtendedSample\IdCaptureExtendedSample.csproj", "{B831CEE2-3A5C-4EA7-A084-BC8EB59AC86C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdCaptureSimpleSample", "ios\02_ID_Scanning_Samples\IdCaptureSimpleSample\IdCaptureSimpleSample.csproj", "{B63A5C1A-0FDF-474D-A4C9-3023F04FC9CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdCaptureSimpleSample", "ios\IdCaptureSimpleSample\IdCaptureSimpleSample.csproj", "{B63A5C1A-0FDF-474D-A4C9-3023F04FC9CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListBuildingSample", "ios\01_Single_Scanning_Samples\01_Barcode_Scanning_with_Pre_Built_UI\ListBuildingSample\ListBuildingSample.csproj", "{69237E5E-D98F-4ECE-86A4-4C17E4AD876C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListBuildingSample", "ios\ListBuildingSample\ListBuildingSample.csproj", "{69237E5E-D98F-4ECE-86A4-4C17E4AD876C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanBubblesSample", "ios\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanBubblesSample\MatrixScanBubblesSample.csproj", "{88D4DE22-5F52-4338-BB65-3992DCCE029C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanBubblesSample", "ios\MatrixScanBubblesSample\MatrixScanBubblesSample.csproj", "{88D4DE22-5F52-4338-BB65-3992DCCE029C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanCountSimpleSample", "ios\03_Advanced_Batch_Scanning_Samples\02_Counting_and_Receiving\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{B02DD655-8A1B-4AAF-91F3-5457AEF94D5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanCountSimpleSample", "ios\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{B02DD655-8A1B-4AAF-91F3-5457AEF94D5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanRejectSample", "ios\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanRejectSample\MatrixScanRejectSample.csproj", "{24DD040B-EEE1-4CFC-A15B-A1FAC11F2E51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanRejectSample", "ios\MatrixScanRejectSample\MatrixScanRejectSample.csproj", "{24DD040B-EEE1-4CFC-A15B-A1FAC11F2E51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanSimpleSample", "ios\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{DFF6D30F-E52E-42EE-AC45-F42C9B63B6C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixScanSimpleSample", "ios\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{DFF6D30F-E52E-42EE-AC45-F42C9B63B6C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchAndFindSample", "ios\SearchAndFindSample\SearchAndFindSample.csproj", "{7D13C348-4E8E-4B73-9EE3-2F17EE880A04}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeCaptureRejectSample", "android\BarcodeCaptureRejectSample\BarcodeCaptureRejectSample.csproj", "{3D00D1DC-AEE4-4A22-B4F4-61702E8599CF}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeCaptureSimpleSample", "android\BarcodeCaptureSimpleSample\BarcodeCaptureSimpleSample.csproj", "{F3D76B7F-0ACE-439D-8123-98ECA61EB658}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeSelectionSimpleSample", "android\BarcodeSelectionSimpleSample\BarcodeSelectionSimpleSample.csproj", "{659EB23A-AB6E-4E3B-A191-6217BC24D739}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureExtendedSample", "android\IdCaptureExtendedSample\IdCaptureExtendedSample.csproj", "{36A52E8B-3D77-40F4-BA46-6007250E7168}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureSimpleSample", "android\IdCaptureSimpleSample\IdCaptureSimpleSample.csproj", "{8897315C-4582-4B46-AD3F-A93235CB92A1}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "ListBuildingSample", "android\ListBuildingSample\ListBuildingSample.csproj", "{0903284A-A55D-495C-A4E7-60F51E355A33}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanBubblesSample", "android\MatrixScanBubblesSample\MatrixScanBubblesSample.csproj", "{CAD77431-9307-4170-80FB-7C71BEDCAF38}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanCountSimpleSample", "android\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{EBF5AB4F-D6A6-4916-9EF2-3C6715ABD5E2}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanRejectSample", "android\MatrixScanRejectSample\MatrixScanRejectSample.csproj", "{86D76A24-7A4D-450C-AE7A-EA050EBC3984}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanSimpleSample", "android\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{9B5DC1B8-F395-479C-9754-54EF50B49490}"
-EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "SearchAndFindSample", "android\SearchAndFindSample\SearchAndFindSample.csproj", "{BBD21B50-BF76-4E98-9021-E9916BB260BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchAndFindSample", "ios\03_Advanced_Batch_Scanning_Samples\03_Search_and_Find\SearchAndFindSample\SearchAndFindSample.csproj", "{7D13C348-4E8E-4B73-9EE3-2F17EE880A04}"
 EndProject
 
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "RestockingSample", "android\RestockingSample\RestockingSample.csproj", "{20F71310-11CA-43C8-9544-CD6D8EF51571}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeCaptureSimpleSample", "android\01_Single_Scanning_Samples\02_Barcode_Scanning_with_Low_Level_API\BarcodeCaptureSimpleSample\BarcodeCaptureSimpleSample.csproj", "{F3D76B7F-0ACE-439D-8123-98ECA61EB658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestockingSample", "ios\RestockingSample\RestockingSample.csproj", "{711CB05A-F2FF-4429-93E9-133615D86AD2}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeSelectionSimpleSample", "android\01_Single_Scanning_Samples\02_Barcode_Scanning_with_Low_Level_API\BarcodeSelectionSimpleSample\BarcodeSelectionSimpleSample.csproj", "{659EB23A-AB6E-4E3B-A191-6217BC24D739}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeCaptureRejectSample", "maui\BarcodeCaptureRejectSample\BarcodeCaptureRejectSample.csproj", "{680814AC-61B3-4227-AB50-E13BD2E077E8}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureExtendedSample", "android\02_ID_Scanning_Samples\IdCaptureExtendedSample\IdCaptureExtendedSample.csproj", "{36A52E8B-3D77-40F4-BA46-6007250E7168}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeCaptureSimpleSample", "maui\BarcodeCaptureSimpleSample\BarcodeCaptureSimpleSample.csproj", "{4D3E7825-CACF-44FD-82C4-7FD42A5809E8}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureSimpleSample", "android\02_ID_Scanning_Samples\IdCaptureSimpleSample\IdCaptureSimpleSample.csproj", "{8897315C-4582-4B46-AD3F-A93235CB92A1}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeSelectionSimpleSample", "maui\BarcodeSelectionSimpleSample\BarcodeSelectionSimpleSample.csproj", "{599CCC38-DA1A-4C33-84F0-0EA3F4B9E471}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "ListBuildingSample", "android\01_Single_Scanning_Samples\01_Barcode_Scanning_with_Pre_Built_UI\ListBuildingSample\ListBuildingSample.csproj", "{0903284A-A55D-495C-A4E7-60F51E355A33}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "GS1ParserSample", "maui\GS1ParserSample\GS1ParserSample.csproj", "{95CBDB48-48E7-4AEE-B1B1-3A92C8CCAFB2}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanBubblesSample", "android\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanBubblesSample\MatrixScanBubblesSample.csproj", "{CAD77431-9307-4170-80FB-7C71BEDCAF38}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureExtendedSample", "maui\IdCaptureExtendedSample\IdCaptureExtendedSample.csproj", "{D87859A6-29D2-4A1D-921D-6CFC9729B9AB}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanCountSimpleSample", "android\03_Advanced_Batch_Scanning_Samples\02_Counting_and_Receiving\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{EBF5AB4F-D6A6-4916-9EF2-3C6715ABD5E2}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureSimpleSample", "maui\IdCaptureSimpleSample\IdCaptureSimpleSample.csproj", "{3C0D1FB4-20A5-4A74-B90B-C4078D546704}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanRejectSample", "android\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanRejectSample\MatrixScanRejectSample.csproj", "{86D76A24-7A4D-450C-AE7A-EA050EBC3984}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "ListBuildingSample", "maui\ListBuildingSample\ListBuildingSample.csproj", "{8E24C77D-9B9D-452D-AD7A-7A5C087DEEF1}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanSimpleSample", "android\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{9B5DC1B8-F395-479C-9754-54EF50B49490}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanBubblesSample", "maui\MatrixScanBubblesSample\MatrixScanBubblesSample.csproj", "{5A569486-D1F4-4BAB-A96F-427C87E03D4F}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "SearchAndFindSample", "android\03_Advanced_Batch_Scanning_Samples\03_Search_and_Find\SearchAndFindSample\SearchAndFindSample.csproj", "{BBD21B50-BF76-4E98-9021-E9916BB260BB}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanCountSimpleSample", "maui\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{606D1A1C-DDD7-42B8-8832-3A7DA6FD7943}"
+
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "RestockingSample", "android\03_Advanced_Batch_Scanning_Samples\04_Picking\RestockingSample\RestockingSample.csproj", "{20F71310-11CA-43C8-9544-CD6D8EF51571}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanSimpleSample", "maui\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{B44F8C0C-3322-4451-AF70-499335ACDF6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestockingSample", "ios\03_Advanced_Batch_Scanning_Samples\04_Picking\RestockingSample\RestockingSample.csproj", "{711CB05A-F2FF-4429-93E9-133615D86AD2}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "SearchAndFindSample", "maui\SearchAndFindSample\SearchAndFindSample.csproj", "{9E0F25E2-8A2A-4EFF-9A35-009BE782DA2F}"
+
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeCaptureSimpleSample", "maui\01_Single_Scanning_Samples\02_Barcode_Scanning_with_Low_Level_API\BarcodeCaptureSimpleSample\BarcodeCaptureSimpleSample.csproj", "{4D3E7825-CACF-44FD-82C4-7FD42A5809E8}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "USDLVerificationSample", "maui\USDLVerificationSample\USDLVerificationSample.csproj", "{33CB9DCF-559F-4497-8EC7-2832DF2D8D75}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "BarcodeSelectionSimpleSample", "maui\01_Single_Scanning_Samples\02_Barcode_Scanning_with_Low_Level_API\BarcodeSelectionSimpleSample\BarcodeSelectionSimpleSample.csproj", "{599CCC38-DA1A-4C33-84F0-0EA3F4B9E471}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestockingSample", "MAUI\RestockingSample\RestockingSample.csproj", "{64C78EE3-73F9-46A9-BFBD-94862E8DE26A}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "GS1ParserSample", "maui\04_Parser_Samples\GS1ParserSample\GS1ParserSample.csproj", "{95CBDB48-48E7-4AEE-B1B1-3A92C8CCAFB2}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureExtendedSample", "maui\02_ID_Scanning_Samples\IdCaptureExtendedSample\IdCaptureExtendedSample.csproj", "{D87859A6-29D2-4A1D-921D-6CFC9729B9AB}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "IdCaptureSimpleSample", "maui\02_ID_Scanning_Samples\IdCaptureSimpleSample\IdCaptureSimpleSample.csproj", "{3C0D1FB4-20A5-4A74-B90B-C4078D546704}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "ListBuildingSample", "maui\01_Single_Scanning_Samples\01_Barcode_Scanning_with_Pre_Built_UI\ListBuildingSample\ListBuildingSample.csproj", "{8E24C77D-9B9D-452D-AD7A-7A5C087DEEF1}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanBubblesSample", "maui\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanBubblesSample\MatrixScanBubblesSample.csproj", "{5A569486-D1F4-4BAB-A96F-427C87E03D4F}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanCountSimpleSample", "maui\03_Advanced_Batch_Scanning_Samples\02_Counting_and_Receiving\MatrixScanCountSimpleSample\MatrixScanCountSimpleSample.csproj", "{606D1A1C-DDD7-42B8-8832-3A7DA6FD7943}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "MatrixScanSimpleSample", "maui\03_Advanced_Batch_Scanning_Samples\01_Batch_Scanning_and_AR_Info_Lookup\MatrixScanSimpleSample\MatrixScanSimpleSample.csproj", "{B44F8C0C-3322-4451-AF70-499335ACDF6A}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "SearchAndFindSample", "maui\03_Advanced_Batch_Scanning_Samples\03_Search_and_Find\SearchAndFindSample\SearchAndFindSample.csproj", "{9E0F25E2-8A2A-4EFF-9A35-009BE782DA2F}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "USDLVerificationSample", "maui\02_ID_Scanning_Samples\USDLVerificationSample\USDLVerificationSample.csproj", "{33CB9DCF-559F-4497-8EC7-2832DF2D8D75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestockingSample", "maui\03_Advanced_Batch_Scanning_Samples\04_Picking\RestockingSample\RestockingSample.csproj", "{64C78EE3-73F9-46A9-BFBD-94862E8DE26A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,10 +87,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A4BF00B4-F349-4428-8B8A-A9F8C9AD597C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4BF00B4-F349-4428-8B8A-A9F8C9AD597C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4BF00B4-F349-4428-8B8A-A9F8C9AD597C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4BF00B4-F349-4428-8B8A-A9F8C9AD597C}.Release|Any CPU.Build.0 = Release|Any CPU
+		
+		
+		
+		
 		{869962D8-7AFB-4758-A434-ED14D2099021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{869962D8-7AFB-4758-A434-ED14D2099021}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{869962D8-7AFB-4758-A434-ED14D2099021}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -134,10 +131,10 @@ Global
 		{7D13C348-4E8E-4B73-9EE3-2F17EE880A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D13C348-4E8E-4B73-9EE3-2F17EE880A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D13C348-4E8E-4B73-9EE3-2F17EE880A04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D00D1DC-AEE4-4A22-B4F4-61702E8599CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D00D1DC-AEE4-4A22-B4F4-61702E8599CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D00D1DC-AEE4-4A22-B4F4-61702E8599CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D00D1DC-AEE4-4A22-B4F4-61702E8599CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		
+		
+		
+		
 		{F3D76B7F-0ACE-439D-8123-98ECA61EB658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F3D76B7F-0ACE-439D-8123-98ECA61EB658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3D76B7F-0ACE-439D-8123-98ECA61EB658}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -190,10 +187,10 @@ Global
 		{711CB05A-F2FF-4429-93E9-133615D86AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{711CB05A-F2FF-4429-93E9-133615D86AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{711CB05A-F2FF-4429-93E9-133615D86AD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{680814AC-61B3-4227-AB50-E13BD2E077E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{680814AC-61B3-4227-AB50-E13BD2E077E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{680814AC-61B3-4227-AB50-E13BD2E077E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{680814AC-61B3-4227-AB50-E13BD2E077E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		
+		
+		
+		
 		{4D3E7825-CACF-44FD-82C4-7FD42A5809E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D3E7825-CACF-44FD-82C4-7FD42A5809E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D3E7825-CACF-44FD-82C4-7FD42A5809E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -247,7 +244,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A4BF00B4-F349-4428-8B8A-A9F8C9AD597C} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
+		
 		{869962D8-7AFB-4758-A434-ED14D2099021} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
 		{EDE98B01-BD69-4C21-8E39-C8CA9978579D} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
 		{B831CEE2-3A5C-4EA7-A084-BC8EB59AC86C} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
@@ -258,7 +255,7 @@ Global
 		{24DD040B-EEE1-4CFC-A15B-A1FAC11F2E51} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
 		{DFF6D30F-E52E-42EE-AC45-F42C9B63B6C5} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
 		{7D13C348-4E8E-4B73-9EE3-2F17EE880A04} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
-		{3D00D1DC-AEE4-4A22-B4F4-61702E8599CF} = {B4362557-A6DF-4FD4-AE4D-7E833D8219FB}
+		
 		{F3D76B7F-0ACE-439D-8123-98ECA61EB658} = {B4362557-A6DF-4FD4-AE4D-7E833D8219FB}
 		{659EB23A-AB6E-4E3B-A191-6217BC24D739} = {B4362557-A6DF-4FD4-AE4D-7E833D8219FB}
 		{36A52E8B-3D77-40F4-BA46-6007250E7168} = {B4362557-A6DF-4FD4-AE4D-7E833D8219FB}
@@ -272,7 +269,7 @@ Global
 		
 		{20F71310-11CA-43C8-9544-CD6D8EF51571} = {B4362557-A6DF-4FD4-AE4D-7E833D8219FB}
 		{711CB05A-F2FF-4429-93E9-133615D86AD2} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
-		{680814AC-61B3-4227-AB50-E13BD2E077E8} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
+		
 		{4D3E7825-CACF-44FD-82C4-7FD42A5809E8} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{599CCC38-DA1A-4C33-84F0-0EA3F4B9E471} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{95CBDB48-48E7-4AEE-B1B1-3A92C8CCAFB2} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
