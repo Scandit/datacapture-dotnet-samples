@@ -65,11 +65,6 @@ namespace ListBuildingSample
             this.sparkScanView.StopScanning();
         }
 
-        public override void DidReceiveMemoryWarning()
-        {
-            base.DidReceiveMemoryWarning();
-        }
-
         private void SetupSparkScan()
         {
             // Create data capture context using your license key.
@@ -148,7 +143,7 @@ namespace ListBuildingSample
             }
 
             this.View.AddSubview(this.headerView);
-            this.View.AddConstraints(new[]{
+            this.View.AddConstraints(new[] {
                 headerView.LeadingAnchor.ConstraintEqualTo(this.View.LeadingAnchor),
                 headerView.TopAnchor.ConstraintEqualTo(this.View.TopAnchor, HeaderMarginTop),
                 headerView.TrailingAnchor.ConstraintEqualTo(this.View.TrailingAnchor),
@@ -217,9 +212,12 @@ namespace ListBuildingSample
             }
 
             var barcode = args.Session.NewlyRecognizedBarcode;
-            var frame = args.FrameData?.ImageBuffers.Last().ToImage();
+
+            using var imageBuffer = args.FrameData?.ImageBuffers.LastOrDefault();
+            using var frame = imageBuffer?.ToImage();
             var location = barcode.GetBarcodeLocation(frame);
-            var thumbnail = frame?.CropImage((int)location.X, (int)location.Y, (int)location.Width, (int)location.Height);
+            var thumbnail = frame?.CropImage(
+                (int)location.X, (int)location.Y, (int)location.Width, (int)location.Height);
 
             DispatchQueue.MainQueue.DispatchAsync(() =>
             {
