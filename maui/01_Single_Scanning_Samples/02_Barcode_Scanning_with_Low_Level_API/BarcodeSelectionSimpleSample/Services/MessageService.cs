@@ -16,49 +16,53 @@ using System.Timers;
 using Timer = System.Timers.Timer;
 using BarcodeSelectionSimpleSample.Views;
 
-namespace BarcodeSelectionSimpleSample.Services
+namespace BarcodeSelectionSimpleSample.Services;
+
+public class MessageService : IMessageService
 {
-    public class MessageService : IMessageService
+    private const int messageAutoDissmissInterval = 500;
+    private readonly Timer messageAutoDismissTimer;
+
+    public MessageService()
     {
-        private const int messageAutoDissmissInterval = 500;
-        private readonly Timer messageAutoDismissTimer;
-
-        public MessageService()
+        this.messageAutoDismissTimer = new Timer(messageAutoDissmissInterval)
         {
-            this.messageAutoDismissTimer = new Timer(messageAutoDissmissInterval)
-            {
-                AutoReset = false,
-                Enabled = false
-            };
-            this.messageAutoDismissTimer.Elapsed += (object sender, ElapsedEventArgs e) =>
-            {
-                DismissScanResults();
-            };
-        }
+            AutoReset = false,
+            Enabled = false
+        };
 
-        public Task ShowAsync(string message)
+        this.messageAutoDismissTimer.Elapsed += (sender, e) =>
         {
-            return Application.Current.Dispatcher.DispatchAsync(() =>
-            {
-                if (App.Current.MainPage is MainPage mainPage)
-                {
-                    this.messageAutoDismissTimer.Stop();
-                    this.messageAutoDismissTimer.Start();
+            DismissScanResults();
+        };
+    }
 
-                    mainPage.ShowScanResults(message);
-                }
-            });
-        }
-
-        private static void DismissScanResults()
+    public Task ShowAsync(string message)
+    {
+        return Application.Current?.Dispatcher.DispatchAsync(() =>
         {
-            Application.Current.Dispatcher.Dispatch(() =>
+            var page = Application.Current.Windows[0].Page;
+            
+            if (page is MainPage mainPage)
             {
-                if (Application.Current.MainPage is MainPage mainPage)
-                {
-                    mainPage.HideScanResults();
-                }
-            });
-        }
+                this.messageAutoDismissTimer.Stop();
+                this.messageAutoDismissTimer.Start();
+
+                mainPage.ShowScanResults(message);
+            }
+        }) ?? Task.CompletedTask;
+    }
+
+    private static void DismissScanResults()
+    {
+        Application.Current?.Dispatcher.Dispatch(() =>
+        {
+            var page = Application.Current.Windows[0].Page;
+                
+            if (page is MainPage mainPage)
+            {
+                mainPage.HideScanResults();
+            }
+        });
     }
 }

@@ -14,21 +14,16 @@
 
 namespace MatrixScanBubblesSample.Views
 {
-    public partial class StockOverlay : ContentView
+    public partial class StockOverlay
     {
         public StockOverlay(string barcode, int shelfCount, int backRoom)
         {
             this.InitializeComponent();
-            this.StockCountImage.BackgroundColor = Color.FromRgba(0.35, 0.84, 0.78, 1);
-
             this.Barcode.Text = barcode;
-            this.Description.Text = string.Format("Shelf: {0} Back room: {1}", shelfCount, backRoom);
-
-            this.HeightRequest = 50;
-            this.WidthRequest = 250;
+            this.Description.Text = $"Shelf: {shelfCount} Back room: {backRoom}";
         }
 
-        private void TapGestureRecognizerTapped(object sender, System.EventArgs e)
+        private void OnTapped(object sender, TappedEventArgs e)
         {
             this.Title.IsVisible = !this.Title.IsVisible;
             this.Description.IsVisible = !this.Description.IsVisible;

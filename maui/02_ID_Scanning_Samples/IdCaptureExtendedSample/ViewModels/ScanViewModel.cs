@@ -26,7 +26,7 @@ namespace IdCaptureExtendedSample.ViewModels
 {
     public class ScanViewModel : BaseViewModel, IIdCaptureListener
     {
-        private readonly ScannerModel model = ScannerModel.Instance;
+        private readonly DataCaptureManager model = DataCaptureManager.Instance;
 
         public DataCaptureContext DataCaptureContext => this.model.DataCaptureContext;
         public IdCapture IdCapture => this.model.IdCapture;
@@ -102,8 +102,8 @@ namespace IdCaptureExtendedSample.ViewModels
 
         private void SubscribeToAppMessages()
         {
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnResume, callback: async (App app) => await this.OnResumeAsync());
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnSleep, callback: async (App app) => await this.OnSleepAsync());
+            MessagingCenter.Subscribe(this, App.MessageKey.OnResume, callback: async (App app) => await this.OnResumeAsync());
+            MessagingCenter.Subscribe(this, App.MessageKey.OnSleep, callback: async (App app) => await this.OnSleepAsync());
         }
 
         private Task ResumeFrameSourceAsync()

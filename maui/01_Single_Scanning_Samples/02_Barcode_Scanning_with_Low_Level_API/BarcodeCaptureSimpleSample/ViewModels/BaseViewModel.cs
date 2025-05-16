@@ -1,23 +1,85 @@
 ﻿/*
- * This file is part of the Scandit Data Capture SDK
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Copyright (C) 2022- Scandit AG. All rights reserved.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 #nullable enable
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using BarcodeCaptureSimpleSample.Services;
+using CommunityToolkit.Mvvm.Messaging;
 
-namespace DebugAppMaui.ViewModels
+namespace BarcodeCaptureSimpleSample.ViewModels;
+
+public class BaseViewModel : INotifyPropertyChanged, IRecipient<ApplicationMessage>
 {
-    public class BaseViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    public BaseViewModel()
+    {
+        this.SubscribeToMessages();
+    }
+
+    public void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    /// <summary>
+    /// When overridden in a derived class, handles the application's resume event.
+    /// </summary>
+    public virtual Task ResumeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// When overridden in a derived class, handles the application's sleep event.
+    /// </summary>
+    public virtual Task SleepAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Receives a message of type ApplicationMessage.
+    /// </summary>
+    /// <param name="message">The message to be received and processed.</param>
+    public void Receive(ApplicationMessage message)
+    {
+        switch (message.Value)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            case App.MessageKey.OnResume:
+            {
+                MainThread.InvokeOnMainThreadAsync(this.ResumeAsync);
+                break;
+            }
+            case App.MessageKey.OnSleep:
+            {
+                MainThread.InvokeOnMainThreadAsync(this.SleepAsync);
+                break;
+            }
+
+            default:
+                break;
         }
+    }
+
+    /// <summary>
+    /// Subscribes to application messages to handle lifecycle events.
+    /// </summary>
+    private void SubscribeToMessages()
+    {
+        WeakReferenceMessenger.Default.Register(recipient: this);
     }
 }

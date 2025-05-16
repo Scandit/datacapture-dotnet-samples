@@ -12,6 +12,8 @@
  * limitations under the License.
  */
 
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
 using Scandit.DataCapture.Barcode.Spark.UI.Maui;
 
 namespace ListBuildingSample;
@@ -30,7 +32,7 @@ public static class MauiProgram
             })
             .ConfigureMauiHandlers(handler =>
             {
-                handler.AddHandler(typeof(SparkScanView), typeof(SparkScanViewHandler));
+                handler.AddHandler<SparkScanView, SparkScanViewHandler>();
             });
 
         return builder.Build();

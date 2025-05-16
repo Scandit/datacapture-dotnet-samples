@@ -12,62 +12,66 @@
  * limitations under the License.
  */
 
+using CommunityToolkit.Mvvm.Messaging;
+using MatrixScanCountSimpleSample.Models;
 using MatrixScanCountSimpleSample.Views;
 
-namespace MatrixScanCountSimpleSample
+namespace MatrixScanCountSimpleSample;
+
+public partial class App : Application, IScanResultsPageListener
 {
-    public partial class App : Application, IScanResultsPageListener
+    private readonly BarcodeCountPage barcodeCountPage;
+    private readonly NavigationPage navigationPage;
+
+    // Enter your Scandit License key here.
+    // Your Scandit License key is available via your Scandit SDK web account.
+    public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
+
+    public abstract class MessageKey
     {
-        private BarcodeCountPage barcodeCountPage;
+        public const string OnStart = nameof(OnStart);
+        public const string OnSleep = nameof(OnSleep);
+        public const string OnResume = nameof(OnResume);
+    }
 
-        // Enter your Scandit License key here.
-        // Your Scandit License key is available via your Scandit SDK web account.
-        public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
+    public App()
+    {
+        this.InitializeComponent();
 
-        public class MessageKeys
-        {
-            public const string OnStart = nameof(OnStart);
-            public const string OnSleep = nameof(OnSleep);
-            public const string OnResume = nameof(OnResume);
-        }
+        // Set BarcodeCountPage as the main page.
+        this.barcodeCountPage = new BarcodeCountPage();
+        this.navigationPage = new NavigationPage(this.barcodeCountPage);
+    }
 
-        public App()
-        {
-            this.InitializeComponent();
+    public void ShowScanResults(bool isOrderCompleted)
+    {
+        // Get a list of ScannedItem to display
+        var scannedItems = BarcodeManager.Instance.GetScanResults().Values.ToList();
+        this.navigationPage.PushAsync(new ScanResultsPage(this, scannedItems, isOrderCompleted));
+    }
 
-            // Set BarcodeCountPage as the main page.
-            this.barcodeCountPage = new BarcodeCountPage();
-            this.MainPage = new NavigationPage(this.barcodeCountPage);
-        }
+    public void RestartScanning()
+    {
+        this.barcodeCountPage.RestartScanning();
+    }
+    
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(this.navigationPage);
+    }
 
-        public void ShowScanResults(bool isOrderCompleted)
-        {
-            if (this.MainPage is NavigationPage navigationPage)
-            {
-                // Get a list of ScannedItem to display
-                var scannedItems = BarcodeManager.Instance.GetScanResults().Values.ToList();
-                navigationPage.PushAsync(new ScanResultsPage(this, scannedItems, isOrderCompleted));
-            }
-        }
+    protected override void OnStart()
+    {
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnStart));
+    }
 
-        public void RestartScanning()
-        {
-            this.barcodeCountPage.RestartScanning();
-        }
+    protected override void OnSleep()
+    {
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnSleep));
+    }
 
-        protected override void OnStart()
-        {
-            MessagingCenter.Send(this, MessageKeys.OnStart);
-        }
-
-        protected override void OnSleep()
-        {
-            MessagingCenter.Send(this, MessageKeys.OnSleep);
-        }
-
-        protected override void OnResume()
-        {
-            MessagingCenter.Send(this, MessageKeys.OnResume);
-        }
+    protected override void OnResume()
+    {
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnResume));
     }
 }

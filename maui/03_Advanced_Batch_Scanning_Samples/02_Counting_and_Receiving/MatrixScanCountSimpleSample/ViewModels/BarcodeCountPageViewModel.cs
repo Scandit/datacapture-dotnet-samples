@@ -16,115 +16,113 @@ using Scandit.DataCapture.Barcode.Count.Capture;
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Core.Capture;
 
-namespace MatrixScanCountSimpleSample.ViewModels
+namespace MatrixScanCountSimpleSample.ViewModels;
+
+public class BarcodeCountPageViewModel : BaseViewModel
 {
-    public class BarcodeCountPageViewModel : BaseViewModel
+    private DataCaptureContext dataCaptureContext;
+    private BarcodeCount barcodeCount;
+    private BarcodeCountSettings barcodeCountSettings;
+
+    public BarcodeCountPageViewModel()
     {
-        private DataCaptureContext dataCaptureContext;
-        private BarcodeCount barcodeCount;
-        private BarcodeCountSettings barcodeCountSettings;
+        this.InitializeScanner();
+    }
 
-        public BarcodeCountPageViewModel()
+    public DataCaptureContext DataCaptureContext => this.dataCaptureContext;
+    public BarcodeCount BarcodeCount => this.barcodeCount;
+
+    public void PauseScanning(bool navigatingInternally)
+    {
+        // Pause camera if the app is going to background,
+        // but keep it on if it goes to result screen.
+        // That way the session is not lost when coming back from results.
+        if (!navigatingInternally)
         {
-            this.InitializeScanner();
-            this.SubscribeToAppMessages();
+            CameraManager.Instance.PauseFrameSource();
+
+            // Save current barcodes as additional barcodes.
+            BarcodeManager.Instance.SaveCurrentBarcodesAsAdditionalBarcodes();
         }
+    }
 
-        public DataCaptureContext DataCaptureContext => this.dataCaptureContext;
-        public BarcodeCount BarcodeCount => this.barcodeCount;
+    public override Task SleepAsync()
+    {
+        this.PauseScanning(navigatingInternally: false);
+        return Task.CompletedTask;
+    }
 
-        public void OnSleep(bool navigatingInternally)
+    public override async Task ResumeAsync()
+    {
+        var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
+
+        if (permissionStatus != PermissionStatus.Granted)
         {
-            // Pause camera if the app is going to background,
-            // but keep it on if it goes to result screen.
-            // That way the session is not lost when coming back from results.
-            if (!navigatingInternally)
-            {
-                CameraManager.Instance.PauseFrameSource();
-
-                // Save current barcodes as additional barcodes.
-                BarcodeManager.Instance.SaveCurrentBarcodesAsAdditionalBarcodes();
-            }
-        }
-
-        public async Task OnResumeAsync()
-        {
-            var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
-
-            if (permissionStatus != PermissionStatus.Granted)
-            {
-                permissionStatus = await Permissions.RequestAsync<Permissions.Camera>();
-                if (permissionStatus == PermissionStatus.Granted)
-                {
-                    this.ResumeFrameSource();
-                }
-            }
-            else
+            permissionStatus = await Permissions.RequestAsync<Permissions.Camera>();
+            if (permissionStatus == PermissionStatus.Granted)
             {
                 this.ResumeFrameSource();
             }
         }
-
-        public void ResetSession()
+        else
         {
-            BarcodeManager.Instance.Reset();
-            this.barcodeCount.ClearAdditionalBarcodes();
-            this.barcodeCount.Reset();
+            this.ResumeFrameSource();
         }
+    }
 
-        private void SubscribeToAppMessages()
-        {
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnResume, callback: async (App app) =>
-                await this.OnResumeAsync());
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnSleep, callback: (App app) =>
-                this.OnSleep(navigatingInternally: false));
-        }
+    public void ResetSession()
+    {
+        BarcodeManager.Instance.Reset();
+        this.barcodeCount.ClearAdditionalBarcodes();
+        this.barcodeCount.Reset();
+    }
 
-        private void InitializeScanner()
-        {
-            // Create data capture context using your license key.
-            this.dataCaptureContext = DataCaptureContext.ForLicenseKey(App.SCANDIT_LICENSE_KEY);
+    private void InitializeScanner()
+    {
+        // Create data capture context using your license key.
+        this.dataCaptureContext = DataCaptureContext.ForLicenseKey(App.SCANDIT_LICENSE_KEY);
 
-            // Initialize the shared camera manager.
-            CameraManager.Instance.Initialize(this.dataCaptureContext);
+        // Initialize the shared camera manager.
+        CameraManager.Instance.Initialize(this.dataCaptureContext);
 
-            // The barcode count process is configured through barcode count settings
-            // which are then applied to the barcode count instance that manages barcode count.
-            this.barcodeCountSettings = new BarcodeCountSettings();
+        // The barcode count process is configured through barcode count settings
+        // which are then applied to the barcode count instance that manages barcode count.
+        this.barcodeCountSettings = new BarcodeCountSettings();
 
-            // The settings instance initially has all types of barcodes (symbologies) disabled.
-            // For the purpose of this sample we enable a very generous set of symbologies.
-            // In your own app ensure that you only enable the symbologies that your app requires
-            // as every additional enabled symbology has an impact on processing times.
-            HashSet<Symbology> symbologies = new HashSet<Symbology>();
-            symbologies.Add(Symbology.Ean13Upca);
-            symbologies.Add(Symbology.Ean8);
-            symbologies.Add(Symbology.Upce);
-            symbologies.Add(Symbology.Code39);
-            symbologies.Add(Symbology.Code128);
-            this.barcodeCountSettings.EnableSymbologies(symbologies);
+        // The settings instance initially has all types of barcodes (symbologies) disabled.
+        // For the purpose of this sample we enable a very generous set of symbologies.
+        // In your own app ensure that you only enable the symbologies that your app requires
+        // as every additional enabled symbology has an impact on processing times.
+        HashSet<Symbology> symbologies =
+        [
+            Symbology.Ean13Upca,
+            Symbology.Ean8,
+            Symbology.Upce,
+            Symbology.Code39,
+            Symbology.Code128,
+        ];
+        this.barcodeCountSettings.EnableSymbologies(symbologies);
 
-            // Create barcode count and attach to context.
-            this.barcodeCount = BarcodeCount.Create(this.dataCaptureContext, this.barcodeCountSettings);
+        // Create barcode count and attach to context.
+        this.barcodeCount = BarcodeCount.Create(this.dataCaptureContext, this.barcodeCountSettings);
 
-            // Subscribe for barcode count events.
-            this.barcodeCount.Scanned += this.BarcodeCountScanned;
+        // Subscribe for barcode count events.
+        this.barcodeCount.Scanned += this.BarcodeCountScanned;
 
-            // Initialize the shared barcode manager.
-            BarcodeManager.Instance.Initialize(this.barcodeCount);
-        }
+        // Initialize the shared barcode manager.
+        BarcodeManager.Instance.Initialize(this.barcodeCount);
+    }
 
-        private void ResumeFrameSource()
-        {
-            // Enable the mode to start processing frames.
-            this.barcodeCount.Enabled = true;
+    private void ResumeFrameSource()
+    {
+        // Enable the mode to start processing frames.
+        this.barcodeCount.Enabled = true;
 
-            CameraManager.Instance.ResumeFrameSource();
-        }
+        CameraManager.Instance.ResumeFrameSource();
+    }
 
-        private void BarcodeCountScanned(object sender, BarcodeCountEventArgs args)
-        {
-            BarcodeManager.Instance.UpdateWithSession(args.Session);
-        }
+    private void BarcodeCountScanned(object? sender, BarcodeCountEventArgs args)
+    {
+        BarcodeManager.Instance.UpdateWithSession(args.Session);
     }
 }

@@ -26,18 +26,12 @@ namespace MatrixScanBubblesSample.Overlay
             ClipsToBounds = true,
         };
 
-        private readonly UIImageView taskImageView = new UIImageView(CGRect.Empty)
-        {
-            Alpha = 1,
-            Image = UIImage.FromBundle("StockCount"),
-            BackgroundColor = UIColor.FromRGBA(0.35f, 0.84f, 0.78f, 1)
-        };
-
         private readonly UILabel taskLabel = new UILabel(CGRect.Empty)
         {
             TextColor = UIColor.FromRGBA(0.29f, 0.29f, 0.29f, 1),
             BackgroundColor = UIColor.Clear,
-            Lines = 2
+            Lines = 2,
+            TextAlignment = UITextAlignment.Center
         };
 
         private readonly UILabel barcodeLabel = new UILabel(CGRect.Empty)
@@ -46,7 +40,8 @@ namespace MatrixScanBubblesSample.Overlay
             TextColor = UIColor.FromRGBA(0.29f, 0.29f, 0.29f, 1),
             BackgroundColor = UIColor.Clear,
             Lines = 1,
-            Hidden = true
+            Hidden = true,
+            TextAlignment = UITextAlignment.Center
         };
 
         private UIVisualEffectView effectView = new UIVisualEffectView(UIBlurEffect.FromStyle(UIBlurEffectStyle.ExtraLight));
@@ -63,17 +58,15 @@ namespace MatrixScanBubblesSample.Overlay
         {
             this.contentView.Layer.MasksToBounds = true;
             this.contentView.Layer.CornerRadius = 30;
-            this.taskImageView.Layer.CornerRadius = 30;
-
 
             var mutableString = new NSMutableAttributedString("Report stock count\n", UIFont.BoldSystemFontOfSize(14));
-            mutableString.Append(new NSAttributedString($"Shelf: {shelfCount}, Back room: {backRoomCount}", UIFont.BoldSystemFontOfSize(14)));
+            mutableString.Append(new NSAttributedString($"Shelf: {shelfCount}, Back room: {backRoomCount}", UIFont.BoldSystemFontOfSize(11)));
             this.taskLabel.AttributedText = mutableString;
 
             this.barcodeLabel.Text = barcodeData;
 
             this.AddSubview(this.contentView);
-            this.contentView.AddSubviews(this.effectView, this.taskImageView, this.taskLabel, this.barcodeLabel);
+            this.contentView.AddSubviews(this.effectView, this.taskLabel, this.barcodeLabel);
             this.contentView.AddGestureRecognizer(new UITapGestureRecognizer(() =>
             {
                 this.taskLabel.Hidden = !this.taskLabel.Hidden;
@@ -88,7 +81,6 @@ namespace MatrixScanBubblesSample.Overlay
             {
                 this.contentView.TranslatesAutoresizingMaskIntoConstraints = false;
                 this.effectView.TranslatesAutoresizingMaskIntoConstraints = false;
-                this.taskImageView.TranslatesAutoresizingMaskIntoConstraints = false;
                 this.taskLabel.TranslatesAutoresizingMaskIntoConstraints = false;
                 this.barcodeLabel.TranslatesAutoresizingMaskIntoConstraints = false;
                 this.AddConstraints(new[]
@@ -101,12 +93,7 @@ namespace MatrixScanBubblesSample.Overlay
                     this.contentView.TopAnchor.ConstraintEqualTo(this.TopAnchor),
                     this.contentView.BottomAnchor.ConstraintEqualTo(this.BottomAnchor),
 
-                    this.taskImageView.LeadingAnchor.ConstraintEqualTo(this.contentView.LeadingAnchor),
-                    this.taskImageView.TopAnchor.ConstraintEqualTo(this.contentView.TopAnchor),
-                    this.taskImageView.BottomAnchor.ConstraintEqualTo(this.contentView.BottomAnchor),
-                    this.taskImageView.WidthAnchor.ConstraintEqualTo(60),
-
-                    this.taskLabel.LeadingAnchor.ConstraintEqualTo(this.taskImageView.TrailingAnchor, 7),
+                    this.taskLabel.LeadingAnchor.ConstraintEqualTo(this.contentView.LeadingAnchor, 7),
                     this.taskLabel.TopAnchor.ConstraintEqualTo(this.contentView.TopAnchor, 13),
                     this.taskLabel.TrailingAnchor.ConstraintEqualTo(this.contentView.TrailingAnchor, -24),
                     this.taskLabel.BottomAnchor.ConstraintEqualTo(this.contentView.BottomAnchor, -12),

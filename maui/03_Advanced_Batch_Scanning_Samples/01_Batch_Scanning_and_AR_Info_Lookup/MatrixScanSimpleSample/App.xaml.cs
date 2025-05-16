@@ -12,13 +12,17 @@
  * limitations under the License.
  */
 
+using CommunityToolkit.Mvvm.Messaging;
+using MatrixScanSimpleSample.Models;
 using MatrixScanSimpleSample.Views;
 
 namespace MatrixScanSimpleSample;
 
 public partial class App : Application
 {
-    public class MessageKeys
+    private readonly NavigationPage navigationPage;
+
+    public abstract class MessageKey
     {
         public const string OnStart = nameof(OnStart);
         public const string OnSleep = nameof(OnSleep);
@@ -28,21 +32,26 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
-        this.MainPage = new NavigationPage(new MainPage());
+        this.navigationPage = new NavigationPage(new MainPage());
+    }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(this.navigationPage);
     }
 
     protected override void OnStart()
     {
-        MessagingCenter.Send(this, MessageKeys.OnStart);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnStart));
     }
 
     protected override void OnSleep()
     {
-        MessagingCenter.Send(this, MessageKeys.OnSleep);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnSleep));
     }
 
     protected override void OnResume()
     {
-        MessagingCenter.Send(this, MessageKeys.OnResume);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnResume));
     }
 }

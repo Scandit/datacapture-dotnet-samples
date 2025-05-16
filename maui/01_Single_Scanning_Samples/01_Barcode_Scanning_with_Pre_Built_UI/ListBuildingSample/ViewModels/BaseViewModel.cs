@@ -14,15 +14,81 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.Messaging;
+using ListBuildingSample.Models;
+using Microsoft.Maui.ApplicationModel;
 
 namespace ListBuildingSample.ViewModels;
 
-public class BaseViewModel : INotifyPropertyChanged
+public class BaseViewModel : INotifyPropertyChanged, IRecipient<ApplicationMessage>
 {
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected BaseViewModel()
+    {
+        this.SubscribeToMessages();
+    }
+
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    /// <summary>
+    /// When overridden in a derived class, handles the application's start event.
+    /// </summary>
+    protected virtual Task StartAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// When overridden in a derived class, handles the application's resume event.
+    /// </summary>
+    protected virtual Task ResumeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// When overridden in a derived class, handles the application's sleep event.
+    /// </summary>
+    protected virtual Task SleepAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Receives a message of type ApplicationMessage.
+    /// </summary>
+    /// <param name="message">The message to be received and processed.</param>
+    void IRecipient<ApplicationMessage>.Receive(ApplicationMessage message)
+    {
+        switch (message.Value)
+        {
+            case App.MessageKey.OnStart:
+            {
+                MainThread.InvokeOnMainThreadAsync(this.StartAsync);
+                break;
+            }
+            case App.MessageKey.OnResume:
+            {
+                MainThread.InvokeOnMainThreadAsync(this.ResumeAsync);
+                break;
+            }
+            case App.MessageKey.OnSleep:
+            {
+                MainThread.InvokeOnMainThreadAsync(this.SleepAsync);
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Subscribes to application messages to handle lifecycle events.
+    /// </summary>
+    private void SubscribeToMessages()
+    {
+        WeakReferenceMessenger.Default.Register(recipient: this);
     }
 }

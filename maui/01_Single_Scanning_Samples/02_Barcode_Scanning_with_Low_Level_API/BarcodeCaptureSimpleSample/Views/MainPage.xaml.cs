@@ -1,25 +1,34 @@
 ﻿/*
- * This file is part of the Scandit Data Capture SDK
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Copyright (C) 2022- Scandit AG. All rights reserved.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-#nullable enable
-
+using BarcodeCaptureSimpleSample.ViewModels;
 using Scandit.DataCapture.Barcode.UI.Overlay;
 using Brush = Scandit.DataCapture.Core.UI.Style.Brush;
 
-namespace DebugAppMaui.Views;
+namespace BarcodeCaptureSimpleSample.Views;
 
 public partial class MainPage : ContentPage
 {
     private BarcodeCaptureOverlay? overlay;
-
     private readonly BarcodeCaptureOverlayStyle overlayStyle = BarcodeCaptureOverlayStyle.Frame;
+    private readonly MainPageViewModel viewModel;
 
-    public MainPage()
+    public MainPage(MainPageViewModel viewModel)
     {
+        this.viewModel = viewModel;
         this.InitializeComponent();
+        this.BindingContext = viewModel;
 
         // Initialization of DataCaptureView happens on handler changed event.
         this.dataCaptureView.HandlerChanged += DataCaptureViewHandlerChanged;
@@ -57,12 +66,12 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _ = this.viewModel.OnResumeAsync();
+        _ = this.viewModel.ResumeAsync();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        this.viewModel.OnSleep();
+        _ = this.viewModel.SleepAsync();
     }
 }

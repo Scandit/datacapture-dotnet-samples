@@ -12,109 +12,102 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using MatrixScanCountSimpleSample.Models;
 using Scandit.DataCapture.Barcode.Count.Capture;
 using Scandit.DataCapture.Barcode.Data;
 
-namespace MatrixScanCountSimpleSample
+namespace MatrixScanCountSimpleSample;
+
+public sealed class BarcodeManager
 {
-    public sealed class BarcodeManager
+    private static readonly Lazy<BarcodeManager> instance = new(() =>
+        new BarcodeManager(), LazyThreadSafetyMode.PublicationOnly);
+
+    private List<Barcode>? scannedBarcodes;
+    private List<Barcode>? additionalBarcodes;
+    private BarcodeCount? barcodeCount;
+
+    public static BarcodeManager Instance => instance.Value;
+
+    private BarcodeManager()
+    { }
+
+    public void Initialize(BarcodeCount barcodeCount)
     {
-        private static readonly Lazy<BarcodeManager> instance = new Lazy<BarcodeManager>(() =>
-            new BarcodeManager(), LazyThreadSafetyMode.PublicationOnly);
+        this.barcodeCount = barcodeCount ?? throw new ArgumentNullException(nameof(barcodeCount));
+    }
 
-        private List<Barcode> scannedBarcodes;
-        private List<Barcode> additionalBarcodes;
-        private BarcodeCount barcodeCount;
+    public void UpdateWithSession(BarcodeCountSession session)
+    {
+        // Update lists of barcodes with the contents of the current session.
+        this.scannedBarcodes = [.. session.RecognizedBarcodes];
+        this.additionalBarcodes = [.. session.AdditionalBarcodes];
+    }
 
-        public static BarcodeManager Instance => instance.Value;
-
-        private BarcodeManager()
-        { }
-
-        public void Initialize(BarcodeCount barcodeCount)
+    public void SaveCurrentBarcodesAsAdditionalBarcodes()
+    {
+        if (this.scannedBarcodes != null && this.scannedBarcodes.Count != 0)
         {
-            this.barcodeCount = barcodeCount ?? throw new ArgumentNullException(nameof(barcodeCount));
+            // Save any scanned barcodes as additional barcodes, so they're still scanned
+            // after coming back from background.
+            List<Barcode> barcodesToSave = [.. this.scannedBarcodes, .. additionalBarcodes ?? []];
+            this.barcodeCount?.SetAdditionalBarcodes(barcodesToSave);
         }
+    }
 
-        public void UpdateWithSession(BarcodeCountSession session)
-        {
-            // Update lists of barcodes with the contents of the current session.
-            this.scannedBarcodes = session.RecognizedBarcodes.ToList();
-            this.additionalBarcodes = session.AdditionalBarcodes.ToList();
-        }
+    public IDictionary<string, ScanItem> GetScanResults()
+    {
+        // Create a map of barcodes to be passed to the scan results page.
+        var scanResults = new Dictionary<string, ScanItem>();
 
-        public void SaveCurrentBarcodesAsAdditionalBarcodes()
+        void copyToResult(Barcode barcode)
         {
-            if (this.scannedBarcodes != null && this.scannedBarcodes.Any())
+            if (barcode.Data == null)
             {
-                // Save any scanned barcodes as additional barcodes, so they're still scanned
-                // after coming back from background.
-                List<Barcode> barcodesToSave = new List<Barcode>();
-
-                foreach (Barcode barcode in this.scannedBarcodes)
-                {
-                    barcodesToSave.Add(barcode);
-                }
-
-                barcodesToSave.AddRange(additionalBarcodes);
-                this.barcodeCount.SetAdditionalBarcodes(barcodesToSave);
+                return;
             }
-        }
 
-        public IDictionary<string, ScanItem> GetScanResults()
-        {
-            // Create a map of barcodes to be passed to the scan results page.
-            Dictionary<string, ScanItem> scanResults = new Dictionary<string, ScanItem>();
-
-            void copyToResult(Barcode barcode)
+            if (scanResults.TryGetValue(barcode.Data, out ScanItem? value))
             {
-                if (scanResults.ContainsKey(barcode.Data))
-                {
-                    scanResults[barcode.Data].IncreaseQuantity();
-                }
-                else
-                {
-                    SymbologyDescription description = new SymbologyDescription(barcode.Symbology);
+                value.IncreaseQuantity();
+            }
+            else
+            {
+                var description = new SymbologyDescription(barcode.Symbology);
 
-                    scanResults.Add(
+                scanResults.Add(
+                    barcode.Data,
+                    new ScanItem(
                         barcode.Data,
-                        new ScanItem(
-                            barcode.Data,
-                            description.ReadableName));
-                }
+                        description.ReadableName));
             }
-
-            if (this.scannedBarcodes != null && this.scannedBarcodes.Any())
-            {
-                // Add the inner Barcode objects of each scanned Barcode to the results map.
-                foreach (Barcode barcode in this.scannedBarcodes)
-                {
-                    copyToResult(barcode);
-                }
-            }
-
-            if (this.additionalBarcodes != null && this.additionalBarcodes.Any())
-            {
-                // Add the previously saved Barcode objects to the results map.
-                foreach (Barcode barcode in this.additionalBarcodes)
-                {
-                    copyToResult(barcode);
-                }
-            }
-
-            return scanResults;
         }
 
-        public void Reset()
+        if (this.scannedBarcodes != null && this.scannedBarcodes.Count != 0)
         {
-            // Reset the barcodes lists.
-            this.scannedBarcodes?.Clear();
-            this.additionalBarcodes?.Clear();
+            // Add the inner Barcode objects of each scanned Barcode to the results map.
+            foreach (Barcode barcode in this.scannedBarcodes)
+            {
+                copyToResult(barcode);
+            }
         }
+
+        if (this.additionalBarcodes != null && this.additionalBarcodes.Count != 0)
+        {
+            // Add the previously saved Barcode objects to the results map.
+            foreach (Barcode barcode in this.additionalBarcodes)
+            {
+                copyToResult(barcode);
+            }
+        }
+
+        return scanResults;
+    }
+
+    public void Reset()
+    {
+        // Reset the barcodes lists.
+        this.scannedBarcodes?.Clear();
+        this.additionalBarcodes?.Clear();
     }
 }

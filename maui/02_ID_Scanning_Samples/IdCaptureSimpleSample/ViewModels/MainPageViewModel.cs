@@ -13,159 +13,157 @@
  */
 
 using System.Text;
-using System.Text.RegularExpressions;
 using IdCaptureSimpleSample.Models;
 using IdCaptureSimpleSample.Services;
 
 using Scandit.DataCapture.Core.Capture;
-using Scandit.DataCapture.Core.Data;
 using Scandit.DataCapture.Core.Source;
 using Scandit.DataCapture.ID.Capture;
 using Scandit.DataCapture.ID.Data;
 
-namespace IdCaptureSimpleSample.ViewModels
+namespace IdCaptureSimpleSample.ViewModels;
+
+public class MainPageViewModel : BaseViewModel, IIdCaptureListener
 {
-    public class MainPageViewModel : BaseViewModel, IIdCaptureListener
+    private readonly DataCaptureManager model = DataCaptureManager.Instance;
+
+    public DataCaptureContext DataCaptureContext => this.model.DataCaptureContext;
+    public IdCapture IdCapture => this.model.IdCapture;
+
+    public MainPageViewModel()
     {
-        private readonly ScannerModel model = ScannerModel.Instance;
+        this.InitializeScanner();
+    }
 
-        public DataCaptureContext DataCaptureContext => this.model.DataCaptureContext;
-        public IdCapture IdCapture => this.model.IdCapture;
+    #region IIdCaptureListener
+    public void OnIdCaptured(IdCapture capture, CapturedId capturedId)
+    {
+        // Don't capture unnecessarily when the result is displayed.
+        this.IdCapture.Enabled = false;
+        
+        string message = GetDescriptionForCapturedId(capturedId);
 
-        public MainPageViewModel()
-        {
-            this.InitializeScanner();
-            this.SubscribeToAppMessages();
+        DependencyService.Get<IMessageService>()
+                         .ShowAsync(message)
+                         .ContinueWith((task) => this.IdCapture.Enabled = true);
+    }
+
+    public void OnIdRejected(IdCapture mode, CapturedId? capturedId, RejectionReason reason)
+    {
+        this.IdCapture.Enabled = false;
+        
+        String message;
+        
+        switch (reason) {
+            case RejectionReason.NotAcceptedDocumentType:
+                message = "Document not supported. Try scanning another document.";
+                break;
+            default:
+                message = $"Document capture was rejected. Reason={reason}.";
+                break;
         }
 
-        #region IIdCaptureListener
-        public void OnIdCaptured(IdCapture capture, CapturedId capturedId)
-        {
-            // Don't capture unnecessarily when the result is displayed.
-            this.IdCapture.Enabled = false;
-            
-            string message = GetDescriptionForCapturedId(capturedId);
+        DependencyService.Get<IMessageService>()
+                         .ShowAsync(message)
+                         .ContinueWith((task) =>
+                         {
+                             // On alert dialog completion resume the IdCapture.
+                             this.IdCapture.Enabled = true;
+                         });
+    }
+    #endregion
 
-            DependencyService.Get<IMessageService>()
-                             .ShowAsync(message)
-                             .ContinueWith((task) => this.IdCapture.Enabled = true);
+    public async override Task SleepAsync()
+    {
+        if (this.model.CurrentCamera != null)
+        {
+            await this.model.CurrentCamera.SwitchToDesiredStateAsync(FrameSourceState.Off);
         }
+    }
 
-        public void OnIdRejected(IdCapture mode, CapturedId capturedId, RejectionReason reason)
+    public async override Task ResumeAsync()
+    {
+        var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
+
+        if (permissionStatus != PermissionStatus.Granted)
         {
-            this.IdCapture.Enabled = false;
-            
-            String message;
-            
-            switch (reason) {
-                case RejectionReason.NotAcceptedDocumentType:
-                    message = "Document not supported. Try scanning another document.";
-                    break;
-                default:
-                    message = $"Document capture was rejected. Reason={reason}.";
-                    break;
-            }
-
-            DependencyService.Get<IMessageService>()
-                             .ShowAsync(message)
-                             .ContinueWith((task) =>
-                             {
-                                 // On alert dialog completion resume the IdCapture.
-                                 this.IdCapture.Enabled = true;
-                             });
-        }
-        #endregion
-
-        public Task OnSleepAsync()
-        {
-            return this.model.CurrentCamera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
-        }
-
-        public async Task OnResumeAsync()
-        {
-            var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
-
-            if (permissionStatus != PermissionStatus.Granted)
-            {
-                permissionStatus = await Permissions.RequestAsync<Permissions.Camera>();
-                if (permissionStatus == PermissionStatus.Granted)
-                {
-                    await this.ResumeFrameSourceAsync();
-                }
-            }
-            else
+            permissionStatus = await Permissions.RequestAsync<Permissions.Camera>();
+            if (permissionStatus == PermissionStatus.Granted)
             {
                 await this.ResumeFrameSourceAsync();
             }
         }
-
-        private void InitializeScanner()
+        else
         {
-            // Start listening on IdCapture events.
-            this.model.IdCapture.AddListener(this);
-            this.model.IdCapture.Enabled = true;
+            await this.ResumeFrameSourceAsync();
+        }
+    }
+
+    private void InitializeScanner()
+    {
+        // Start listening on IdCapture events.
+        this.model.IdCapture.AddListener(this);
+        this.model.IdCapture.Enabled = true;
+    }
+
+    private async Task<bool> ResumeFrameSourceAsync()
+    {
+        // Switch camera on to start streaming frames.
+        // The camera is started asynchronously and will take some time to completely turn on.
+        if (this.model.CurrentCamera != null)
+        {
+            return await this.model.CurrentCamera.SwitchToDesiredStateAsync(FrameSourceState.On);
         }
 
-        private void SubscribeToAppMessages()
+        return false;
+    }
+
+    private static string GetDescriptionForCapturedId(CapturedId result)
+    {
+        var builder = new StringBuilder();
+        AppendDescriptionForCapturedId(result, builder);
+
+        return builder.ToString();
+    }
+    
+    private static void AppendDescriptionForCapturedId(CapturedId result, StringBuilder builder)
+    {
+        AppendField(builder, "Full Name: ", result.FullName);
+        AppendField(builder, "Date of Birth: ", result.DateOfBirth);
+        AppendField(builder, "Date of Expiry: ", result.DateOfExpiry);
+        AppendField(builder, "Document Number: ", result.DocumentNumber);
+        AppendField(builder, "Nationality: ", result.Nationality);
+    }
+
+    private static void AppendField(StringBuilder builder, string name, string? value)
+    {
+        builder.Append(name);
+
+        if (string.IsNullOrEmpty(value))
         {
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnResume, callback: async (App app) => await this.OnResumeAsync());
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnSleep, callback: async (App app) => await this.OnSleepAsync());
+            builder.Append("<empty>");
+        }
+        else
+        {
+            builder.Append(value);
         }
 
-        private Task ResumeFrameSourceAsync()
+        builder.Append(Environment.NewLine);
+    }
+
+    private static void AppendField(StringBuilder builder, string name, DateResult? value)
+    {
+        builder.Append(name);
+
+        if (value == null)
         {
-            // Switch camera on to start streaming frames.
-            // The camera is started asynchronously and will take some time to completely turn on.
-            return this.model.CurrentCamera?.SwitchToDesiredStateAsync(FrameSourceState.On);
+            builder.Append("<empty>");
+        }
+        else
+        {
+            builder.Append(value.LocalDate.ToString());
         }
 
-        private static string GetDescriptionForCapturedId(CapturedId result)
-        {
-            StringBuilder builder = new StringBuilder();
-            AppendDescriptionForCapturedId(result, builder);
-
-            return builder.ToString();
-        }
-        
-        private static void AppendDescriptionForCapturedId(CapturedId result, StringBuilder builder)
-        {
-            AppendField(builder, "Full Name: ", result.FullName);
-            AppendField(builder, "Date of Birth: ", result.DateOfBirth);
-            AppendField(builder, "Date of Expiry: ", result.DateOfExpiry);
-            AppendField(builder, "Document Number: ", result.DocumentNumber);
-            AppendField(builder, "Nationality: ", result.Nationality);
-        }
-
-        private static void AppendField(StringBuilder builder, string name, string value)
-        {
-            builder.Append(name);
-
-            if (string.IsNullOrEmpty(value))
-            {
-                builder.Append("<empty>");
-            }
-            else
-            {
-                builder.Append(value);
-            }
-
-            builder.Append(System.Environment.NewLine);
-        }
-
-        private static void AppendField(StringBuilder builder, string name, DateResult value)
-        {
-            builder.Append(name);
-
-            if (value == null)
-            {
-                builder.Append("<empty>");
-            }
-            else
-            {
-                builder.Append(value.Date.ToString());
-            }
-
-            builder.Append(System.Environment.NewLine);
-        }
+        builder.Append(Environment.NewLine);
     }
 }

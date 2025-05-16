@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0-android</TargetFrameworks>
-    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net8.0-ios</TargetFrameworks>
+    <TargetFrameworks>net9.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(TargetFrameworks);net9.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>SearchAndFindSample</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -19,7 +19,7 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
     <CreatePackage>false</CreatePackage>
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
@@ -41,13 +41,13 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="7.2.2" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="7.2.2" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="7.2.2" />
-    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="7.2.2" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="7.3.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="7.3.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="7.3.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="7.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.40" />
   </ItemGroup>
 </Project>

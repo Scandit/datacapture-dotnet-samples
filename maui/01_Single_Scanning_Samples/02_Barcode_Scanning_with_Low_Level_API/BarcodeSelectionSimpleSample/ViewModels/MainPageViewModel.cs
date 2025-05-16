@@ -18,30 +18,29 @@ using BarcodeSelectionSimpleSample.Services;
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Barcode.Selection.Capture;
 using Scandit.DataCapture.Core.Capture;
-using Scandit.DataCapture.Core.Data;
 using Scandit.DataCapture.Core.Source;
 
 namespace BarcodeSelectionSimpleSample.ViewModels
 {
-    public class MainPageViewModel : BaseViewModel, IBarcodeSelectionListener
+    public class MainPageViewModel : BaseViewModel
     {
-        public Camera Camera => ScannerModel.Instance.CurrentCamera;
-        public DataCaptureContext DataCaptureContext => ScannerModel.Instance.DataCaptureContext;
-        public BarcodeSelection BarcodeSelection => ScannerModel.Instance.BarcodeSelection;
-        public BarcodeSelectionSettings BarcodeSelectionSettings => ScannerModel.Instance.BarcodeSelectionSettings;
+        public Camera? Camera => DataCaptureManager.Instance.CurrentCamera;
+        public DataCaptureContext DataCaptureContext => DataCaptureManager.Instance.DataCaptureContext;
+        public BarcodeSelection BarcodeSelection => DataCaptureManager.Instance.BarcodeSelection;
+        public BarcodeSelectionSettings BarcodeSelectionSettings => DataCaptureManager.Instance.BarcodeSelectionSettings;
 
         public MainPageViewModel()
         {
-            this.InitializeScanner();
-            this.SubscribeToAppMessages();
+            // Subscribe to get informed whenever a new barcode got recognized.
+            this.BarcodeSelection.SelectionUpdated += this.OnSelectionUpdated;
         }
 
-        public Task OnSleep()
+        public override Task SleepAsync()
         {
-            return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
+            return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.Off) ?? Task.CompletedTask;
         }
 
-        public async Task OnResumeAsync()
+        public override async Task ResumeAsync()
         {
             var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
@@ -64,11 +63,12 @@ namespace BarcodeSelectionSimpleSample.ViewModels
             if (this.BarcodeSelectionSettings.SelectionType is BarcodeSelectionTapSelection)
             {
                 this.BarcodeSelectionSettings.SelectionType = BarcodeSelectionAimerSelection.Create();
-                this.BarcodeSelection.ApplySettingsAsync(this.BarcodeSelectionSettings)
-                                     .ContinueWith((task) =>
-                                         // Switch the camera to On state in case it froze through
-                                         // double tap while on TapToSelect selection type.
-                                         this.Camera.SwitchToDesiredStateAsync(FrameSourceState.On));
+                this.BarcodeSelection
+                    .ApplySettingsAsync(this.BarcodeSelectionSettings)
+                    .ContinueWith((task) =>
+                        // Switch the camera to On state in case it froze through
+                        // double tap while on TapToSelect selection type.
+                        this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On));
 
                 return true;
             }
@@ -89,53 +89,30 @@ namespace BarcodeSelectionSimpleSample.ViewModels
             return false;
         }
 
-        private void SubscribeToAppMessages()
-        {
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnResume, callback: async (App app) => await this.OnResumeAsync());
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnSleep, callback: async (App app) => await this.OnSleep());
-        }
-
-        private void InitializeScanner()
-        {
-            // Register self as a listener to get informed whenever a new barcode got recognized.
-            this.BarcodeSelection.AddListener(this);
-        }
-
         private Task ResumeFrameSource()
         {
             // Switch camera on to start streaming frames.
             // The camera is started asynchronously and will take some time to completely turn on.
-            return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
+            return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On) ?? Task.CompletedTask;
         }
 
-        #region IBarcodeSelectionListener
-        public void OnObservationStarted(BarcodeSelection barcodeCapture)
-        { }
-
-        public void OnObservationStopped(BarcodeSelection barcodeCapture)
-        { }
-
-        public void OnSelectionUpdated(BarcodeSelection barcodeSelection, BarcodeSelectionSession session, IFrameData frameData)
+        public void OnSelectionUpdated(object? sender, BarcodeSelectionEventArgs e)
         {
-            if (!session.NewlySelectedBarcodes.Any())
+            if (!e.Session.NewlySelectedBarcodes.Any())
             {
                 return;
             }
 
-            Barcode barcode = session.NewlySelectedBarcodes.First();
+            Barcode barcode = e.Session.NewlySelectedBarcodes.First();
 
             // Get barcode selection count.
-            int selectionCount = session.GetCount(barcode);
+            int selectionCount = e.Session.GetCount(barcode);
 
             // Get the human readable name of the symbology and assemble the result to be shown.
-            SymbologyDescription description = new SymbologyDescription(barcode.Symbology);
+            var description = new SymbologyDescription(barcode.Symbology);
             string result = barcode.Data + " (" + description.ReadableName + ")" + "\nTimes: " + selectionCount;
 
             DependencyService.Get<IMessageService>().ShowAsync(result);
         }
-
-        public void OnSessionUpdated(BarcodeSelection barcodeSelection, BarcodeSelectionSession session, IFrameData frameData)
-        { }
-        #endregion
     }
 }

@@ -19,22 +19,22 @@ using Scandit.DataCapture.ID.Data;
 
 namespace IdCaptureExtendedSample.Models
 {
-    public class ScannerModel
+    public class DataCaptureManager
     {
         private const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-        private static readonly Lazy<ScannerModel> INSTANCE = new Lazy<ScannerModel>(() => new ScannerModel(), LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<DataCaptureManager> INSTANCE = new Lazy<DataCaptureManager>(() => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
         private readonly List<IIdCaptureDocument> acceptedDocuments = [
             new IdCard(IdCaptureRegion.Any),
             new DriverLicense(IdCaptureRegion.Any),
             new Passport(IdCaptureRegion.Any),
         ];
 
-        public static ScannerModel Instance => INSTANCE.Value;
+        public static DataCaptureManager Instance => INSTANCE.Value;
 
         public Mode Mode { get; private set; } = Mode.Barcode;
 
-        private ScannerModel()
+        private DataCaptureManager()
         {
             CurrentCamera?.ApplySettingsAsync(CameraSettings);
 

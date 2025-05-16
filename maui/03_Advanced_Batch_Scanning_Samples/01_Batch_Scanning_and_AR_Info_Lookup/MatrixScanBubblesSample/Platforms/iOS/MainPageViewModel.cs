@@ -14,7 +14,6 @@
 
 using Microsoft.Maui.Platform;
 using MatrixScanBubblesSample.Views;
-
 using Scandit.DataCapture.Barcode.Batch.Data;
 using Scandit.DataCapture.Barcode.Batch.UI.Overlay;
 

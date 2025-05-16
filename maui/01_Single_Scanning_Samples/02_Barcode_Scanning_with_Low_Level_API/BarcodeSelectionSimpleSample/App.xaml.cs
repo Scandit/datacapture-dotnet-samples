@@ -12,14 +12,16 @@
  * limitations under the License.
  */
 
+using BarcodeSelectionSimpleSample.Models;
 using BarcodeSelectionSimpleSample.Services;
 using BarcodeSelectionSimpleSample.Views;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BarcodeSelectionSimpleSample;
 
 public partial class App : Application
 {
-    public class MessageKeys
+    public abstract class MessageKey
     {
         public const string OnStart = nameof(OnStart);
         public const string OnSleep = nameof(OnSleep);
@@ -29,23 +31,27 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
-        this.MainPage = new MainPage();
 
         DependencyService.Register<IMessageService, MessageService>();
     }
 
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(page: new MainPage());
+    }
+
     protected override void OnStart()
     {
-        MessagingCenter.Send(this, MessageKeys.OnStart);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnStart));
     }
 
     protected override void OnSleep()
     {
-        MessagingCenter.Send(this, MessageKeys.OnSleep);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnSleep));
     }
 
     protected override void OnResume()
     {
-        MessagingCenter.Send(this, MessageKeys.OnResume);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnResume));
     }
 }

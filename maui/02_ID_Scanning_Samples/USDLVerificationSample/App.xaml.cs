@@ -12,6 +12,7 @@
  * limitations under the License.
  */
 
+using CommunityToolkit.Mvvm.Messaging;
 using USDLVerificationSample.Models;
 using USDLVerificationSample.Services;
 using USDLVerificationSample.ViewModels;
@@ -21,9 +22,9 @@ namespace USDLVerificationSample;
 
 public partial class App : Application
 {
-    private NavigationPage navigationPage;
+    private readonly NavigationPage navigationPage;
 
-    public class MessageKeys
+    public abstract class MessageKey
     {
         public const string OnStart = nameof(OnStart);
         public const string OnSleep = nameof(OnSleep);
@@ -33,38 +34,38 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
-        this.InitializeMainPage();
+        
+        var scanPage = new ScanPage();
+        scanPage.IdCaptured += this.IdCaptured;
+        this.navigationPage = new NavigationPage(scanPage);
 
         DependencyService.Register<IMessageService, MessageService>();
         DependencyService.Register<IDriverLicenseVerificationService, DriverLicenseVerificationService>();
     }
 
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(page: this.navigationPage);
+    }
+
     protected override void OnStart()
     {
-        MessagingCenter.Send(this, MessageKeys.OnStart);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnStart));
     }
 
     protected override void OnSleep()
     {
-        MessagingCenter.Send(this, MessageKeys.OnSleep);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnSleep));
     }
 
     protected override void OnResume()
     {
-        MessagingCenter.Send(this, MessageKeys.OnResume);
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnResume));
     }
 
-    private void InitializeMainPage()
+    private void IdCaptured(object? sender, CapturedIdEventArgs args)
     {
-        var scanPage = new ScanPage();
-        scanPage.IdCaptured += this.IdCaptured;
-        this.navigationPage = new NavigationPage(scanPage);
-        this.MainPage = this.navigationPage;
-    }
-
-    private void IdCaptured(object sender, CapturedIdEventArgs args)
-    {
-        App.Current.Dispatcher.DispatchAsync(async () =>
+        MainThread.InvokeOnMainThreadAsync(async () =>
         {
             var scanPage = this.navigationPage.CurrentPage as ScanPage;
             scanPage?.VerificationChecksRunning();

@@ -12,11 +12,13 @@
  * limitations under the License.
  */
 
-#nullable enable
-
+using BarcodeCaptureSimpleSample.Services;
+using BarcodeCaptureSimpleSample.Services.Internals;
+using BarcodeCaptureSimpleSample.ViewModels;
+using BarcodeCaptureSimpleSample.Views;
 using Scandit.DataCapture.Core.UI.Maui;
 
-namespace DebugAppMaui;
+namespace BarcodeCaptureSimpleSample;
 
 public static class MauiProgram
 {
@@ -28,10 +30,20 @@ public static class MauiProgram
                {
                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                })
-               .ConfigureMauiHandlers(h =>
+               .ConfigureMauiHandlers(handler =>
                {
-                   h.AddHandler(typeof(DataCaptureView), typeof(DataCaptureViewHandler));
+                   handler.AddHandler<DataCaptureView, DataCaptureViewHandler>();
                });
+
+        // Register services
+        builder.Services.AddSingleton<IDataCaptureManager, DataCaptureManager>();
+        builder.Services.AddSingleton<IMessageService, MessageService>();
+        
+        // Register view models
+        builder.Services.AddTransient<MainPageViewModel>();
+        
+        // Register pages
+        builder.Services.AddTransient<MainPage>();
 
         return builder.Build();
     }

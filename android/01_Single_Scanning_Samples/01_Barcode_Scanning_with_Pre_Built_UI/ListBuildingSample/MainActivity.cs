@@ -26,7 +26,10 @@ using Scandit.DataCapture.Core.Capture;
 
 namespace ListBuildingSample
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(
+        Label = "@string/app_name",
+        Theme = "@style/AppTheme",
+        MainLauncher = true)]
     public class MainActivity : CameraPermissionActivity, ISparkScanFeedbackDelegate
     {
         // Enter your Scandit License key here.
@@ -173,7 +176,7 @@ namespace ListBuildingSample
         private void SetupSparkScanFeedback()
         {
             this.errorFeedback = new SparkScanBarcodeErrorFeedback(
-                message: "This code should not have been scanned",
+                message: "Wrong barcode",
                 resumeCapturingDelay: TimeSpan.FromSeconds(60));
 
             this.successFeedback = new SparkScanBarcodeSuccessFeedback();

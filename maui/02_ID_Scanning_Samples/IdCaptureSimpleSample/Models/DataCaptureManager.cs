@@ -19,15 +19,30 @@ using Scandit.DataCapture.Core.Source;
 
 namespace IdCaptureSimpleSample.Models
 {
-    public class ScannerModel
+    public class DataCaptureManager
     {
         public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-        private static readonly Lazy<ScannerModel> instance = new Lazy<ScannerModel>(() => new ScannerModel(), LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<DataCaptureManager> instance = new(
+            () => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
 
-        public static ScannerModel Instance => instance.Value;
+        public static DataCaptureManager Instance => instance.Value;
 
-        private ScannerModel()
+        #region DataCaptureContext
+        public DataCaptureContext DataCaptureContext { get; }
+        #endregion
+
+        #region CamerSettings
+        public Camera? CurrentCamera { get; } = Camera.GetCamera(CameraPosition.WorldFacing);
+        public CameraSettings CameraSettings { get; } = IdCapture.RecommendedCameraSettings;
+        #endregion
+
+        #region IdCapture
+        public IdCapture IdCapture { get; }
+        public IdCaptureSettings IdCaptureSettings { get; }
+        #endregion
+
+        private DataCaptureManager()
         {
             this.CurrentCamera?.ApplySettingsAsync(this.CameraSettings);
 
@@ -37,31 +52,17 @@ namespace IdCaptureSimpleSample.Models
 
             // Create a mode responsible for recognizing documents. This mode is automatically added
             // to the passed DataCaptureContext.
-            var settings = new IdCaptureSettings
+            this.IdCaptureSettings = new IdCaptureSettings
             {
                 AcceptedDocuments = [
-                    new IdCard(IdCaptureRegion.Any), 
-                    new DriverLicense(IdCaptureRegion.Any), 
+                    new IdCard(IdCaptureRegion.Any),
+                    new DriverLicense(IdCaptureRegion.Any),
                     new Passport(IdCaptureRegion.Any)
                 ],
                 ScannerType = new FullDocumentScanner()
             };
 
-            this.IdCapture = IdCapture.Create(this.DataCaptureContext, settings);
+            this.IdCapture = IdCapture.Create(this.DataCaptureContext, this.IdCaptureSettings);
         }
-
-        #region DataCaptureContext
-        public DataCaptureContext DataCaptureContext { get; private set; }
-        #endregion
-
-        #region CamerSettings
-        public Camera CurrentCamera { get; set; } = Camera.GetCamera(CameraPosition.WorldFacing);
-        public CameraSettings CameraSettings { get; set; } = IdCapture.RecommendedCameraSettings;
-        #endregion
-
-        #region IdCapture
-        public IdCapture IdCapture { get; private set; }
-        public IdCaptureSettings IdCaptureSettings { get; private set; }
-        #endregion
     }
 }

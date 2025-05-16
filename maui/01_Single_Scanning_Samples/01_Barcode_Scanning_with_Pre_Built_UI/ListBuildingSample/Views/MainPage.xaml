@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:scandit="clr-namespace:Scandit.DataCapture.Barcode.Spark.UI.Maui;assembly=ScanditBarcodeCaptureMaui"
              xmlns:vm="clr-namespace:ListBuildingSample.ViewModels"
-             x:Class="ListBuildingSample.Views.MainPage">
+             xmlns:models="clr-namespace:ListBuildingSample.Models"
+             x:Class="ListBuildingSample.Views.MainPage"
+             x:DataType="vm:MainPageViewModel">
     <ContentPage.BindingContext>
-        <vm:MainPageViewModel x:Name="viewModel" />
+        <vm:MainPageViewModel x:Name="ViewModel" />
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -24,7 +26,7 @@
                       HasUnevenRows="True"
                       VerticalOptions="StartAndExpand">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:ListItem">
                         <ViewCell>
                             <StackLayout Orientation="Vertical" Padding="10, 0, 0, 5">
                                 <Label Text="{Binding Title}" FontSize="Medium" TextColor="Black" />

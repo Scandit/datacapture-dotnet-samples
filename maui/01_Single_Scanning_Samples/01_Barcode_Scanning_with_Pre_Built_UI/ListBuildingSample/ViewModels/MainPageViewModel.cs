@@ -13,9 +13,8 @@
  */
 
 using System.Collections.ObjectModel;
-
 using ListBuildingSample.Models;
-
+using Microsoft.Maui.ApplicationModel;
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Barcode.Spark.Capture;
 using Scandit.DataCapture.Barcode.Spark.UI;
@@ -27,17 +26,15 @@ public class MainPageViewModel : BaseViewModel
 {
     public DataCaptureContext DataCaptureContext { get; } = ScannerModel.Instance.DataCaptureContext;
     public SparkScan SparkScan { get; } = ScannerModel.Instance.SparkScan;
-    public SparkScanViewSettings ViewSettings { get; private set; } = new SparkScanViewSettings();
+    public SparkScanViewSettings ViewSettings { get; } = new();
 
-    public event EventHandler Sleep;
-    public event EventHandler Resume;
+    public event EventHandler? PauseScanning;
 
-    public ObservableCollection<ListItem> ScanResults { get; set; } = new ObservableCollection<ListItem>();
+    public ObservableCollection<ListItem> ScanResults { get; set; } = [];
 
     public MainPageViewModel()
     {
-        this.Initialize();
-        this.SubscribeToAppMessages();
+        this.SparkScan.BarcodeScanned += BarcodeScanned;
     }
 
     public string ItemCount
@@ -51,14 +48,20 @@ public class MainPageViewModel : BaseViewModel
         }
     }
 
-    public void OnSleep()
+    protected override async Task StartAsync()
     {
-        this.Sleep?.Invoke(this, EventArgs.Empty);
+        await CheckCameraPermissionAsync();
     }
 
-    public void OnResume()
+    protected override async Task ResumeAsync()
     {
-        this.Resume?.Invoke(this, EventArgs.Empty);
+        await CheckCameraPermissionAsync();
+    }
+
+    protected override Task SleepAsync()
+    {
+        this.PauseScanning?.Invoke(this, EventArgs.Empty);
+        return Task.CompletedTask;
     }
 
     public void ClearScannedItems()
@@ -67,35 +70,22 @@ public class MainPageViewModel : BaseViewModel
         this.OnPropertyChanged(nameof(ItemCount));
     }
 
-    public async Task CheckCameraPermissionAsync()
-    {
-        var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
-
-        if (permissionStatus != PermissionStatus.Granted)
-        {
-            permissionStatus = await Permissions.RequestAsync<Permissions.Camera>();
-            if (permissionStatus == PermissionStatus.Granted)
-            {
-                this.OnResume();
-            }
-        }
-        else
-        {
-            this.OnResume();
-        }
-    }
-
     public static bool IsBarcodeValid(Barcode barcode)
     {
         return barcode.Data != "123456789";
     }
 
-    private void Initialize()
+    private static async Task CheckCameraPermissionAsync()
     {
-        this.SparkScan.BarcodeScanned += BarcodeScanned;
+        var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
+
+        if (permissionStatus != PermissionStatus.Granted)
+        {
+            await Permissions.RequestAsync<Permissions.Camera>();
+        }
     }
 
-    private void BarcodeScanned(object sender, SparkScanEventArgs args)
+    private void BarcodeScanned(object? sender, SparkScanEventArgs args)
     {
         if (args.Session.NewlyRecognizedBarcode == null)
         {
@@ -104,35 +94,19 @@ public class MainPageViewModel : BaseViewModel
 
         var barcode = args.Session.NewlyRecognizedBarcode;
 
-        Application.Current.Dispatcher.DispatchAsync(() =>
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            if (IsBarcodeValid(barcode))
+            if (!IsBarcodeValid(barcode))
             {
-                this.ScanResults.Add(
-                    new ListItem(
-                        index: this.ScanResults.Count + 1,
-                        symbology: new SymbologyDescription(barcode.Symbology).ReadableName,
-                        data: barcode.Data));
-                this.OnPropertyChanged(nameof(ItemCount));
+                return;
             }
+
+            this.ScanResults.Add(
+                new ListItem(
+                    index: this.ScanResults.Count + 1,
+                    symbology: new SymbologyDescription(barcode.Symbology).ReadableName,
+                    data: barcode.Data ?? string.Empty));
+            this.OnPropertyChanged(nameof(ItemCount));
         });
-    }
-
-    private void SubscribeToAppMessages()
-    {
-        MessagingCenter.Subscribe(
-            subscriber: this,
-            message: App.MessageKeys.OnResume,
-            callback: async (App app) => await this.CheckCameraPermissionAsync());
-
-        MessagingCenter.Subscribe(
-            subscriber: this,
-            message: App.MessageKeys.OnStart,
-            callback: async (App app) => await this.CheckCameraPermissionAsync());
-
-        MessagingCenter.Subscribe(
-            subscriber: this,
-            message: App.MessageKeys.OnSleep,
-            callback: (App app) => this.OnSleep());
     }
 }

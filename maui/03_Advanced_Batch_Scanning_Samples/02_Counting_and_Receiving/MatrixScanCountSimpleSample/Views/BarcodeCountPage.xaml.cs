@@ -14,53 +14,51 @@
 
 
 using Scandit.DataCapture.Barcode.Count.UI;
-using Scandit.DataCapture.Barcode.Count.UI.Maui;
 
-namespace MatrixScanCountSimpleSample
+namespace MatrixScanCountSimpleSample;
+
+public partial class BarcodeCountPage : ContentPage
 {
-    public partial class BarcodeCountPage : ContentPage
+    public BarcodeCountPage()
     {
-        public BarcodeCountPage()
-        {
-            this.InitializeComponent();
+        this.InitializeComponent();
 
-            // Initialization of BarcodeCountView happens on handler changed event.
-            this.barcodeCountView.HandlerChanged += DataCaptureViewHandlerChanged;
-        }
+        // Initialization of BarcodeCountView happens on handler changed event.
+        this.barcodeCountView.HandlerChanged += DataCaptureViewHandlerChanged;
+    }
 
-        private void DataCaptureViewHandlerChanged(object sender, EventArgs e)
-        {
-            this.barcodeCountView.ListButtonTapped += BarcodeCountViewListButtonTapped;
-            this.barcodeCountView.ExitButtonTapped += BarcodeCountViewExitButtonTapped;
-        }
+    private void DataCaptureViewHandlerChanged(object? sender, EventArgs e)
+    {
+        this.barcodeCountView.ListButtonTapped += BarcodeCountViewListButtonTapped;
+        this.barcodeCountView.ExitButtonTapped += BarcodeCountViewExitButtonTapped;
+    }
 
-        public void RestartScanning()
-        {
-            this.viewModel.ResetSession();
-        }
+    public void RestartScanning()
+    {
+        this.viewModel.ResetSession();
+    }
 
-        protected override void OnAppearing()
-        {
-            _ = this.viewModel.OnResumeAsync();
-            base.OnAppearing();
-        }
+    protected override void OnAppearing()
+    {
+        _ = this.viewModel.ResumeAsync();
+        base.OnAppearing();
+    }
 
-        protected override void OnDisappearing()
-        {
-            this.viewModel.OnSleep(navigatingInternally: true);
-            base.OnDisappearing();
-        }
+    protected override void OnDisappearing()
+    {
+        this.viewModel.PauseScanning(navigatingInternally: true);
+        base.OnDisappearing();
+    }
 
-        private void BarcodeCountViewExitButtonTapped(object sender, ExitButtonTappedEventArgs e)
-        {
-            var app = Application.Current as App;
-            app?.ShowScanResults(isOrderCompleted: true);
-        }
+    private void BarcodeCountViewExitButtonTapped(object? sender, ExitButtonTappedEventArgs e)
+    {
+        var app = Application.Current as App;
+        app?.ShowScanResults(isOrderCompleted: true);
+    }
 
-        private void BarcodeCountViewListButtonTapped(object sender, ListButtonTappedEventArgs e)
-        {
-            var app = Application.Current as App;
-            app?.ShowScanResults(isOrderCompleted: false);
-        }
+    private void BarcodeCountViewListButtonTapped(object? sender, ListButtonTappedEventArgs e)
+    {
+        var app = Application.Current as App;
+        app?.ShowScanResults(isOrderCompleted: false);
     }
 }

@@ -38,13 +38,13 @@ namespace IdCaptureSimpleSample.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            _ = this.viewModel.OnResumeAsync();
+            _ = this.viewModel.ResumeAsync();
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            this.viewModel.OnSleepAsync();
+            _ = this.viewModel.SleepAsync();
         }
     }
 }

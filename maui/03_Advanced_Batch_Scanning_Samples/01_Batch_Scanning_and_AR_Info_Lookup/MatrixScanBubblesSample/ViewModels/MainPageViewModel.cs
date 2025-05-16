@@ -14,7 +14,6 @@
 
 using System.Windows.Input;
 using MatrixScanBubblesSample.Models;
-using MatrixScanBubblesSample.Views;
 
 using Scandit.DataCapture.Barcode.Batch.Capture;
 using Scandit.DataCapture.Barcode.Batch.Data;
@@ -26,22 +25,21 @@ using Scandit.DataCapture.Core.Source;
 
 namespace MatrixScanBubblesSample.ViewModels
 {
-    public partial class MainPageViewModel : IBarcodeBatchListener, IBarcodeBatchAdvancedOverlayListener
+    public partial class MainPageViewModel : BaseViewModel, IBarcodeBatchListener, IBarcodeBatchAdvancedOverlayListener
     {
-        private readonly IDictionary<int, View> overlays = new Dictionary<int, View>();
+        private readonly Dictionary<int, View> overlays = [];
         private readonly int shelfCount = 4;
         private readonly int backRoom = 8;
         private bool cameraPaused = false;
 
-        public Camera Camera { get; private set; } = ScannerModel.Instance.CurrentCamera;
-        public DataCaptureContext DataCaptureContext { get; private set; } = ScannerModel.Instance.DataCaptureContext;
-        public BarcodeBatch BarcodeBatch { get; private set; } = ScannerModel.Instance.BarcodeBatch;
-        public Func<TrackedBarcode, bool> ShouldHideOverlay;
+        public Camera Camera { get; private set; } = DataCaptureManager.Instance.CurrentCamera;
+        public DataCaptureContext DataCaptureContext { get; private set; } = DataCaptureManager.Instance.DataCaptureContext;
+        public BarcodeBatch BarcodeBatch { get; private set; } = DataCaptureManager.Instance.BarcodeBatch;
+        public Func<TrackedBarcode, bool>? ShouldHideOverlay;
 
         public MainPageViewModel()
         {
             this.InitializeScanner();
-            this.SubscribeToAppMessages();
 
             this.ToggleFreezeButton = new Command(() =>
             {
@@ -60,12 +58,15 @@ namespace MatrixScanBubblesSample.ViewModels
             });
         }
 
-        public Task OnSleep()
+        public override async Task SleepAsync()
         {
-            return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
+            if (this.Camera != null)
+            {
+                await this.Camera.SwitchToDesiredStateAsync(FrameSourceState.Off);
+            }
         }
 
-        public async Task OnResumeAsync()
+        public override async Task ResumeAsync()
         {
             var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
@@ -74,22 +75,16 @@ namespace MatrixScanBubblesSample.ViewModels
                 permissionStatus = await Permissions.RequestAsync<Permissions.Camera>();
                 if (permissionStatus == PermissionStatus.Granted)
                 {
-                    await this.ResumeFrameSource();
+                    await this.ResumeFrameSourceAsync();
                 }
             }
             else
             {
-                await this.ResumeFrameSource();
+                await this.ResumeFrameSourceAsync();
             }
         }
 
         public ICommand ToggleFreezeButton { get; private set; }
-
-        private void SubscribeToAppMessages()
-        {
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnResume, callback: async (App app) => await this.OnResumeAsync());
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnSleep, callback: async (App app) => await this.OnSleep());
-        }
 
         private void InitializeScanner()
         {
@@ -97,16 +92,16 @@ namespace MatrixScanBubblesSample.ViewModels
             this.BarcodeBatch.AddListener(this);
         }
 
-        private Task ResumeFrameSource()
+        private async Task<bool> ResumeFrameSourceAsync()
         {
-            if (!this.cameraPaused)
+            if (!this.cameraPaused && this.Camera != null)
             {
                 // Switch camera on to start streaming frames.
                 // The camera is started asynchronously and will take some time to completely turn on.
-                return this.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
+                return await this.Camera.SwitchToDesiredStateAsync(FrameSourceState.On);
             }
 
-            return Task.FromResult(false);
+            return false;
         }
 
         #region IBarcodeBatchListener
@@ -119,8 +114,7 @@ namespace MatrixScanBubblesSample.ViewModels
         public void OnSessionUpdated(BarcodeBatch barcodeBatch, BarcodeBatchSession session, IFrameData frameData)
         {
             // This method is called whenever objects are updated and it's the right place to react to the batch results.
-
-            Application.Current.Dispatcher.Dispatch(() =>
+            MainThread.InvokeOnMainThreadAsync(() =>
             {
                 if (!this.BarcodeBatch.Enabled)
                 {
@@ -132,10 +126,16 @@ namespace MatrixScanBubblesSample.ViewModels
                     this.overlays.Remove(identifier);
                 }
 
-                var filteredTrackedCodes = session.TrackedBarcodes.Values.Where(code => code != null && code.Barcode != null);
+                var filteredTrackedCodes = session
+                    .TrackedBarcodes
+                    .Values
+                    .Where(code => code != null && code.Barcode != null);
+
                 foreach (var trackedCode in filteredTrackedCodes)
                 {
-                    if (this.overlays.TryGetValue(trackedCode.Identifier, out View stockOverlay))
+                    var id = trackedCode.Identifier;
+
+                    if (this.overlays.TryGetValue(id, out View? stockOverlay) && stockOverlay != null)
                     {
                         stockOverlay.IsVisible = !this.ShouldHideOverlay?.Invoke(trackedCode) ?? true;
                     }

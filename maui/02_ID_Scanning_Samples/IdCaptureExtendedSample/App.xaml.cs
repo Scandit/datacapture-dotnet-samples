@@ -12,60 +12,61 @@
  * limitations under the License.
  */
 
+using CommunityToolkit.Mvvm.Messaging;
+using IdCaptureExtendedSample.Models;
 using IdCaptureExtendedSample.Services;
 using IdCaptureExtendedSample.ViewModels;
 using IdCaptureExtendedSample.Views;
 
-namespace IdCaptureExtendedSample
+namespace IdCaptureExtendedSample;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    private NavigationPage navigationPage;
+
+    public abstract class MessageKey
     {
-        private NavigationPage navigationPage;
+        public const string OnStart = nameof(OnStart);
+        public const string OnSleep = nameof(OnSleep);
+        public const string OnResume = nameof(OnResume);
+    }
 
-        public class MessageKeys
+    public App()
+    {
+        this.InitializeComponent();
+        this.InitializeMainPage();
+
+        DependencyService.Register<IMessageService, MessageService>();
+    }
+
+    protected override void OnStart()
+    {
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnStart));
+    }
+
+    protected override void OnSleep()
+    {
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnSleep));
+    }
+
+    protected override void OnResume()
+    {
+        WeakReferenceMessenger.Default.Send(new ApplicationMessage(MessageKey.OnResume));
+    }
+
+    private void InitializeMainPage()
+    {
+        var scanPage = new ScanPage();
+        scanPage.IdCaptured += this.ScanPageIdCaptured;
+        this.navigationPage = new NavigationPage(scanPage);
+        this.MainPage = this.navigationPage;
+    }
+
+    private void ScanPageIdCaptured(object sender, CapturedIdEventArgs args)
+    {
+        Application.Current.Dispatcher.Dispatch(() =>
         {
-            public const string OnStart = nameof(OnStart);
-            public const string OnSleep = nameof(OnSleep);
-            public const string OnResume = nameof(OnResume);
-        }
-
-        public App()
-        {
-            this.InitializeComponent();
-            this.InitializeMainPage();
-
-            DependencyService.Register<IMessageService, MessageService>();
-        }
-
-        protected override void OnStart()
-        {
-            MessagingCenter.Send(this, MessageKeys.OnStart);
-        }
-
-        protected override void OnSleep()
-        {
-            MessagingCenter.Send(this, MessageKeys.OnSleep);
-        }
-
-        protected override void OnResume()
-        {
-            MessagingCenter.Send(this, MessageKeys.OnResume);
-        }
-
-        private void InitializeMainPage()
-        {
-            var scanPage = new ScanPage();
-            scanPage.IdCaptured += this.ScanPageIdCaptured;
-            this.navigationPage = new NavigationPage(scanPage);
-            this.MainPage = this.navigationPage;
-        }
-
-        private void ScanPageIdCaptured(object sender, CapturedIdEventArgs args)
-        {
-            Application.Current.Dispatcher.Dispatch(() =>
-            {
-                this.navigationPage.PushAsync(new ResultPage(args.CapturedId));
-            });
-        }
+            this.navigationPage.PushAsync(new ResultPage(args.CapturedId));
+        });
     }
 }

@@ -19,8 +19,5 @@ namespace RestockingSample.Models;
 /// <summary>
 /// Represents a message that is used to handle application lifecycle events.
 /// </summary>
-public class ApplicationMessage : ValueChangedMessage<string>
-{
-    public ApplicationMessage(string value) : base(value)
-    {}
-}
+public class ApplicationMessage(string value) : ValueChangedMessage<string>(value)
+{ }

@@ -5,7 +5,7 @@
              xmlns:viewmodels="clr-namespace:SearchAndFindSample.ViewModels"
              x:DataType="viewmodels:SearchScanPageViewModel"
              x:Class="SearchAndFindSample.Views.SearchScanPage"
-             Title="BARCODE CAPTURE">
+             Title="Search &amp; Find">
     <ContentPage.BindingContext>
         <viewmodels:SearchScanPageViewModel x:Name="ViewModel"/>
     </ContentPage.BindingContext>

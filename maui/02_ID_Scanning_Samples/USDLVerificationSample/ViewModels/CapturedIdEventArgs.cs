@@ -16,13 +16,9 @@ using Scandit.DataCapture.ID.Data;
 
 namespace USDLVerificationSample.ViewModels
 {
-    public class CapturedIdEventArgs : EventArgs
+    public class CapturedIdEventArgs(CapturedId capturedId) : EventArgs
     {
-        public CapturedId CapturedId { get; private set; }
-
-        public CapturedIdEventArgs(CapturedId capturedId)
-        {
-            this.CapturedId = capturedId ?? throw new ArgumentNullException(nameof(capturedId));
-        }
+        public CapturedId CapturedId { get; private set; } =
+            capturedId ?? throw new ArgumentNullException(nameof(capturedId));
     }
 }

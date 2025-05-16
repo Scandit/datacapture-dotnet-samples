@@ -17,39 +17,30 @@ using Scandit.DataCapture.Barcode.Spark.Feedback;
 
 namespace ListBuildingSample.Views;
 
-public partial class MainPage : ContentPage, ISparkScanFeedbackDelegate
+public partial class MainPage : ISparkScanFeedbackDelegate
 {
-    private SparkScanBarcodeErrorFeedback errorFeedback;
-    private SparkScanBarcodeSuccessFeedback successFeedback;
-    
+    private SparkScanBarcodeErrorFeedback errorFeedback = null!;
+    private SparkScanBarcodeSuccessFeedback successFeedback = null!;
+
     public MainPage()
     {
         this.InitializeComponent();
-        this.SubscribeToViewModelEvents();
         this.SetupSparkScanFeedback();
-        this.SparkScanView.Loaded += SparkScanView_Loaded;
-    }
-
-    private void SparkScanView_Loaded(object sender, EventArgs e)
-    {
-        this.SparkScanView.Feedback = this;
+        this.SubscribeToViewModelEvents();
     }
 
     private void SetupSparkScanFeedback()
     {
         this.errorFeedback = new SparkScanBarcodeErrorFeedback(
-            message: "This code should not have been scanned",
+            message: "Wrong barcode",
             resumeCapturingDelay: TimeSpan.FromSeconds(60));
-
         this.successFeedback = new SparkScanBarcodeSuccessFeedback();
+        this.SparkScanView.Feedback = this;
     }
 
     private void SubscribeToViewModelEvents()
     {
-        this.viewModel.Sleep += (object sender, EventArgs args) =>
-        {
-            this.SparkScanView.PauseScanning();
-        };
+        this.ViewModel.PauseScanning += (_, _) => { this.SparkScanView.PauseScanning(); };
     }
 
     protected override void OnAppearing()
@@ -66,7 +57,7 @@ public partial class MainPage : ContentPage, ISparkScanFeedbackDelegate
 
     private void ButtonClicked(object sender, EventArgs e)
     {
-        this.viewModel.ClearScannedItems();
+        this.ViewModel.ClearScannedItems();
     }
 
     SparkScanBarcodeFeedback ISparkScanFeedbackDelegate.GetFeedbackForBarcode(Barcode barcode)

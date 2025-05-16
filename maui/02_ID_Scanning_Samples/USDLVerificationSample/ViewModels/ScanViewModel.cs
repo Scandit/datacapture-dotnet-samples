@@ -31,22 +31,24 @@ namespace USDLVerificationSample.ViewModels
         public DataCaptureContext DataCaptureContext => this.model.DataCaptureContext;
         public IdCapture IdCapture => this.model.IdCapture;
 
-        public event EventHandler<CapturedIdEventArgs> IdCaptured;
-        public event EventHandler AlignBack;
+        public event EventHandler<CapturedIdEventArgs>? IdCaptured;
 
         public ScanViewModel()
         {
             this.SubscribeToScannerMessages();
-            this.SubscribeToAppMessages();
         }
 
-        public Task OnSleepAsync()
+        public override async Task SleepAsync()
         {
             this.model.IdCapture.Enabled = false;
-            return this.model.CurrentCamera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
+
+            if (this.model.CurrentCamera != null)
+            {
+                await this.model.CurrentCamera.SwitchToDesiredStateAsync(FrameSourceState.Off);
+            }
         }
 
-        public async Task OnResumeAsync()
+        public override async Task ResumeAsync()
         {
             var permissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
@@ -69,12 +71,6 @@ namespace USDLVerificationSample.ViewModels
             this.IdCapture.AddListener(this);
         }
 
-        private void SubscribeToAppMessages()
-        {
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnResume, callback: async (App app) => await this.OnResumeAsync());
-            MessagingCenter.Subscribe(this, App.MessageKeys.OnSleep, callback: async (App app) => await this.OnSleepAsync());
-        }
-
         #region IIdCaptureListener
         public void OnIdCaptured(IdCapture capture, CapturedId capturedId)
         {
@@ -84,7 +80,7 @@ namespace USDLVerificationSample.ViewModels
             this.IdCaptured?.Invoke(this, new CapturedIdEventArgs(capturedId));
         }
 
-        public void OnIdRejected(IdCapture capture, CapturedId capturedId, RejectionReason reason)
+        public void OnIdRejected(IdCapture capture, CapturedId? capturedId, RejectionReason reason)
         {
             // Implement to handle documents recognized in a frame, but rejected.
             // A document or its part is considered rejected when (a) it's valid, but not enabled in the settings,
@@ -107,7 +103,7 @@ namespace USDLVerificationSample.ViewModels
 
             DependencyService.Get<IMessageService>()
                              .ShowAlertAsync(message)
-                             .ContinueWith((Task t) =>
+                             .ContinueWith(t =>
                              {
                                  // On alert dialog completion resume the IdCapture.
                                  capture.Reset();
@@ -116,13 +112,18 @@ namespace USDLVerificationSample.ViewModels
         }
         #endregion
 
-        private Task ResumeFrameSourceAsync()
+        private async Task<bool> ResumeFrameSourceAsync()
         {
             this.model.IdCapture.Enabled = true;
 
-            // Switch camera on to start streaming frames.
-            // The camera is started asynchronously and will take some time to completely turn on.
-            return this.model.CurrentCamera?.SwitchToDesiredStateAsync(FrameSourceState.On);
+            if (this.model.CurrentCamera != null)   
+            {
+                // Switch camera on to start streaming frames.
+                // The camera is started asynchronously and will take some time to completely turn on.
+                return await this.model.CurrentCamera.SwitchToDesiredStateAsync(FrameSourceState.On);
+            }
+
+            return false;
         }
     }
 }

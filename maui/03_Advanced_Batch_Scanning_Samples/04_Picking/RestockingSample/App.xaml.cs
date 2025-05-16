@@ -23,8 +23,9 @@ public partial class App : Application
     // Enter your Scandit License key here.
     // Your Scandit License key is available via your Scandit SDK web account.
     public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
+    private readonly NavigationPage navigationPage;
 
-    public class MessageKey
+    public abstract class MessageKey
     {
         public const string OnStart = nameof(OnStart);
         public const string OnSleep = nameof(OnSleep);
@@ -34,9 +35,13 @@ public partial class App : Application
 	public App()
 	{
 		InitializeComponent();
-
-		MainPage = new NavigationPage(new BarcodePickPage());
+        this.navigationPage = new NavigationPage(new BarcodePickPage());
 	}
+    
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(page: this.navigationPage);
+    }
 
     protected override void OnStart()
     {
