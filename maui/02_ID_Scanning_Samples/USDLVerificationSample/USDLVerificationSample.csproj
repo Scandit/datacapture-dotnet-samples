@@ -22,7 +22,7 @@
     <ApplicationVersion>1</ApplicationVersion>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
@@ -44,10 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="7.3.1" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="7.3.1" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="7.3.1" />
-    <PackageReference Include="Scandit.DataCapture.IdCapture.AamvaBarcodeVerification" Version="7.3.1" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="7.4.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="7.4.0" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture" Version="7.4.0" />
+    <PackageReference Include="Scandit.DataCapture.IdCapture.AamvaBarcodeVerification" Version="7.4.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
