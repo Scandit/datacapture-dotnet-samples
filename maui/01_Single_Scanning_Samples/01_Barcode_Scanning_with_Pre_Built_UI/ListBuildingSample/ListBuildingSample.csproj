@@ -46,10 +46,10 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="7.4.1" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="7.4.1" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="7.4.1" />
-    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="7.4.1" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="7.5.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="7.5.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="7.5.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="7.5.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
