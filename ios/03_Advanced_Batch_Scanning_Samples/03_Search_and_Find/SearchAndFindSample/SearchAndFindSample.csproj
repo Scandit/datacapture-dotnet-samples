@@ -10,7 +10,7 @@
     <ApplicationId>com.scandit.net-ios.SearchAndFindSample</ApplicationId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="7.6.2" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="7.6.2" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="7.6.3" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="7.6.3" />
   </ItemGroup>
 </Project>
