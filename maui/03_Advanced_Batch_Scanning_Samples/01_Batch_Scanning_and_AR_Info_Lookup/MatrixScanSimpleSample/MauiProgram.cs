@@ -12,7 +12,8 @@
  * limitations under the License.
  */
 
-using Scandit.DataCapture.Core.UI.Maui;
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
 
 namespace MatrixScanSimpleSample;
 
@@ -22,14 +23,15 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiApp<App>()
-               .ConfigureFonts(fonts =>
-               {
-                   fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-               })
-               .ConfigureMauiHandlers(h =>
-               {
-                   h.AddHandler(typeof(DataCaptureView), typeof(DataCaptureViewHandler));
-               });
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+            })
+            .UseScanditCore(configure =>
+            {
+                configure.AddDataCaptureView();
+            })
+            .UseScanditBarcode();
 
         return builder.Build();
     }

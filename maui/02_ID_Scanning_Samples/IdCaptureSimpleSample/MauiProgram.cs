@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-using Scandit.DataCapture.Core.UI.Maui;
+using Scandit.DataCapture.Core;
 
 namespace IdCaptureSimpleSample;
 
@@ -26,9 +26,9 @@ public static class MauiProgram
                {
                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                })
-               .ConfigureMauiHandlers(h =>
+               .UseScanditCore(configure =>
                {
-                   h.AddHandler(typeof(DataCaptureView), typeof(DataCaptureViewHandler));
+                   configure.AddDataCaptureView();
                });
 
         return builder.Build();

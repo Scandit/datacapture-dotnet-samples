@@ -31,6 +31,6 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Used to scan documents</string>
 	<key>MinimumOSVersion</key>
-	<string>14.0</string>
+	<string>15.0</string>
 </dict>
 </plist>

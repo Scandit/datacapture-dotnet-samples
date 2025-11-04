@@ -123,12 +123,13 @@ namespace IdCaptureExtendedSample
             // that renders the camera preview. The view must be connected to the data capture context.
             this.dataCaptureView = DataCaptureView.Create(DataCaptureManager.Instance.DataCaptureContext, CGRect.Empty);
             this.View.AddSubview(this.dataCaptureView);
-            this.dataCaptureView.TranslatesAutoresizingMaskIntoConstraints = false;
+            UIView platformView = this.dataCaptureView;
+            platformView.TranslatesAutoresizingMaskIntoConstraints = false;
             this.View.AddConstraints(new[] {
-                this.dataCaptureView.LeadingAnchor.ConstraintEqualTo(this.View.LeadingAnchor),
-                this.dataCaptureView.TopAnchor.ConstraintEqualTo(this.View.SafeAreaLayoutGuide.TopAnchor),
-                this.dataCaptureView.TrailingAnchor.ConstraintEqualTo(this.View.TrailingAnchor),
-                this.dataCaptureView.BottomAnchor.ConstraintEqualTo(this.View.BottomAnchor, constant: -modeCollectionHeight)
+                platformView.LeadingAnchor.ConstraintEqualTo(this.View.LeadingAnchor),
+                platformView.TopAnchor.ConstraintEqualTo(this.View.SafeAreaLayoutGuide.TopAnchor),
+                platformView.TrailingAnchor.ConstraintEqualTo(this.View.TrailingAnchor),
+                platformView.BottomAnchor.ConstraintEqualTo(this.View.BottomAnchor, constant: -modeCollectionHeight)
             });
 
             this.Configure(Mode.Barcode);

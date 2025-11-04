@@ -101,7 +101,6 @@ namespace MatrixScanSimpleSample
 
         private void InitializeAndStartBarcodeScanning()
         {
-            // Create data capture context using your license key.
             this.dataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
 
             // Use the default camera and set it as the frame source of the context.
@@ -145,7 +144,7 @@ namespace MatrixScanSimpleSample
 
             // To visualize the on-going barcode batch process on screen, setup a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
-            this.dataCaptureView = DataCaptureView.Create(this, this.dataCaptureContext);
+            this.dataCaptureView = DataCaptureView.Create(this.dataCaptureContext);
 
             // Create barcode batch overlay to the data capture view to render the tracked barcodes on
             // top of the video preview. This is optional, but recommended for better visual feedback.
@@ -195,7 +194,7 @@ namespace MatrixScanSimpleSample
 
         protected override void OnDestroy()
         {
-            this.dataCaptureContext.RemoveMode(this.barcodeBatch);
+            this.dataCaptureContext.RemoveCurrentMode();
             base.OnDestroy();
         }
     }

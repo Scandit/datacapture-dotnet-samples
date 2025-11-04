@@ -47,12 +47,17 @@ public class PickViewController : UIViewController, IBarcodePickActionListener, 
     {
         ArgumentNullException.ThrowIfNull(View, nameof(View));
 
-        _barcodePickView?.Stop();
-        _barcodePickView?.RemoveFromSuperview();
+        if (_barcodePickView != null)
+        {
+            _barcodePickView.Stop();
+            ((UIView)_barcodePickView).RemoveFromSuperview();
+            _barcodePickView.Dispose();
+        }
 
         _barcodePick = BarcodePickManager.Instance.CreateBarcodePick();
         _barcodePickView = BarcodePickManager.Instance.CreateBarcodePickView(View.Bounds, _barcodePick);
-        _barcodePickView.TranslatesAutoresizingMaskIntoConstraints = false;
+        var platformView = (UIView)_barcodePickView;
+        platformView.TranslatesAutoresizingMaskIntoConstraints = false;
 
         // Sets the listener that gets called when the user interacts with one of the
         // items on screen to pick or unpick them.
@@ -70,10 +75,10 @@ public class PickViewController : UIViewController, IBarcodePickActionListener, 
         View.SendSubviewToBack(_barcodePickView);
         NSLayoutConstraint.ActivateConstraints(new []
         {
-            _barcodePickView.TopAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.TopAnchor),
-            _barcodePickView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
-            _barcodePickView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor),
-            _barcodePickView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor)
+            platformView.TopAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.TopAnchor),
+            platformView.BottomAnchor.ConstraintEqualTo(View.BottomAnchor),
+            platformView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor),
+            platformView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor)
         });
     }
 

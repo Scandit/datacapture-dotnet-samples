@@ -12,6 +12,9 @@
  * limitations under the License.
  */
 
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
+
 namespace MatrixScanSimpleSample
 {
     [Register("AppDelegate")]
@@ -23,6 +26,10 @@ namespace MatrixScanSimpleSample
         [Export("application:didFinishLaunchingWithOptions:")]
         public bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            // Initialize Scandit libraries
+            ScanditCaptureCore.Initialize();
+            ScanditBarcodeCapture.Initialize();
+            
             return true;
         }
     }

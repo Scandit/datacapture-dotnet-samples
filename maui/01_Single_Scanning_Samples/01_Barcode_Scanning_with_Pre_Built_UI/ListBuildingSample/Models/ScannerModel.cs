@@ -31,7 +31,6 @@ namespace ListBuildingSample.Models
 
         private ScannerModel()
         {
-            // Create data capture context using your license key and set the camera as the frame source.
             this.DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
 
             SparkScanSettings settings = new();

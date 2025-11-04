@@ -46,7 +46,7 @@ namespace IdCaptureSimpleSample
 
             // Create a new DataCaptureView and fill the screen with it. DataCaptureView will show
             // the camera preview on the screen. Pass your DataCaptureContext to the DataCaptureView.
-            this.view = DataCaptureView.Create(this, DataCaptureManager.Instance.DataCaptureContext);
+            this.view = DataCaptureView.Create(DataCaptureManager.Instance.DataCaptureContext);
             container.AddView(view, new Android.Widget.FrameLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));
 
             this.overlay = IdCaptureOverlay.Create(DataCaptureManager.Instance.IdCapture, this.view);
@@ -69,7 +69,8 @@ namespace IdCaptureSimpleSample
         {
             // This callback may be executed on an arbitrary thread. We post to switch back
             // to the main thread.
-            this.view.Post(() =>
+            View platformView = this.view;
+            platformView.Post(() =>
             {
                 string message = GetDescriptionForCapturedId(capturedId);
 
@@ -80,7 +81,7 @@ namespace IdCaptureSimpleSample
         public void OnIdRejected(IdCapture mode, CapturedId capturedId, RejectionReason reason)
         {
             String message;
-            
+
             switch (reason) {
                 case RejectionReason.NotAcceptedDocumentType:
                     message = "Document not supported. Try scanning another document.";
@@ -89,9 +90,10 @@ namespace IdCaptureSimpleSample
                     message = $"Document capture was rejected. Reason={reason}.";
                     break;
             }
-            
+
             // This callback may be executed on an arbitrary thread.
-            this.view.Post(() =>
+            View platformView = this.view;
+            platformView.Post(() =>
             {
                 this.ShowAlert(Resource.String.captured_id_title, message);
             });
@@ -188,7 +190,7 @@ namespace IdCaptureSimpleSample
             }
             else
             {
-                builder.Append(value.Date.ToString());
+                builder.Append(value.UtcDate.ToString());
             }
 
             builder.Append(System.Environment.NewLine);

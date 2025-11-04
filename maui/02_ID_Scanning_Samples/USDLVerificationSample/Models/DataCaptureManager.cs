@@ -21,17 +21,19 @@ namespace USDLVerificationSample.Models
 {
     public class DataCaptureManager
     {
-        public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
+        // Enter your Scandit License key here.
+        // Your Scandit License key is available via your Scandit SDK web account.
+        private const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-        private static readonly Lazy<DataCaptureManager> instance = new Lazy<DataCaptureManager>(() => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<DataCaptureManager> instance = new(
+            valueFactory: () => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
 
         public static DataCaptureManager Instance => instance.Value;
 
         private DataCaptureManager()
         {
-            this.CurrentCamera?.ApplySettingsAsync(this.CameraSettings);
+            this.CurrentCamera.ApplySettingsAsync(this.CameraSettings);
 
-            // Create data capture context using your license key and set the camera as the frame source.
             this.DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
             this.DataCaptureContext.SetFrameSourceAsync(this.CurrentCamera);
 
@@ -43,8 +45,8 @@ namespace USDLVerificationSample.Models
         #endregion
 
         #region CamerSettings
-        public Camera CurrentCamera { get; set; } = Camera.GetCamera(CameraPosition.WorldFacing);
-        public CameraSettings CameraSettings { get; set; } = IdCapture.RecommendedCameraSettings;
+        public Camera CurrentCamera { get; } = Camera.GetCamera(CameraPosition.WorldFacing);
+        public CameraSettings CameraSettings { get; } = IdCapture.RecommendedCameraSettings;
         #endregion
 
         #region IdCapture
@@ -56,14 +58,18 @@ namespace USDLVerificationSample.Models
             this.DataCaptureContext.RemoveAllModes();
 
             // Create a mode responsible for recognizing documents. This mode is automatically added
-            // to the passed DataCaptureContext.
+            // to the passed DataCaptureContext. Enable built-in verification - documents with inconsistent data,
+            // forged AAMVA barcodes, or expired documents will be rejected.
             IdCaptureSettings settings = new()
             {
-                AcceptedDocuments = [new DriverLicense(IdCaptureRegion.Us)]
+                AcceptedDocuments = [new DriverLicense(IdCaptureRegion.Us)],
+                RejectForgedAamvaBarcodes = true,
+                RejectInconsistentData = true,
+                RejectExpiredIds = true,
             };
             settings.SetShouldPassImageTypeToResult(IdImageType.Face, true);
             settings.SetShouldPassImageTypeToResult(IdImageType.CroppedDocument, true);
-            settings.ScannerType = new FullDocumentScanner();
+            settings.Scanner = new IdCaptureScanner(physicalDocument: new FullDocumentScanner(), mobileDocument: null);
 
             this.IdCapture = IdCapture.Create(this.DataCaptureContext, settings);
         }

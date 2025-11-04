@@ -70,7 +70,7 @@ public partial class SearchViewController : UIViewController
 
         // Make sure barcode capture is the only mode associated with the context.
         this.context.RemoveAllModes();
-        this.context.AddMode(this.barcodeCapture);
+        this.context.SetMode(this.barcodeCapture);
 
         // Enable barcode capture to resume processing frames.
         this.barcodeCapture.Enabled = true;
@@ -144,8 +144,9 @@ public partial class SearchViewController : UIViewController
 
         // To visualize the on-going barcode batch process on screen, setup a data capture view that renders the
         // camera preview. The view must be connected to the data capture context.
-        this.captureView = DataCaptureView.Create(context: context, frame: this.View?.Bounds ?? CGRect.Empty);
-        this.captureView.AutoresizingMask =
+        this.captureView = DataCaptureView.Create(context, frame: this.View?.Bounds ?? CGRect.Empty);
+        UIView platformView = this.captureView;
+        platformView.AutoresizingMask =
             UIViewAutoresizing.FlexibleWidth |
             UIViewAutoresizing.FlexibleHeight;
 
@@ -155,8 +156,7 @@ public partial class SearchViewController : UIViewController
         // the video preview. This is optional, but recommended for better visual feedback.
         this.overlay = BarcodeCaptureOverlay.Create(
             barcodeCapture: barcodeCapture,
-            view: this.captureView,
-            style: BarcodeCaptureOverlayStyle.Frame);
+            view: this.captureView);
 
         // We add the aim viewfinder to the overlay.
         this.overlay.Viewfinder = new AimerViewfinder();

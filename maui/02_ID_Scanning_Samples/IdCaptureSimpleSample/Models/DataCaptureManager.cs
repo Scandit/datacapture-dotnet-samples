@@ -21,6 +21,8 @@ namespace IdCaptureSimpleSample.Models
 {
     public class DataCaptureManager
     {
+        // Enter your Scandit License key here.
+        // Your Scandit License key is available via your Scandit SDK web account.
         public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
         private static readonly Lazy<DataCaptureManager> instance = new(
@@ -46,7 +48,6 @@ namespace IdCaptureSimpleSample.Models
         {
             this.CurrentCamera?.ApplySettingsAsync(this.CameraSettings);
 
-            // Create data capture context using your license key and set the camera as the frame source.
             this.DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
             this.DataCaptureContext.SetFrameSourceAsync(this.CurrentCamera);
 
@@ -59,7 +60,7 @@ namespace IdCaptureSimpleSample.Models
                     new DriverLicense(IdCaptureRegion.Any),
                     new Passport(IdCaptureRegion.Any)
                 ],
-                ScannerType = new FullDocumentScanner()
+                Scanner = new IdCaptureScanner(physicalDocument: new FullDocumentScanner(), mobileDocument: null)
             };
 
             this.IdCapture = IdCapture.Create(this.DataCaptureContext, this.IdCaptureSettings);

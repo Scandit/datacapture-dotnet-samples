@@ -4,6 +4,7 @@
              xmlns:scandit="clr-namespace:Scandit.DataCapture.Core.UI.Maui;assembly=ScanditCaptureCoreMaui"
              xmlns:vm="clr-namespace:USDLVerificationSample.ViewModels"
              x:Class="USDLVerificationSample.Views.ScanPage"
+             x:DataType="vm:ScanViewModel"
              Title="US DL Verification">
     <ContentPage.BindingContext>
         <vm:ScanViewModel x:Name="viewModel"/>

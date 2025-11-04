@@ -79,12 +79,8 @@ public partial class FindBarcodePage
 
     private async Task FinishButtonClickedAsync()
     {
-        if (Application.Current?.MainPage is not NavigationPage navigation)
-        {
-            return;
-        }
         this.StopBarcodeFind();
-        await navigation.PopToRootAsync(animated: true);
+        await this.Navigation.PopToRootAsync(animated: true);
     }
 
     private void StopBarcodeFind()

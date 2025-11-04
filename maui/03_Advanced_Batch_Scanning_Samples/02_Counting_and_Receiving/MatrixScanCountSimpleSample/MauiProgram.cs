@@ -12,7 +12,9 @@
  * limitations under the License.
  */
 
+using Scandit.DataCapture.Barcode;
 using Scandit.DataCapture.Barcode.Count.UI.Maui;
+using Scandit.DataCapture.Core;
 
 namespace MatrixScanCountSimpleSample;
 
@@ -27,9 +29,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             })
-            .ConfigureMauiHandlers(handler =>
+            .UseScanditCore()
+            .UseScanditBarcode(configure =>
             {
-                handler.AddHandler(typeof(BarcodeCountView), typeof(BarcodeCountViewHandler));
+                configure.AddBarcodeCountView();
             });
 
         return builder.Build();

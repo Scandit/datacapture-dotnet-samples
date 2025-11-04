@@ -13,6 +13,9 @@
  */
 
 using Foundation;
+using Scandit.DataCapture.Core;
+using Scandit.DataCapture.ID;
+using UIKit;
 
 namespace IdCaptureExtendedSample;
 

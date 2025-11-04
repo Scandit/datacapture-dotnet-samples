@@ -12,17 +12,10 @@
  * limitations under the License.
  */
 
-namespace USDLVerificationSample.Results
-{
-    public class ResultEntry
-    {
-        public string Title { get; private set; }
-        public string Value { get; private set; }
+namespace USDLVerificationSample.Results;
 
-        public ResultEntry(string value, string title)
-        {
-            this.Title = title;
-            this.Value = value;
-        }
-    }
+public class ResultEntry(string value, string title)
+{
+    public string Title { get; } = title;
+    public string Value { get; } = value;
 }

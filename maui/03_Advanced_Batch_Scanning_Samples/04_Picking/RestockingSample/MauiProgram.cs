@@ -12,7 +12,9 @@
  * limitations under the License.
  */
 
+using Scandit.DataCapture.Barcode;
 using Scandit.DataCapture.Barcode.Pick.UI.Maui;
+using Scandit.DataCapture.Core;
 
 namespace RestockingSample;
 
@@ -28,9 +30,10 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			})
-            .ConfigureMauiHandlers(handler =>
+			.UseScanditCore()
+            .UseScanditBarcode(configure => 
             {
-                handler.AddHandler(typeof(BarcodePickView), typeof(BarcodePickViewHandler));
+	            configure.AddBarcodePickView();
             });
 
 		return builder.Build();

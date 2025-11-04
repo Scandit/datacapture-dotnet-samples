@@ -132,7 +132,8 @@ namespace BarcodeSelectionSimpleSample
                                                              new CGSize(
                                                                  this.View.Bounds.Width,
                                                                  this.View.Bounds.Height - 48)));
-            dataCaptureView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
+            UIView platformView = dataCaptureView;
+            platformView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
                                                UIViewAutoresizing.FlexibleWidth;
             this.View.AddSubview(dataCaptureView);
             this.View.SendSubviewToBack(dataCaptureView);

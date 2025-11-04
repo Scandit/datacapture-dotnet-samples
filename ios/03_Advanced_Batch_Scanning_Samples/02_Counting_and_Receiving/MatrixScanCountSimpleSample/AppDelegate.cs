@@ -14,6 +14,8 @@
 
 using Foundation;
 using UIKit;
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
 
 namespace MatrixScanCountSimpleSample
 {
@@ -27,6 +29,10 @@ namespace MatrixScanCountSimpleSample
         [Export("application:didFinishLaunchingWithOptions:")]
         public bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            // Initialize Scandit libraries
+            ScanditCaptureCore.Initialize();
+            ScanditBarcodeCapture.Initialize();
+            
             if (this.Window != null)
             {
                 Window.RootViewController = new UINavigationController(Window.RootViewController!);

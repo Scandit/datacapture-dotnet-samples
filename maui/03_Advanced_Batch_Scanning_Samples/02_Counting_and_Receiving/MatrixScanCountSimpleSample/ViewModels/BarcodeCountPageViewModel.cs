@@ -79,7 +79,6 @@ public class BarcodeCountPageViewModel : BaseViewModel
 
     private void InitializeScanner()
     {
-        // Create data capture context using your license key.
         this.dataCaptureContext = DataCaptureContext.ForLicenseKey(App.SCANDIT_LICENSE_KEY);
 
         // Initialize the shared camera manager.

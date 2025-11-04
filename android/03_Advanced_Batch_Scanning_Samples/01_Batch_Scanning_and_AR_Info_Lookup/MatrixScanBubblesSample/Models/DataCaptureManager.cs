@@ -64,7 +64,6 @@ namespace MatrixScanBubblesSample.Models
             cameraSettings.PreferredResolution = VideoResolution.Uhd4k;
             this.Camera?.ApplySettingsAsync(cameraSettings);
 
-            // Create data capture context using your license key and set the camera as the frame source.
             this.DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
             this.DataCaptureContext.SetFrameSourceAsync(this.Camera);
 

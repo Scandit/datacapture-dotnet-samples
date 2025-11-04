@@ -16,7 +16,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Messaging;
 using ListBuildingSample.Models;
-using Microsoft.Maui.ApplicationModel;
 
 namespace ListBuildingSample.ViewModels;
 

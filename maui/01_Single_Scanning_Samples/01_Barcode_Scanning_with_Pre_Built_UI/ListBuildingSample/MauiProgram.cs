@@ -12,9 +12,8 @@
  * limitations under the License.
  */
 
-using Microsoft.Maui.Controls.Hosting;
-using Microsoft.Maui.Hosting;
-using Scandit.DataCapture.Barcode.Spark.UI.Maui;
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
 
 namespace ListBuildingSample;
 
@@ -30,9 +29,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             })
-            .ConfigureMauiHandlers(handler =>
+            .UseScanditCore()
+            .UseScanditBarcode(configure =>
             {
-                handler.AddHandler<SparkScanView, SparkScanViewHandler>();
+                configure.AddSparkScanView();
             });
 
         return builder.Build();

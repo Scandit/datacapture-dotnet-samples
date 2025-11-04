@@ -34,10 +34,10 @@ public class CommonResultPresenter : IResultPresenter
     {
         var rows = new[] {
             new ResultEntry(value: result.FullName, title: "Full Name"),
-            new ResultEntry(value: result.DateOfBirth?.UtcDate.ToShortDateString(), title: "Date of Birth"),
-            new ResultEntry(value: result.DateOfExpiry?.UtcDate.ToShortDateString(), title: "Date of Expiry"),
-            new ResultEntry(value: result.DocumentNumber, title: "Document Number"),
-            new ResultEntry(value: result.Nationality, title: "Nationality")
+            new ResultEntry(value: result.DateOfBirth?.UtcDate.ToShortDateString() ?? string.Empty, title: "Date of Birth"),
+            new ResultEntry(value: result.DateOfExpiry?.UtcDate.ToShortDateString() ?? string.Empty, title: "Date of Expiry"),
+            new ResultEntry(value: result.DocumentNumber ?? string.Empty, title: "Document Number"),
+            new ResultEntry(value: result.Nationality ?? string.Empty, title: "Nationality")
         };
 
         return rows;

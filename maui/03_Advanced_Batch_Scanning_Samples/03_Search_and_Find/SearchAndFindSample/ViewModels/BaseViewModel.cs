@@ -41,7 +41,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged, IRecipient<Applica
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the mode implemented by derived class is active.
+    /// Gets or sets a value indicating whether the mode implemented by the derived class is active.
     /// </summary>
     /// <remarks>
     /// This property is used for responding to application lifecycle events, ensuring that only the active mode is

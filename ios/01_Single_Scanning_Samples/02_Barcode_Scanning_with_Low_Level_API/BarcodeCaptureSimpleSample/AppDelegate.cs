@@ -12,6 +12,9 @@
  * limitations under the License.
  */
 
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
+
 namespace BarcodeCaptureSimpleSample;
 
 [Register("AppDelegate")]
@@ -21,6 +24,10 @@ public class AppDelegate : UIApplicationDelegate
 
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
+        // Initialize Scandit libraries
+        ScanditCaptureCore.Initialize();
+        ScanditBarcodeCapture.Initialize();
+        
         // create a new window instance based on the screen size
         this.Window = new UIWindow(UIScreen.MainScreen.Bounds);
         this.Window.RootViewController = new ViewController();

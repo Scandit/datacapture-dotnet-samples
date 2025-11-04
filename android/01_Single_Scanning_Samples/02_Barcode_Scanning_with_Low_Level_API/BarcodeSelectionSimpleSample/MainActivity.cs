@@ -168,7 +168,6 @@ namespace BarcodeSelectionSimpleSample
 
         private void InitializeAndStartBarcodeScanning()
         {
-            // Create data capture context using your license key.
             this.dataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
 
             // Use the default camera and set it as the frame source of the context.
@@ -212,12 +211,12 @@ namespace BarcodeSelectionSimpleSample
             // Register self as a listener to get informed of selected barcodes.
             this.barcodeSelection.AddListener(this);
 
-            // To visualize the on-going barcode selection process on screen, setup a data capture view
+            // To visualize the ongoing barcode selection process on screen, set up a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
-            this.dataCaptureView = DataCaptureView.Create(this, this.dataCaptureContext);
+            this.dataCaptureView = DataCaptureView.Create(this.dataCaptureContext);
 
-            // Create barcode selection overlay to the data capture view to render the selected barcodes on
-            // top of the video preview. This is optional, but recommended for better visual feedback.
+            // Create a barcode selection overlay to the data capture view to render the selected barcodes on
+            // top of the video preview. This is optional but recommended for better visual feedback.
             BarcodeSelectionBasicOverlay.Create(this.barcodeSelection, this.dataCaptureView);
 
             // Add the DataCaptureView to the container.

@@ -139,7 +139,6 @@ namespace MatrixScanCountSimpleSample
 
         private void Initialize()
         {
-            // Create data capture context using your license key.
             this.dataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
 
             // Initialize the shared camera manager.

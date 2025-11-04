@@ -131,7 +131,7 @@ namespace IdCaptureExtendedSample.Scan
         {
             ViewGroup dataCaptureViewContainer = root.FindViewById<ViewGroup>(Resource.Id.data_capture_view_container);
 
-            this.dataCaptureView = DataCaptureView.Create(this.RequireContext(), this.viewModel.DataCaptureContext);
+            this.dataCaptureView = DataCaptureView.Create(this.viewModel.DataCaptureContext);
             dataCaptureViewContainer.AddView(
                 this.dataCaptureView,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent));

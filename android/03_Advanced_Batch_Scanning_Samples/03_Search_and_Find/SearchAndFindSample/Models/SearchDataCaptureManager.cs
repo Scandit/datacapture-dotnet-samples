@@ -57,6 +57,6 @@ public class SearchDataCaptureManager
 
         // Create new barcode capture mode with the settings from above.
         this.BarcodeCapture = BarcodeCapture.Create(dataCaptureContext, settings);
-        dataCaptureContext.RemoveMode(this.BarcodeCapture);
+        dataCaptureContext.RemoveCurrentMode();
     }
 }

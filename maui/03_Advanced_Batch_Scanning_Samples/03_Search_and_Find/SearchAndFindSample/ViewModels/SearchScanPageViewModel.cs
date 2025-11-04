@@ -32,7 +32,7 @@ public class SearchScanPageViewModel : BaseViewModel
 
     public SearchScanPageViewModel()
     {
-        // Subscribe to BarcodeScanned event to get informed of captured barcodes.
+        // Subscribe to the BarcodeScanned event to get informed of captured barcodes.
         this.BarcodeCapture.BarcodeScanned += BarcodeScanned;
     }
 
@@ -72,7 +72,7 @@ public class SearchScanPageViewModel : BaseViewModel
 
     public override async Task SleepAsync()
     {
-        this.DataCaptureContext.RemoveMode(this.BarcodeCapture);
+        this.DataCaptureContext.RemoveCurrentMode();
         this.BarcodeCapture.Enabled = false;
 
         if (this.dataCaptureManager.Camera != null)
@@ -85,7 +85,7 @@ public class SearchScanPageViewModel : BaseViewModel
     {
         // Make sure barcode capture is the only mode associated with the context.
         this.DataCaptureContext.RemoveAllModes();
-        this.DataCaptureContext.AddMode(this.BarcodeCapture);
+        this.DataCaptureContext.SetMode(this.BarcodeCapture);
         this.dataCaptureManager.Camera?.ApplySettingsAsync(BarcodeCapture.RecommendedCameraSettings);
         this.dataCaptureManager.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
         this.BarcodeCapture.Enabled = true;
@@ -100,7 +100,7 @@ public class SearchScanPageViewModel : BaseViewModel
         
         this.LastScannedBarcode = args.Session.NewlyRecognizedBarcode;
 
-        // This method is invoked on a non-UI thread, so in order to perform UI work,
+        // This method is invoked on a non-UI thread, so to perform UI work,
         // we have to switch to the main thread.
         Application.Current?.Dispatcher.DispatchAsync(() =>
         {

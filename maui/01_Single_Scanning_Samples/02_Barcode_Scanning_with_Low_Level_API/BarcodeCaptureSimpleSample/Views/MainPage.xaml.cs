@@ -21,7 +21,6 @@ namespace BarcodeCaptureSimpleSample.Views;
 public partial class MainPage : ContentPage
 {
     private BarcodeCaptureOverlay? overlay;
-    private readonly BarcodeCaptureOverlayStyle overlayStyle = BarcodeCaptureOverlayStyle.Frame;
     private readonly MainPageViewModel viewModel;
 
     public MainPage(MainPageViewModel viewModel)
@@ -57,7 +56,7 @@ public partial class MainPage : ContentPage
 
     private void DataCaptureViewHandlerChanged(object? sender, EventArgs e)
     {
-        this.overlay = BarcodeCaptureOverlay.Create(this.viewModel.BarcodeCapture, BarcodeCaptureOverlayStyle.Frame);
+        this.overlay = BarcodeCaptureOverlay.Create(this.viewModel.BarcodeCapture);
         this.overlay.Viewfinder = this.viewModel.Viewfinder;
 
         this.dataCaptureView.AddOverlay(overlay);

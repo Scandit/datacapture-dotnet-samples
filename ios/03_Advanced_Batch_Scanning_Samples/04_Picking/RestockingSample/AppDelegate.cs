@@ -13,6 +13,8 @@
  */
 
 using RestockingSample.ViewControllers;
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
 
 namespace RestockingSample;
 
@@ -23,6 +25,10 @@ public class AppDelegate : UIApplicationDelegate
 
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
+        // Initialize Scandit libraries
+        ScanditCaptureCore.Initialize();
+        ScanditBarcodeCapture.Initialize();
+        
         // Create a new window instance based on the screen size
         Window = new UIWindow(UIScreen.MainScreen.Bounds);
 

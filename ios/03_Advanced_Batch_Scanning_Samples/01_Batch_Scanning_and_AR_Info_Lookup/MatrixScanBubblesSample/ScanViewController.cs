@@ -134,7 +134,8 @@ namespace MatrixScanBubblesSample
             // To visualize the on-going barcode batch process on screen, setup a data capture view that renders the
             // camera preview. The view must be connected to the data capture context.
             this.captureView = DataCaptureView.Create(this.context, this.View.Bounds);
-            this.captureView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
+            UIView platformView = this.captureView;
+            platformView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
             this.View.AddSubview(this.captureView);
             this.View.SendSubviewToBack(this.captureView);
 
@@ -188,7 +189,8 @@ namespace MatrixScanBubblesSample
                 overlay = StockOverlay.Create(ShelfCount, BackroomCount, trackedBarcode.Barcode.Data);
                 this.overlays[identifier] = overlay;
             }
-            overlay.Hidden = this.ShouldHideOverlay(trackedBarcode, this.captureView.Frame.Width);
+            UIView platformView = this.captureView;
+            overlay.Hidden = this.ShouldHideOverlay(trackedBarcode, platformView.Frame.Width);
             return overlay;
         }
 
@@ -215,7 +217,8 @@ namespace MatrixScanBubblesSample
                     {
                         return;
                     }
-                    overlay.Hidden = this.ShouldHideOverlay(trackedCode, this.captureView.Frame.Width);
+                    UIView platformView = this.captureView;
+                    overlay.Hidden = this.ShouldHideOverlay(trackedCode, platformView.Frame.Width);
                 }
             });
             // Dispose the frame when you have finished processing it. If the frame is not properly disposed,

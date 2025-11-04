@@ -12,8 +12,8 @@
  * limitations under the License.
  */
 
-using Scandit.DataCapture.Barcode.Find.UI.Maui;
-using Scandit.DataCapture.Core.UI.Maui;
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
 
 namespace SearchAndFindSample;
 
@@ -29,10 +29,13 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             })
-            .ConfigureMauiHandlers(handler =>
+            .UseScanditCore(configure =>
             {
-                handler.AddHandler(typeof(DataCaptureView), typeof(DataCaptureViewHandler));
-                handler.AddHandler(typeof(BarcodeFindView), typeof(BarcodeFindViewHandler));
+                configure.AddDataCaptureView();
+            })
+            .UseScanditBarcode(configure =>
+            {
+                configure.AddBarcodeFindView();
             });
 
         return builder.Build();

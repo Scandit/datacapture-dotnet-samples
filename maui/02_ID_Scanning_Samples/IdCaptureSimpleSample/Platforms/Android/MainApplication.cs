@@ -14,17 +14,20 @@
 
 using Android.App;
 using Android.Runtime;
+using Scandit.DataCapture.ID;
 
 namespace IdCaptureSimpleSample;
 
 [Application]
-public class MainApplication : MauiApplication
+public class MainApplication(IntPtr handle, JniHandleOwnership ownership) : MauiApplication(handle, ownership)
 {
-    public MainApplication(IntPtr handle, JniHandleOwnership ownership)
-        : base(handle, ownership)
-    {
-    }
-
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+    public override void OnCreate()
+    {
+        ScanditIdCapture.Initialize();
+        
+        base.OnCreate();
+    }
 }
 

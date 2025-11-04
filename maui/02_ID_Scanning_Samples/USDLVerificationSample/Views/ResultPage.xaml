@@ -1,26 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:USDLVerificationSample.ViewModels"
+             xmlns:results="clr-namespace:USDLVerificationSample.Results"
              x:Class="USDLVerificationSample.Views.ResultPage"
+             x:DataType="viewModels:ResultViewModel"
              Title="Scan Results">
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Orientation="Vertical"
-                         HorizontalOptions="Start"
-                         Padding="10">
-                <Label x:Name="ExpirationLabel"
-                       Text="{Binding ExpirationText}"
-                       FontSize="Default"
-                       IsVisible="{Binding ExpirationVisible}" />
-                <Label x:Name="BarcodeVerificationLabel"
-                       Text="{Binding BarcodeVerificationText}"
-                       FontSize="Default"
-                       IsVisible="{Binding BarcodeVerificationVisible}"/>
-            </StackLayout>
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
-                         HeightRequest="75"
-                         IsVisible="{Binding ImagesVisible}">
+                         HeightRequest="75">
                 <Image Source="{Binding FaceImage}" />
                 <Image Source="{Binding IdFrontImage}" />
                 <Image Source="{Binding IdBackImage}" />
@@ -34,7 +24,7 @@
                       HasUnevenRows="True"
                       VerticalOptions="StartAndExpand">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="{x:Type results:ResultEntry}">
                         <ViewCell>
                             <StackLayout Orientation="Vertical" Padding="15, 15, 15, 5">
                                 <Label Text="{Binding Value}" FontSize="Medium" TextColor="Black" />

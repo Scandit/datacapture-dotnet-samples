@@ -14,19 +14,15 @@
 
 using USDLVerificationSample.ViewModels;
 using Scandit.DataCapture.ID.Data;
-using USDLVerificationSample.Models;
 
-namespace USDLVerificationSample.Views
+namespace USDLVerificationSample.Views;
+
+public partial class ResultPage : ContentPage
 {
-    public partial class ResultPage : ContentPage
+    public ResultPage(CapturedId capturedId)
     {
-        public ResultPage(CapturedId capturedId, DriverLicenseVerificationResult verificationResult)
-        {
-            this.InitializeComponent();
-            var resultViewModel = new ResultViewModel(capturedId, verificationResult);
-            this.ExpirationLabel.TextColor = !resultViewModel.IsExpired ? Colors.Green : Colors.Red;
-            this.BarcodeVerificationLabel.TextColor = resultViewModel.BarcodeVerificationPass ? Colors.Green : Colors.Red;
-            this.BindingContext = resultViewModel;
-        }
+        this.InitializeComponent();
+        var resultViewModel = new ResultViewModel(capturedId);
+        this.BindingContext = resultViewModel;
     }
 }

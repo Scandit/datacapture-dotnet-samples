@@ -23,6 +23,8 @@ namespace IdCaptureExtendedSample.Data
 {
     public class DataCaptureManager
     {
+        // Enter your Scandit License key here.
+        // Your Scandit License key is available via your Scandit SDK web account.
         private static readonly string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
         private static readonly Lazy<DataCaptureManager> INSTANCE = new(
@@ -98,16 +100,18 @@ namespace IdCaptureExtendedSample.Data
         private void ConfigureBarcodeMode(IdCaptureSettings settings)
         {
             settings.AcceptedDocuments = acceptedDocuments;
-            settings.ScannerType =
-                new SingleSideScanner(barcode: true, machineReadableZone: false, visualInspectionZone: false);
+            settings.Scanner = new IdCaptureScanner(
+                physicalDocument: new SingleSideScanner(barcode: true, machineReadableZone: false, visualInspectionZone: false),
+                mobileDocument: null);
             settings.SetShouldPassImageTypeToResult(IdImageType.Face, shouldPass: true);
         }
 
         private void ConfigureVizMode(IdCaptureSettings settings)
         {
             settings.AcceptedDocuments = acceptedDocuments;
-            settings.ScannerType =
-                new SingleSideScanner(barcode: false, machineReadableZone: false, visualInspectionZone: true);
+            settings.Scanner = new IdCaptureScanner(
+                physicalDocument: new SingleSideScanner(barcode: false, machineReadableZone: false, visualInspectionZone: true),
+                mobileDocument: null);
             settings.SetShouldPassImageTypeToResult(IdImageType.Face, true);
             settings.SetShouldPassImageTypeToResult(IdImageType.CroppedDocument, true);
         }
@@ -115,8 +119,9 @@ namespace IdCaptureExtendedSample.Data
         private void ConfigureMrzMode(IdCaptureSettings settings)
         {
             settings.AcceptedDocuments = acceptedDocuments;
-            settings.ScannerType =
-                new SingleSideScanner(barcode: false, machineReadableZone: true, visualInspectionZone: false);
+            settings.Scanner = new IdCaptureScanner(
+                physicalDocument: new SingleSideScanner(barcode: false, machineReadableZone: true, visualInspectionZone: false),
+                mobileDocument: null);
         }
     }
 }

@@ -12,15 +12,22 @@
  * limitations under the License.
  */
 
-using Scandit.DataCapture.Core.UI.Maui;
-
 using Foundation;
+using Scandit.DataCapture.ID;
+using UIKit;
 
 namespace IdCaptureSimpleSample;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate
 {
+    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+    {
+        ScanditIdCapture.Initialize();
+        
+        return base.FinishedLaunching(application, launchOptions);
+    }
+    
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 }
 

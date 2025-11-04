@@ -14,11 +14,12 @@
 
 using Scandit.DataCapture.ID.Data;
 
-namespace USDLVerificationSample.ViewModels
+namespace USDLVerificationSample.ViewModels;
+
+public class CapturedIdEventArgs(CapturedId capturedId, RejectionReason? rejectionReason = null) : EventArgs
 {
-    public class CapturedIdEventArgs(CapturedId capturedId) : EventArgs
-    {
-        public CapturedId CapturedId { get; private set; } =
-            capturedId ?? throw new ArgumentNullException(nameof(capturedId));
-    }
+    public CapturedId CapturedId { get; private set; } =
+        capturedId ?? throw new ArgumentNullException(nameof(capturedId));
+    public RejectionReason? RejectionReason { get; } = rejectionReason;
+    public bool IsRejected => RejectionReason.HasValue;
 }

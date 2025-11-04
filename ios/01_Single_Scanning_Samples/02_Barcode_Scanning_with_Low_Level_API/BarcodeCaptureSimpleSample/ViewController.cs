@@ -43,7 +43,6 @@ namespace BarcodeCaptureSimpleSample
         private BarcodeCapture barcodeCapture;
         private BarcodeCaptureOverlay overlay;
         private readonly Feedback feedback = Feedback.DefaultFeedback;
-        private readonly BarcodeCaptureOverlayStyle overlayStyle = BarcodeCaptureOverlayStyle.Frame;
 
         public ViewController(IntPtr handle) : base(handle)
         { }
@@ -141,11 +140,12 @@ namespace BarcodeCaptureSimpleSample
             // To visualize the on-going barcode capturing process on screen, setup a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
             this.dataCaptureView = DataCaptureView.Create(this.dataCaptureContext, this.View.Bounds);
-            this.dataCaptureView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
-                                                    UIViewAutoresizing.FlexibleWidth;
+            UIView platformView = this.dataCaptureView;
+            platformView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
+                                            UIViewAutoresizing.FlexibleWidth;
             this.View.AddSubview(this.dataCaptureView);
 
-            this.overlay = BarcodeCaptureOverlay.Create(this.barcodeCapture, this.dataCaptureView, BarcodeCaptureOverlayStyle.Frame);
+            this.overlay = BarcodeCaptureOverlay.Create(this.barcodeCapture, this.dataCaptureView);
             this.overlay.Viewfinder = new RectangularViewfinder(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
         }
 

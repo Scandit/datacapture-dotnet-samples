@@ -47,8 +47,9 @@ namespace IdCaptureSimpleSample
             // To visualize the on-going capturing process on screen, setup a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
             this.dataCaptureView = DataCaptureView.Create(DataCaptureManager.Instance.DataCaptureContext, this.View?.Frame ?? CGRect.Empty);
-            this.dataCaptureView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
-                                                    UIViewAutoresizing.FlexibleWidth;
+            UIView platformView = this.dataCaptureView;
+            platformView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
+                                            UIViewAutoresizing.FlexibleWidth;
 
             this.captureOverlay = IdCaptureOverlay.Create(DataCaptureManager.Instance.IdCapture, this.dataCaptureView);
             this.captureOverlay.IdLayoutStyle = IdLayoutStyle.Square;
@@ -85,7 +86,7 @@ namespace IdCaptureSimpleSample
         {
             // Pause the idCapture to not capture while showing the result.
             idCapture.Enabled = false;
-            
+
             string message  = GetDescriptionForCapturedId(capturedId);
 
             this.ShowResult(message);
@@ -94,7 +95,7 @@ namespace IdCaptureSimpleSample
         public void OnIdRejected(IdCapture idCapture, CapturedId capturedId, RejectionReason reason)
         {
             String message;
-            
+
             switch (reason) {
                 case RejectionReason.NotAcceptedDocumentType:
                     message = "Document not supported. Try scanning another document.";
@@ -164,7 +165,7 @@ namespace IdCaptureSimpleSample
             }
             else
             {
-                builder.Append(value.Date.ToString());
+                builder.Append(value.UtcDate.ToString());
             }
 
             builder.Append(System.Environment.NewLine);

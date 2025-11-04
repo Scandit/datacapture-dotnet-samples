@@ -43,13 +43,13 @@ public class SearchScanViewModel : ViewModel
     {
         this.dataCaptureManager.Camera?.ApplySettingsAsync(BarcodeCapture.RecommendedCameraSettings);
         this.dataCaptureManager.Camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
-        this.DataCaptureContext.AddMode(this.BarcodeCapture);
+        this.DataCaptureContext.SetMode(this.BarcodeCapture);
         this.BarcodeCapture.Enabled = true;
     }
 
     public void PauseScanning()
     {
-        this.DataCaptureContext.RemoveMode(this.BarcodeCapture);
+        this.DataCaptureContext.RemoveCurrentMode();
         this.dataCaptureManager.Camera?.SwitchToDesiredStateAsync(FrameSourceState.Off);
         this.BarcodeCapture.Enabled = false;
     }

@@ -16,6 +16,8 @@ using BarcodeCaptureSimpleSample.Services;
 using BarcodeCaptureSimpleSample.Services.Internals;
 using BarcodeCaptureSimpleSample.ViewModels;
 using BarcodeCaptureSimpleSample.Views;
+using Scandit.DataCapture.Barcode;
+using Scandit.DataCapture.Core;
 using Scandit.DataCapture.Core.UI.Maui;
 
 namespace BarcodeCaptureSimpleSample;
@@ -30,10 +32,11 @@ public static class MauiProgram
                {
                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                })
-               .ConfigureMauiHandlers(handler =>
+               .UseScanditCore(configure =>
                {
-                   handler.AddHandler<DataCaptureView, DataCaptureViewHandler>();
-               });
+                   configure.AddDataCaptureView();
+               })
+               .UseScanditBarcode();
 
         // Register services
         builder.Services.AddSingleton<IDataCaptureManager, DataCaptureManager>();

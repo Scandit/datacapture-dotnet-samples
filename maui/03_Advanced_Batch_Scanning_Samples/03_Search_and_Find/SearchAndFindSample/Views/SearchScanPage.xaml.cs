@@ -35,7 +35,7 @@ public partial class SearchScanPage
         this.SearchButton.Clicked += async (object? _, EventArgs _) => await SearchClickedAsync();
         this.ScannedCodeLabel.WidthRequest = GetScreenWidth - FindButtonSpaceWidth;
 
-        // Initialization of DataCaptureView happens on handler changed event.
+        // Initialization of DataCaptureView happens on handler-changed event.
         this.DataCaptureView.HandlerChanged += SetupDataCaptureView;
 
         // Subscribe to view-model event
@@ -60,8 +60,7 @@ public partial class SearchScanPage
     private void SetupDataCaptureView(object? sender, EventArgs args)
     {
         // Add a barcode capture overlay to the data capture view to set a viewfinder UI.
-        this.overlay = BarcodeCaptureOverlay.Create(
-            this.ViewModel.BarcodeCapture, BarcodeCaptureOverlayStyle.Frame);
+        this.overlay = BarcodeCaptureOverlay.Create(this.ViewModel.BarcodeCapture);
         this.DataCaptureView.AddOverlay(overlay);
 
         // We add the aim viewfinder to the overlay.

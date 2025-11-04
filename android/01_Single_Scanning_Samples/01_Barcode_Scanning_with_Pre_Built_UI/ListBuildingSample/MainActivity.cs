@@ -22,6 +22,7 @@ using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Barcode.Spark.Capture;
 using Scandit.DataCapture.Barcode.Spark.Feedback;
 using Scandit.DataCapture.Barcode.Spark.UI;
+using Scandit.DataCapture.Barcode.Spark.UI.Platform.Android;
 using Scandit.DataCapture.Core.Capture;
 
 namespace ListBuildingSample
@@ -120,7 +121,6 @@ namespace ListBuildingSample
 
         private void Initialize()
         {
-            // Create data capture context using your license key.
             this.dataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
 
             // The spark scan process is configured through SparkScan settings

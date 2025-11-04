@@ -30,7 +30,6 @@ public class DataCaptureManager
     {
         this.Camera = Camera.GetDefaultCamera();
 
-        // Create data capture context using your license key and set the camera as the frame source.
         this.DataCaptureContext = DataCaptureContext.ForLicenseKey(App.SCANDIT_LICENSE_KEY);
         this.DataCaptureContext.SetFrameSourceAsync(this.Camera);
     }

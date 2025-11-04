@@ -68,7 +68,6 @@ namespace MatrixScanBubblesSample.Scan
             // setup a data capture view that renders the camera preview.
             // The view must be connected to the data capture context.
             this.dataCaptureView = DataCaptureView.Create(
-                this.RequireContext(),
                 this.viewModel.GetDataCaptureContext());
 
             // We create an overlay to highlight the barcodes.

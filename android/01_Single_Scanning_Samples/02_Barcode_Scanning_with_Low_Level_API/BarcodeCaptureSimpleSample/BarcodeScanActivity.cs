@@ -85,7 +85,7 @@ namespace BarcodeCaptureSimpleSample
         {
             this.DismissScannedCodesDialog();
 
-            // Switch camera on to start streaming frames.
+            // Switch the camera on to start streaming frames.
             // The camera is started asynchronously and will take some time to completely turn on.
             this.barcodeCapture.Enabled = true;
             this.camera?.SwitchToDesiredStateAsync(FrameSourceState.On);
@@ -93,7 +93,6 @@ namespace BarcodeCaptureSimpleSample
 
         private void InitializeAndStartBarcodeScanning()
         {
-            // Create data capture context using your license key.
             this.dataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
 
             // Use the default camera and set it as the frame source of the context.
@@ -154,14 +153,13 @@ namespace BarcodeCaptureSimpleSample
 
             // To visualize the on-going barcode capturing process on screen, setup a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
-            this.dataCaptureView = DataCaptureView.Create(this, this.dataCaptureContext);
+            this.dataCaptureView = DataCaptureView.Create(this.dataCaptureContext);
 
             // Add a barcode capture overlay to the data capture view to render the location of captured
             // barcodes on top of the video preview.
-            // This is optional, but recommended for better visual feedback.
-            this.overlay = BarcodeCaptureOverlay.Create(this.barcodeCapture, this.dataCaptureView, BarcodeCaptureOverlayStyle.Frame);
+            // This is optional but recommended for better visual feedback.
+            this.overlay = BarcodeCaptureOverlay.Create(this.barcodeCapture, this.dataCaptureView);
             this.overlay.Viewfinder = new RectangularViewfinder(RectangularViewfinderStyle.Square, RectangularViewfinderLineStyle.Light);
-            this.highlightingBrush = BarcodeCaptureOverlay.DefaultBrushForStyle(BarcodeCaptureOverlayStyle.Frame);
 
             // Add the DataCaptureView to the container.
             var container = FindViewById<FrameLayout>(Resource.Id.data_capture_view_container);

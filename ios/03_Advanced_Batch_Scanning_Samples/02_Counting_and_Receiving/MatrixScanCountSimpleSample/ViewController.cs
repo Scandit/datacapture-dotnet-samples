@@ -137,8 +137,9 @@ namespace MatrixScanCountSimpleSample
             this.barcodeCountView.ExitButtonTapped += BarcodeCountViewExitButtonTapped;
 
             // Add the BarcodeCountView to the container.
-            this.barcodeCountView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth |
-                                                     UIViewAutoresizing.FlexibleHeight;
+            UIView platformView = this.barcodeCountView;
+            platformView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth |
+                                            UIViewAutoresizing.FlexibleHeight;
             this.View.AddSubview(this.barcodeCountView);
         }
 

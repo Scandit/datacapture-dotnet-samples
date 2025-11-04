@@ -42,7 +42,7 @@ namespace GS1ParserSample.Views
 
         private void DataCaptureViewHandlerChanged(object sender, EventArgs e)
         {
-            this.overlay = BarcodeCaptureOverlay.Create(this.viewModel.BarcodeCapture, BarcodeCaptureOverlayStyle.Frame);
+            this.overlay = BarcodeCaptureOverlay.Create(this.viewModel.BarcodeCapture);
             this.overlay.Viewfinder = this.viewModel.Viewfinder;
             this.overlay.Brush = this.viewModel.HighlightingBrush;
 

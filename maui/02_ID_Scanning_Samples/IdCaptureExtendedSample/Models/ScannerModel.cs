@@ -21,6 +21,8 @@ namespace IdCaptureExtendedSample.Models
 {
     public class DataCaptureManager
     {
+        // Enter your Scandit License key here.
+        // Your Scandit License key is available via your Scandit SDK web account.
         private const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
         private static readonly Lazy<DataCaptureManager> INSTANCE = new Lazy<DataCaptureManager>(() => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
@@ -38,7 +40,6 @@ namespace IdCaptureExtendedSample.Models
         {
             CurrentCamera?.ApplySettingsAsync(CameraSettings);
 
-            // Create data capture context using your license key and set the camera as the frame source.
             DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
             DataCaptureContext.SetFrameSourceAsync(CurrentCamera);
 
@@ -94,16 +95,20 @@ namespace IdCaptureExtendedSample.Models
         private void ConfigureBarcodeMode(IdCaptureSettings settings)
         {
             settings.AcceptedDocuments = acceptedDocuments;
-            settings.ScannerType = 
-                new SingleSideScanner(barcode: true, machineReadableZone: false, visualInspectionZone: false);
+            settings.Scanner = new IdCaptureScanner(
+                physicalDocument: new SingleSideScanner(
+                    barcode: true, machineReadableZone: false, visualInspectionZone: false),
+                mobileDocument: null);
             settings.SetShouldPassImageTypeToResult(IdImageType.Face, shouldPass: true);
         }
 
         private void ConfigureVizMode(IdCaptureSettings settings)
         {
             settings.AcceptedDocuments = acceptedDocuments;
-            settings.ScannerType = 
-                new SingleSideScanner(barcode: false, machineReadableZone: false, visualInspectionZone: true);
+            settings.Scanner = new IdCaptureScanner(
+                physicalDocument: new SingleSideScanner(
+                    barcode: false, machineReadableZone: false, visualInspectionZone: true),
+                mobileDocument: null);
             settings.SetShouldPassImageTypeToResult(IdImageType.Face, shouldPass: true);
             settings.SetShouldPassImageTypeToResult(IdImageType.CroppedDocument, shouldPass: true);
         }
@@ -111,8 +116,10 @@ namespace IdCaptureExtendedSample.Models
         private void ConfigureMrzMode(IdCaptureSettings settings)
         {
             settings.AcceptedDocuments = acceptedDocuments;
-            settings.ScannerType = 
-                new SingleSideScanner(barcode: false, machineReadableZone: true, visualInspectionZone: false);
+            settings.Scanner = new IdCaptureScanner(
+                physicalDocument: new SingleSideScanner(
+                    barcode: false, machineReadableZone: true, visualInspectionZone: false),
+                mobileDocument: null);
         }
     }
 }

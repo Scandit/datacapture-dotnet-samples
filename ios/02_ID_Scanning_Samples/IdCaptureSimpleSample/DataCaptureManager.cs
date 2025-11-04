@@ -23,6 +23,8 @@ namespace IdCaptureSimpleSample
 {
     public class DataCaptureManager
     {
+        // Enter your Scandit License key here.
+        // Your Scandit License key is available via your Scandit SDK web account.
         private static readonly string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
         private static readonly Lazy<DataCaptureManager> instance = new Lazy<DataCaptureManager>(() => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
@@ -76,7 +78,7 @@ namespace IdCaptureSimpleSample
                     new DriverLicense(IdCaptureRegion.Any),
                     new Passport(IdCaptureRegion.Any)
                 ],
-                ScannerType = new FullDocumentScanner()
+                Scanner = new IdCaptureScanner(physicalDocument: new FullDocumentScanner(), mobileDocument: null)
             };
 
             this.IdCapture = IdCapture.Create(this.DataCaptureContext, settings);

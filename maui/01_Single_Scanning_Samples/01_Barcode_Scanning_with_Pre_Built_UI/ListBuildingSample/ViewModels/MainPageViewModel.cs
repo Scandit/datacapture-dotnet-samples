@@ -14,7 +14,6 @@
 
 using System.Collections.ObjectModel;
 using ListBuildingSample.Models;
-using Microsoft.Maui.ApplicationModel;
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Barcode.Spark.Capture;
 using Scandit.DataCapture.Barcode.Spark.UI;

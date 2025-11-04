@@ -19,17 +19,17 @@ namespace USDLVerificationSample.Views
 {
     public partial class ScanPage : ContentPage
     {
-        private IdCaptureOverlay overlay;
+        private IdCaptureOverlay? overlay;
 
         public ScanPage()
         {
             this.InitializeComponent();
 
-            // Initialization of DataCaptureView happens on handler changed event.
-            this.dataCaptureView.HandlerChanged += DataCaptureViewHandlerChanged;
+            // Initialization of DataCaptureView happens on handler ready event.
+            this.dataCaptureView.HandlerReady += DataCaptureViewHandlerReady;
         }
 
-        private void DataCaptureViewHandlerChanged(object sender, EventArgs e)
+        private void DataCaptureViewHandlerReady(object? sender, EventArgs e)
         {
             this.overlay = IdCaptureOverlay.Create(this.viewModel.IdCapture);
             this.overlay.IdLayoutStyle = IdLayoutStyle.Square;
@@ -40,6 +40,12 @@ namespace USDLVerificationSample.Views
         {
             add { this.viewModel.IdCaptured += value; }
             remove { this.viewModel.IdCaptured -= value; }
+        }
+        
+        public event EventHandler<RejectedIdEventArgs> IdRejected
+        {
+            add { this.viewModel.IdRejected += value; }
+            remove { this.viewModel.IdRejected -= value; }
         }
 
         public void VerificationChecksRunning()
@@ -66,7 +72,11 @@ namespace USDLVerificationSample.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            this.dataCaptureView.RemoveOverlay(this.overlay);
+
+            if (this.overlay != null)
+            {
+                this.dataCaptureView.RemoveOverlay(this.overlay);
+            }
             _ = this.viewModel.SleepAsync();
         }
     }

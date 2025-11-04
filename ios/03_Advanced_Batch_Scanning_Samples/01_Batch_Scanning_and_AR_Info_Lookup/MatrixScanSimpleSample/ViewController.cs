@@ -160,8 +160,9 @@ namespace MatrixScanSimpleSample
             // To visualize the on-going barcode batch process on screen, setup a data capture view
             // that renders the camera preview. The view must be connected to the data capture context.
             var dataCaptureView = DataCaptureView.Create(this.dataCaptureContext, this.View.Bounds);
-            dataCaptureView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
-                                               UIViewAutoresizing.FlexibleWidth;
+            UIView platformView = dataCaptureView;
+            platformView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight |
+                                            UIViewAutoresizing.FlexibleWidth;
             this.View.AddSubview(dataCaptureView);
             this.View.SendSubviewToBack(dataCaptureView);
             BarcodeBatchBasicOverlay.Create(this.barcodeBatch, dataCaptureView, BarcodeBatchBasicOverlayStyle.Frame);

@@ -12,65 +12,28 @@
  * limitations under the License.
  */
 
+using System.Collections.ObjectModel;
 using Scandit.DataCapture.ID.Data;
-using USDLVerificationSample.Models;
 using USDLVerificationSample.Platform;
 using USDLVerificationSample.Results;
 using USDLVerificationSample.Results.Presenters;
 
-#nullable enable
+namespace USDLVerificationSample.ViewModels;
 
-namespace USDLVerificationSample.ViewModels
+public class ResultViewModel : BaseViewModel
 {
-    public class ResultViewModel : BaseViewModel
+    public ObservableCollection<ResultEntry> Items { get; private set; }
+
+    public ImageSource? FaceImage { get; }
+    public ImageSource? IdFrontImage { get; }
+    public ImageSource? IdBackImage { get; }
+
+    public ResultViewModel(CapturedId capturedId)
     {
-        public List<ResultEntry> Items { get; private set; }
-
-        public ImageSource? FaceImage { get; private set; }
-        public ImageSource? IdFrontImage { get; private set; }
-        public ImageSource? IdBackImage { get; private set; }
-
-        public bool ImagesVisible { get; private set; }
-        public bool ExpirationVisible => !string.IsNullOrEmpty(this.ExpirationText);
-        public bool IsExpired { get; private set; }
-        public bool BarcodeVerificationPass { get; private set; }
-        public bool BarcodeVerificationVisible => !string.IsNullOrEmpty(this.BarcodeVerificationText);
-        public string ExpirationText { get; private set; }
-        public string BarcodeVerificationText { get; private set; }
-
-        public ResultViewModel(CapturedId capturedId, DriverLicenseVerificationResult verificationResult)
-        {
-            IResultPresenter resultPresenter = new CommonResultPresenter(capturedId);
-
-            this.Items = resultPresenter.Rows.ToList();
-            this.FaceImage = capturedId.Images?.Face?.FromPlatform();
-            this.IdFrontImage = capturedId.Images?.GetCroppedDocument(IdSide.Front)?.FromPlatform();
-            this.IdBackImage = capturedId.Images?.GetCroppedDocument(IdSide.Back)?.FromPlatform();
-            this.ImagesVisible = this.FaceImage != null || this.IdFrontImage != null || this.IdBackImage != null;
-
-            if (verificationResult.Expired.HasValue)
-            {
-                this.IsExpired = verificationResult.Expired.Value;
-                this.ExpirationText = this.IsExpired ?
-                    "Document is expired." :
-                    "Document is not expired.";
-            }
-            else
-            {
-                this.ExpirationText = string.Empty;
-            }
-
-            if (verificationResult.BarcodeVerificationResult.HasValue)
-            {
-                this.BarcodeVerificationPass = verificationResult.BarcodeVerificationResult.Value;
-                this.BarcodeVerificationText = this.BarcodeVerificationPass ?
-                    "Verification checks passed." :
-                    "Verification checks failed.";
-            }
-            else
-            {
-                this.BarcodeVerificationText = string.Empty;
-            }
-        }
+        var resultPresenter = new CommonResultPresenter(capturedId);
+        this.Items = new ObservableCollection<ResultEntry>(resultPresenter.Rows);
+        this.FaceImage = capturedId.Images.Face?.FromPlatform();
+        this.IdFrontImage = capturedId.Images.GetCroppedDocument(IdSide.Front)?.FromPlatform();
+        this.IdBackImage = capturedId.Images.GetCroppedDocument(IdSide.Back)?.FromPlatform();
     }
 }

@@ -40,7 +40,7 @@ public class MainPageViewModel : BaseViewModel, IIdCaptureListener
     {
         // Don't capture unnecessarily when the result is displayed.
         this.IdCapture.Enabled = false;
-        
+
         string message = GetDescriptionForCapturedId(capturedId);
 
         DependencyService.Get<IMessageService>()
@@ -51,9 +51,9 @@ public class MainPageViewModel : BaseViewModel, IIdCaptureListener
     public void OnIdRejected(IdCapture mode, CapturedId? capturedId, RejectionReason reason)
     {
         this.IdCapture.Enabled = false;
-        
+
         String message;
-        
+
         switch (reason) {
             case RejectionReason.NotAcceptedDocumentType:
                 message = "Document not supported. Try scanning another document.";
@@ -125,7 +125,7 @@ public class MainPageViewModel : BaseViewModel, IIdCaptureListener
 
         return builder.ToString();
     }
-    
+
     private static void AppendDescriptionForCapturedId(CapturedId result, StringBuilder builder)
     {
         AppendField(builder, "Full Name: ", result.FullName);

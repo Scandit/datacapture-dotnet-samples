@@ -90,11 +90,10 @@ public class SearchScanFragment : CameraPermissionFragment, View.IOnClickListene
         // To visualize the on-going barcode capturing process on screen,
         // setup a data capture view that renders the camera preview.
         // The view must be connected to the data capture context.
-        DataCaptureView view = DataCaptureView.Create(this.RequireContext(), this.viewModel.DataCaptureContext);
+        DataCaptureView view = DataCaptureView.Create(this.viewModel.DataCaptureContext);
 
         // Add a barcode capture overlay to the data capture view to set a viewfinder UI.
-        BarcodeCaptureOverlay overlay = BarcodeCaptureOverlay.Create(
-            this.viewModel.BarcodeCapture, view, BarcodeCaptureOverlayStyle.Frame);
+        BarcodeCaptureOverlay overlay = BarcodeCaptureOverlay.Create(this.viewModel.BarcodeCapture, view);
         view.AddOverlay(overlay);
 
         // We add the aim viewfinder to the overlay.
