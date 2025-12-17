@@ -6,8 +6,6 @@ This repository contains both simple and advanced samples that show you how use 
 
 **Barcode Capture Simple Sample (**.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureSimpleSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureSimpleSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureSimpleSample)))
 
-**Barcode Capture Reject Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureRejectSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureRejectSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/01_Single_Scanning_Samples/02_Barcode_Scanning_with_Low_Level_API/BarcodeCaptureRejectSample)))
-
 ### Scan One of Many Barcodes (Barcode Selection)
 
 Barcode Selection is a pre-built component that provides a UI for selecting the right code when codes are crowded (and cannot be selected programmatically).
@@ -30,7 +28,7 @@ MatrixScan Find is a pre-built component that uses AR overlays to highlight item
 
 ![MSFind.png](https://github.com/Scandit/.github/blob/main/images/MSFind.png)
 
-**Seach & Find Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample)))
+**Search & Find Sample** (.NET ([iOS](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/ios/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample), [Android](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/android/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample), [Maui](https://github.com/Scandit/datacapture-dotnet-samples/tree/master/maui/03_Advanced_Batch_Scanning_Samples/03_Search_and_Find/SearchAndFindSample)))
 
 ### ID Scanning and Verification Samples
 

@@ -81,6 +81,8 @@ Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "USDLVerificationSample", "m
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestockingSample", "maui\03_Advanced_Batch_Scanning_Samples\04_Picking\RestockingSample\RestockingSample.csproj", "{64C78EE3-73F9-46A9-BFBD-94862E8DE26A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelCaptureSimpleSample", "android\03_Advanced_Batch_Scanning_Samples\05_Smart_Label_Capture\LabelCaptureSimpleSample\LabelCaptureSimpleSample.csproj", "{1757EE18-30FD-42B3-9FA9-21460C78BE4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -239,6 +241,10 @@ Global
 		{64C78EE3-73F9-46A9-BFBD-94862E8DE26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64C78EE3-73F9-46A9-BFBD-94862E8DE26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64C78EE3-73F9-46A9-BFBD-94862E8DE26A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1757EE18-30FD-42B3-9FA9-21460C78BE4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1757EE18-30FD-42B3-9FA9-21460C78BE4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1757EE18-30FD-42B3-9FA9-21460C78BE4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1757EE18-30FD-42B3-9FA9-21460C78BE4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -282,8 +288,12 @@ Global
 		{9E0F25E2-8A2A-4EFF-9A35-009BE782DA2F} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{33CB9DCF-559F-4497-8EC7-2832DF2D8D75} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{64C78EE3-73F9-46A9-BFBD-94862E8DE26A} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
+		{1757EE18-30FD-42B3-9FA9-21460C78BE4E} = {B4362557-A6DF-4FD4-AE4D-7E833D8219FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8210E346-571A-4093-B84D-F86DAC98612F}
+	EndGlobalSection
+	GlobalSection(RiderSharedRunConfigurations) = postSolution
+		File = ..\..\..\docs\scripts\collect-signatures-csharp\.run\Collect Signatures Test - Xamarin.Forms.run.xml
 	EndGlobalSection
 EndGlobal

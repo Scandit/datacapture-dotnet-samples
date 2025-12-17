@@ -45,10 +45,10 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="Scandit.DataCapture.Core" Version="8.0.0" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="8.0.0" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.0.0" />
-    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="8.0.0" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="8.1.0" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="8.1.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.1.0" />
+    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="8.1.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.40" />
