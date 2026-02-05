@@ -10,9 +10,9 @@
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Scandit.DataCapture.Core" Version="8.1.0" />
-        <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.1.0" />
-        <PackageReference Include="Scandit.DataCapture.Label" Version="8.1.0" />
+        <PackageReference Include="Scandit.DataCapture.Core" Version="8.1.1" />
+        <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.1.1" />
+        <PackageReference Include="Scandit.DataCapture.Label" Version="8.1.1" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.7.0.5" />
