@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,13 +20,17 @@ public static class PlatformExtensions
 {
     public static ImageSource? FromPlatform(this UIKit.UIImage convertible)
     {
-        var data = convertible.AsPNG()?.AsStream();
-
-        if (data != null)
+        var nsData = convertible.AsPNG();
+        
+        if (nsData == null)
         {
-            return ImageSource.FromStream(() => data);
+            return null;
         }
 
-        return null;
+        var data = new MemoryStream();
+        nsData.AsStream().CopyTo(data);
+        data.Seek(0L, SeekOrigin.Begin);
+
+        return ImageSource.FromStream(() => data);
     }
 }

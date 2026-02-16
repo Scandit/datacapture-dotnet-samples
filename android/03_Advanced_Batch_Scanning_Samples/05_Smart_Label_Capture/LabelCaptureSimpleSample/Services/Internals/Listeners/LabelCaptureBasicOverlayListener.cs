@@ -20,40 +20,24 @@ using Scandit.DataCapture.Label.UI.Overlay;
 
 namespace LabelCaptureSimpleSample.Services.Internals.Listeners;
 
-internal class LabelCaptureBasicOverlayListener : Java.Lang.Object, ILabelCaptureBasicOverlayListener
+internal class LabelCaptureBasicOverlayListener(Context context) : Java.Lang.Object, ILabelCaptureBasicOverlayListener
 {
-    private readonly Brush upcBrush;
-    private readonly Brush expiryDateBrush;
-    private readonly Brush weightBrush;
-    private readonly Brush unitPriceBrush;
-    private readonly Brush transparentBrush;
-
-    public LabelCaptureBasicOverlayListener(Context context)
-    {
-        this.upcBrush = new Brush(
-            fillColor: new Color(context.GetColor(Resource.Color.upc)),
-            strokeColor: new Color(context.GetColor(Resource.Color.upc)),
-            strokeWidth: 1f);
-
-        this.expiryDateBrush = new Brush(
-            fillColor: new Color(context.GetColor(Resource.Color.expiryDate)),
-            strokeColor: new Color(context.GetColor(Resource.Color.expiryDate)),
-            strokeWidth: 1f);
-        this.weightBrush = new Brush(
-            fillColor: new Color(context.GetColor(Resource.Color.weight)),
-            strokeColor: new Color(context.GetColor(Resource.Color.weight)),
-            strokeWidth: 1f);
-
-        this.unitPriceBrush = new Brush(
-            fillColor: new Color(context.GetColor(Resource.Color.unitPrice)),
-            strokeColor: new Color(context.GetColor(Resource.Color.unitPrice)),
-            strokeWidth: 1f);
-
-        this.transparentBrush = new Brush(
-            fillColor: Color.Transparent,
-            strokeColor: Color.Transparent,
-            strokeWidth: 0f);
-    }
+    private readonly Brush upcBrush = new(
+        fillColor: new Color(context.GetColor(Resource.Color.upc)),
+        strokeColor: new Color(context.GetColor(Resource.Color.upc)),
+        strokeWidth: 1f);
+    private readonly Brush expiryDateBrush = new(
+        fillColor: new Color(context.GetColor(Resource.Color.expiryDate)),
+        strokeColor: new Color(context.GetColor(Resource.Color.expiryDate)),
+        strokeWidth: 1f);
+    private readonly Brush totalPriceBrush = new(
+        fillColor: new Color(context.GetColor(Resource.Color.unitPrice)),
+        strokeColor: new Color(context.GetColor(Resource.Color.unitPrice)),
+        strokeWidth: 1f);
+    private readonly Brush transparentBrush = new(
+        fillColor: Color.Transparent,
+        strokeColor: Color.Transparent,
+        strokeWidth: 0f);
 
     public Brush? BrushForField(LabelCaptureBasicOverlay overlay, LabelField field, CapturedLabel label)
     {
@@ -61,8 +45,7 @@ internal class LabelCaptureBasicOverlayListener : Java.Lang.Object, ILabelCaptur
         {
             LabelCaptureService.FIELD_BARCODE => this.upcBrush,
             LabelCaptureService.FIELD_EXPIRY_DATE => this.expiryDateBrush,
-            LabelCaptureService.FIELD_UNIT_PRICE => this.unitPriceBrush,
-            LabelCaptureService.FIELD_WEIGHT => this.weightBrush,
+            LabelCaptureService.FIELD_TOTAL_PRICE => this.totalPriceBrush,
             _ => null,
         };
     }

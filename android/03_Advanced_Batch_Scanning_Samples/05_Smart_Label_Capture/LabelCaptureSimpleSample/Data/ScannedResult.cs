@@ -16,20 +16,13 @@ using LabelCaptureSimpleSample.Services.Internals;
 
 namespace LabelCaptureSimpleSample.Data;
 
-public class ScannedResult
+public class ScannedResult(Dictionary<string, string> fields)
 {
-    public Dictionary<string, string> Fields { get; }
-
-    public ScannedResult(Dictionary<string, string> fields)
-    {
-        this.Fields = fields ?? new Dictionary<string, string>();
-    }
+    public Dictionary<string, string> Fields { get; } = fields;
 
     public string Barcode => Fields.GetValueOrDefault(LabelCaptureService.FIELD_BARCODE, string.Empty);
 
-    public string UnitPrice => Fields.GetValueOrDefault(LabelCaptureService.FIELD_UNIT_PRICE, string.Empty);
-
-    public string Weight => Fields.GetValueOrDefault(LabelCaptureService.FIELD_WEIGHT, string.Empty);
+    public string UnitPrice => Fields.GetValueOrDefault(LabelCaptureService.FIELD_TOTAL_PRICE, string.Empty);
 
     public string ExpiryDate => Fields.GetValueOrDefault(LabelCaptureService.FIELD_EXPIRY_DATE, string.Empty);
 

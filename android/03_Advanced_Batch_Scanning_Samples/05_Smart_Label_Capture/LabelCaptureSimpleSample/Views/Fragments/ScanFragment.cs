@@ -102,7 +102,6 @@ public class ScanFragment : AndroidX.Fragment.App.Fragment
         var labelCaptureOverlay = this.viewModel.BuildOverlay(this.RequireContext());
         this.validationFlowOverlay = this.viewModel.GetValidationFlowOverlay(this.RequireContext());
         this.dataCaptureView = DataCaptureView.Create(this.viewModel.DataCaptureContext);
-        this.dataCaptureView.AddControl(new TorchSwitchControl());
         this.dataCaptureView.AddOverlay(labelCaptureOverlay);
         this.dataCaptureView.AddOverlay(this.validationFlowOverlay);
 

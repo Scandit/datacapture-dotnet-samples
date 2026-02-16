@@ -83,6 +83,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestockingSample", "maui\03
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelCaptureSimpleSample", "android\03_Advanced_Batch_Scanning_Samples\05_Smart_Label_Capture\LabelCaptureSimpleSample\LabelCaptureSimpleSample.csproj", "{1757EE18-30FD-42B3-9FA9-21460C78BE4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelCaptureSimpleSample", "ios\03_Advanced_Batch_Scanning_Samples\05_Smart_Label_Capture\LabelCaptureSimpleSample\LabelCaptureSimpleSample.csproj", "{5A9F2902-553A-4755-BBEC-3ECBCF8F2A50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelCaptureSimpleSample", "maui\03_Advanced_Batch_Scanning_Samples\05_Smart_Label_Capture\LabelCaptureSimpleSample\LabelCaptureSimpleSample.csproj", "{3F5A0662-5C44-474D-9CC4-67AA93ED5397}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -245,6 +249,14 @@ Global
 		{1757EE18-30FD-42B3-9FA9-21460C78BE4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1757EE18-30FD-42B3-9FA9-21460C78BE4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1757EE18-30FD-42B3-9FA9-21460C78BE4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9F2902-553A-4755-BBEC-3ECBCF8F2A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9F2902-553A-4755-BBEC-3ECBCF8F2A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9F2902-553A-4755-BBEC-3ECBCF8F2A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9F2902-553A-4755-BBEC-3ECBCF8F2A50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F5A0662-5C44-474D-9CC4-67AA93ED5397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5A0662-5C44-474D-9CC4-67AA93ED5397}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5A0662-5C44-474D-9CC4-67AA93ED5397}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5A0662-5C44-474D-9CC4-67AA93ED5397}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -289,6 +301,8 @@ Global
 		{33CB9DCF-559F-4497-8EC7-2832DF2D8D75} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{64C78EE3-73F9-46A9-BFBD-94862E8DE26A} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 		{1757EE18-30FD-42B3-9FA9-21460C78BE4E} = {B4362557-A6DF-4FD4-AE4D-7E833D8219FB}
+		{5A9F2902-553A-4755-BBEC-3ECBCF8F2A50} = {EACAB90D-3A78-45F9-86D6-3D081056CD71}
+		{3F5A0662-5C44-474D-9CC4-67AA93ED5397} = {55AEC4BC-8040-42B5-B633-836B7A7AF4C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8210E346-571A-4093-B84D-F86DAC98612F}

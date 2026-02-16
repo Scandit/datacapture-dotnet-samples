@@ -25,11 +25,10 @@ namespace LabelCaptureSimpleSample.Services.Internals;
 
 internal class LabelCaptureService : ILabelCaptureService
 {
-    public const string FIELD_BARCODE = "barcode";
-    public const string FIELD_UNIT_PRICE = "unit_price";
-    public const string FIELD_WEIGHT = "weight";
-    public const string FIELD_EXPIRY_DATE = "expiry_date";
-    public const string LABEL_WEIGHT_PRICE = "weighted_item";
+    public const string FIELD_BARCODE = "Barcode";
+    public const string FIELD_EXPIRY_DATE = "Expiry Date";
+    public const string FIELD_TOTAL_PRICE = "Total Price";
+    public const string LABEL_RETAIL_ITEM = "Retail Item";
 
     private LabelCapture? labelCapture;
 
@@ -89,12 +88,11 @@ internal class LabelCaptureService : ILabelCaptureService
     private LabelCaptureSettings BuildLabelCaptureSettings()
     {
         // Demonstrates LabelCaptureSettings by configuring a label
-        // containing barcode, date, price, and weight fields.
+        // containing barcode, expiry date, and total price fields.
         var fields = new List<LabelFieldDefinition>();
 
         // Add custom barcode field
         var customBarcode = CustomBarcode.Builder()
-            .IsOptional(false)
             .SetSymbologies(new List<Symbology>
             {
                 Symbology.Ean13Upca,
@@ -106,25 +104,18 @@ internal class LabelCaptureService : ILabelCaptureService
 
         // Add expiry date field
         var expiryDateText = ExpiryDateText.Builder()
-            .IsOptional(true)
             .SetLabelDateFormat(new LabelDateFormat(LabelDateComponentFormat.MDY, acceptPartialDates: false))
             .Build(FIELD_EXPIRY_DATE);
         fields.Add(expiryDateText);
 
-        // Add unit price field
-        var unitPriceText = UnitPriceText.Builder()
+        // Add total price field
+        var totalPriceText = TotalPriceText.Builder()
             .IsOptional(true)
-            .Build(FIELD_UNIT_PRICE);
-        fields.Add(unitPriceText);
-
-        // Add weight field
-        var weightText = WeightText.Builder()
-            .IsOptional(true)
-            .Build(FIELD_WEIGHT);
-        fields.Add(weightText);
+            .Build(FIELD_TOTAL_PRICE);
+        fields.Add(totalPriceText);
 
         // Create label definition
-        var labelDefinition = LabelDefinition.Create(LABEL_WEIGHT_PRICE, fields);
+        var labelDefinition = LabelDefinition.Create(LABEL_RETAIL_ITEM, fields);
 
         // Create settings with the label definition
         var settings = LabelCaptureSettings.Create(new List<LabelDefinition> { labelDefinition });
