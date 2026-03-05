@@ -13,9 +13,9 @@
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="8.2.0" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.2.0" />
-    <PackageReference Include="Scandit.DataCapture.Label" Version="8.2.0" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="8.2.1" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.2.1" />
+    <PackageReference Include="Scandit.DataCapture.Label" Version="8.2.1" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
 </Project>
