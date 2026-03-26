@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -45,8 +45,10 @@ namespace MatrixScanRejectSample
 
         private HashSet<ScanResult> scanResults = new HashSet<ScanResult>();
 
-        private readonly Brush defaultBrush = new Brush(UIColor.Clear, UIColor.Green, 3);
-        private readonly Brush rejectedBrush = new Brush(UIColor.Clear, UIColor.Red, 3);
+        private static readonly Brush RejectedBrush = new Brush(
+            UIColor.Clear,
+            UIColor.FromRGBA(250f / 255f, 68f / 255f, 70f / 255f, 1f),
+            3f);
 
         public ViewController(IntPtr handle) : base(handle)
         { }
@@ -102,13 +104,15 @@ namespace MatrixScanRejectSample
         #region IBarcodeBatchBasicOverlayListener
         public Brush BrushForTrackedBarcode(BarcodeBatchBasicOverlay overlay, TrackedBarcode trackedBarcode)
         {
+            // Use overlay default brush for valid barcodes, custom brush for rejected ones.
+            // Note that modifying a barcode's brush color requires the MatrixScan AR add-on.
             if (IsValidBarcode(trackedBarcode.Barcode))
             {
-                return this.defaultBrush;
+                return overlay.Brush!;
             }
             else
             {
-                return this.rejectedBrush;
+                return RejectedBrush;
             }
         }
 

@@ -15,45 +15,44 @@
 using MatrixScanSimpleSample.ViewModels;
 using Scandit.DataCapture.Barcode.Batch.UI.Overlay;
 
-namespace MatrixScanSimpleSample.Views
+namespace MatrixScanSimpleSample.Views;
+
+public partial class MainPage
 {
-    public partial class MainPage : ContentPage
+    private BarcodeBatchBasicOverlay overlay = null!;
+    private readonly MainPageViewModel viewModel;
+
+    public MainPage()
     {
-        private BarcodeBatchBasicOverlay overlay;
-        private readonly MainPageViewModel viewModel;
+        this.InitializeComponent();
+        this.viewModel = (MainPageViewModel)this.BindingContext;
 
-        public MainPage()
-        {
-            this.InitializeComponent();
-            this.viewModel = this.BindingContext as MainPageViewModel;
+        // Initialization of DataCaptureView happens on handler changed event.
+        this.dataCaptureView.HandlerChanged += DataCaptureViewHandlerChanged;
+    }
 
-            // Initialization of DataCaptureView happens on handler changed event.
-            this.dataCaptureView.HandlerChanged += DataCaptureViewHandlerChanged;
-        }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _ = this.viewModel.ResumeAsync();
+    }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            _ = this.viewModel.ResumeAsync();
-        }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _ = this.viewModel.SleepAsync();
+    }
 
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            _ = this.viewModel.SleepAsync();
-        }
+    private void DataCaptureViewHandlerChanged(object? sender, EventArgs e)
+    {
+        this.overlay = BarcodeBatchBasicOverlay.Create(
+            this.viewModel.BarcodeBatch,
+            BarcodeBatchBasicOverlayStyle.Frame);
+        this.dataCaptureView.AddOverlay(overlay);
+    }
 
-        private void DataCaptureViewHandlerChanged(object? sender, EventArgs e)
-        {
-            this.overlay = BarcodeBatchBasicOverlay.Create(this.viewModel.BarcodeBatch, BarcodeBatchBasicOverlayStyle.Frame);
-            this.overlay.Listener = this.viewModel;
-
-            this.dataCaptureView.AddOverlay(overlay);
-        }
-
-        private void ButtonClicked(object sender, System.EventArgs e)
-        {
-            ((NavigationPage)Application.Current.MainPage).PushAsync(new ResultsPage());
-        }
+    private void ButtonClicked(object sender, System.EventArgs e)
+    {
+        ((NavigationPage)Application.Current.MainPage).PushAsync(new ResultsPage());
     }
 }

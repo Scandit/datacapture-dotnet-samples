@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoreFoundation;
 using Foundation;
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Barcode.Batch.Capture;
@@ -79,7 +78,10 @@ namespace MatrixScanSimpleSample
 
             if (segue.DestinationViewController is ResultsViewController resultViewController)
             {
-                resultViewController.Items = this.scanResults.ToList();
+                lock (this.scanResults)
+                {
+                    resultViewController.Items = this.scanResults.ToList();
+                }
             }
         }
 
@@ -87,14 +89,18 @@ namespace MatrixScanSimpleSample
 
         public void OnSessionUpdated(BarcodeBatch barcodeBatch, BarcodeBatchSession session, IFrameData frameData)
         {
-            DispatchQueue.MainQueue.DispatchAsync(() =>
+            lock (this.scanResults)
             {
-                this.scanResults = session.TrackedBarcodes?.Values.Select(v => new ScanResult
+                foreach (var trackedBarcode in session.AddedTrackedBarcodes)
                 {
-                    Data = v.Barcode.Data,
-                    Symbology = v.Barcode.Symbology.ReadableName()
-                }).ToHashSet();
-            });
+                    SymbologyDescription description = new SymbologyDescription(trackedBarcode.Barcode.Symbology);
+                    this.scanResults.Add(new ScanResult
+                    {
+                        Data = trackedBarcode.Barcode.Data,
+                        Symbology = description.ReadableName
+                    });
+                }
+            }
 
             // Dispose the frame when you have finished processing it. If the frame is not properly disposed,
             // different issues could arise, e.g. a frozen, non-responsive, or "severely stuttering" video feed.

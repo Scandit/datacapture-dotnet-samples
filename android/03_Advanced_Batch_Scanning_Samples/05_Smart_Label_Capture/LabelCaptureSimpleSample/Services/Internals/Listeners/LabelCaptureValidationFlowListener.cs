@@ -13,6 +13,7 @@
  */
 
 using LabelCaptureSimpleSample.Extensions;
+using Scandit.DataCapture.Core.Data;
 using Scandit.DataCapture.Label.Data;
 using Scandit.DataCapture.Label.UI.Overlay.Validation;
 
@@ -35,5 +36,19 @@ internal class LabelCaptureValidationFlowListener : Java.Lang.Object, ILabelCapt
         {
             onLabelScanned(result.ToString());
         }
+    }
+
+    // Not used in this sample - provided for interface compliance.
+    public void OnManualInputSubmitted(LabelField field, string? oldValue, string newValue)
+    {
+    }
+
+    // Not used in this sample - provided for interface compliance.
+    public void OnValidationFlowResultUpdate(
+        LabelResultUpdateType type,
+        long asyncId,
+        IList<LabelField> fields,
+        IFrameData? frameData)
+    {
     }
 }

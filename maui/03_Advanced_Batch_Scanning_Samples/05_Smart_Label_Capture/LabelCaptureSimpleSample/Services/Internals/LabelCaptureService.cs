@@ -61,6 +61,8 @@ internal class LabelCaptureService(DataCaptureContext dataCaptureContext) : ILab
         return overlay;
     }
 
+    public bool IsEnabled => this.labelCapture.Enabled;
+
     public void Disable()
     {
         this.labelCapture.Enabled = false;

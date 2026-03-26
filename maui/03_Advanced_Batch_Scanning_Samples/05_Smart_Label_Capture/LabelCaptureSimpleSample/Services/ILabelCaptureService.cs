@@ -19,6 +19,7 @@ namespace LabelCaptureSimpleSample.Services;
 
 public interface ILabelCaptureService
 {
+    bool IsEnabled { get; }
     void Enable();
     void Disable();
     LabelCaptureBasicOverlay BuildOverlay();

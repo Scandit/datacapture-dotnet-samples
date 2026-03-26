@@ -21,6 +21,9 @@ using Scandit.DataCapture.Core;
 using Scandit.DataCapture.Core.Source;
 using Scandit.DataCapture.Label;
 using Scandit.DataCapture.Label.Capture;
+#if IOS
+using Microsoft.Maui.Platform;
+#endif
 
 namespace LabelCaptureSimpleSample;
 
@@ -29,7 +32,14 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         ScanditLabelCapture.Initialize();
-        
+
+#if IOS
+        // Workaround for https://github.com/dotnet/maui/issues/34448
+        // MAUI 10's KeyboardAutoManagerScroll prevents UITextField from becoming first responder
+        // inside UIHostingController-hosted SwiftUI views on iOS 18+.
+        KeyboardAutoManagerScroll.Disconnect();
+#endif
+
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiApp<App>()
                .ConfigureFonts(fonts =>

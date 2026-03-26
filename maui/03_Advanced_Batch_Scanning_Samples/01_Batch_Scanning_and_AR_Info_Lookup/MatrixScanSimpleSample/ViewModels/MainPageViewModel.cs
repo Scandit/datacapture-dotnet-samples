@@ -12,23 +12,17 @@
  * limitations under the License.
  */
 
-using Microsoft.Maui.Platform;
 using MatrixScanSimpleSample.Models;
-
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Barcode.Batch.Capture;
-using Scandit.DataCapture.Barcode.Batch.Data;
-using Scandit.DataCapture.Barcode.Batch.UI.Overlay;
 using Scandit.DataCapture.Core.Capture;
 using Scandit.DataCapture.Core.Data;
 using Scandit.DataCapture.Core.Source;
-using Brush = Scandit.DataCapture.Core.UI.Style.Brush;
 
 namespace MatrixScanSimpleSample.ViewModels;
 
-public class MainPageViewModel : BaseViewModel, IBarcodeBatchListener, IBarcodeBatchBasicOverlayListener
+public class MainPageViewModel : BaseViewModel, IBarcodeBatchListener
 {
-    private readonly Brush highlightedBrush;
     private readonly HashSet<ScanResult> scanResults = [];
 
     public Camera Camera { get; private set; } = DataCaptureManager.Instance.CurrentCamera;
@@ -40,12 +34,11 @@ public class MainPageViewModel : BaseViewModel, IBarcodeBatchListener, IBarcodeB
     public MainPageViewModel()
     {
         this.InitializeScanner();
-        this.highlightedBrush = new Brush(Colors.Transparent.ToPlatform(), Colors.White.ToPlatform(), 2.0f);
     }
 
     public override async Task SleepAsync()
     {
-        // Switch camera off to stop streaming frames.
+        // Switch the camera off to stop streaming frames.
         // The camera is stopped asynchronously and will take some time to completely turn off.
         // Until it is completely stopped, it is still possible to receive further results, hence
         // it's a good idea to first disable barcode batch as well.
@@ -88,7 +81,7 @@ public class MainPageViewModel : BaseViewModel, IBarcodeBatchListener, IBarcodeB
 
         if (this.Camera != null)
         {
-            // Switch camera on to start streaming frames.
+            // Switch the camera on to start streaming frames.
             // The camera is started asynchronously and will take some time to completely turn on.
             return await this.Camera.SwitchToDesiredStateAsync(FrameSourceState.On);
         }
@@ -117,22 +110,7 @@ public class MainPageViewModel : BaseViewModel, IBarcodeBatchListener, IBarcodeB
                     Symbology = description.ReadableName
                 });
             }
-
-            foreach (int removedTrackedBarcodeId in session.RemovedTrackedBarcodes)
-            {
-                this.scanResults.RemoveWhere(t => t.Id == removedTrackedBarcodeId);
-            }
         }
     }
-    #endregion
-
-    #region IBarcodeBatchBasicOverlayListener
-    public Brush BrushForTrackedBarcode(BarcodeBatchBasicOverlay overlay, TrackedBarcode trackedBarcode)
-    {
-        return this.highlightedBrush;
-    }
-
-    public void OnTrackedBarcodeTapped(BarcodeBatchBasicOverlay overlay, TrackedBarcode trackedBarcode)
-    { }
     #endregion
 }

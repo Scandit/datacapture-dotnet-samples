@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -45,7 +45,6 @@ namespace MatrixScanRejectSample
 
         private readonly HashSet<ScanResult> scanResults = new HashSet<ScanResult>();
 
-        private Brush defaultBrush;
         private Brush rejectedBrush;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -119,9 +118,10 @@ namespace MatrixScanRejectSample
             var overlay =
                     BarcodeBatchBasicOverlay.Create(barcodeBatch, dataCaptureView, BarcodeBatchBasicOverlayStyle.Frame);
 
-            // Configure how barcodes are highlighted - apply default brush or create your own.
-            this.rejectedBrush = new Brush(Color.Transparent, Color.Red, 3f);
-            this.defaultBrush = new Brush(Color.Transparent, Color.Green, 3f);
+            // Configure how barcodes are highlighted - use overlay default for valid, custom brush for rejected.
+            // Note that modifying a barcode's brush color requires the MatrixScan AR add-on.
+            int rejectedBorderColor = this.GetColor(Resource.Color.barcode_rejected_border);
+            this.rejectedBrush = new Brush(Color.Transparent, new Color(rejectedBorderColor), 3f);
             overlay.Listener = this;
 
             // Add the DataCaptureView to the container.
@@ -212,7 +212,7 @@ namespace MatrixScanRejectSample
         {
             if (IsValidBarcode(trackedBarcode.Barcode))
             {
-                return defaultBrush;
+                return overlay.Brush!;
             }
             else
             {

@@ -25,7 +25,8 @@ public class DataCaptureManager
     // Your Scandit License key is available via your Scandit SDK web account.
     public const string SCANDIT_LICENSE_KEY = "-- ENTER YOUR SCANDIT LICENSE KEY HERE --";
 
-    private static readonly Lazy<DataCaptureManager> instance = new Lazy<DataCaptureManager>(() => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
+    private static readonly Lazy<DataCaptureManager> instance = 
+        new(() => new DataCaptureManager(), LazyThreadSafetyMode.PublicationOnly);
 
     public static DataCaptureManager Instance => instance.Value;
 
@@ -33,7 +34,6 @@ public class DataCaptureManager
     {
         // Adjust camera settings - set Full HD resolution.
         this.CameraSettings.PreferredResolution = VideoResolution.FullHd;
-
         this.CurrentCamera?.ApplySettingsAsync(this.CameraSettings);
 
         this.DataCaptureContext = DataCaptureContext.ForLicenseKey(SCANDIT_LICENSE_KEY);
@@ -47,14 +47,14 @@ public class DataCaptureManager
         // For the purpose of this sample we enable a very generous set of symbologies.
         // In your own app ensure that you only enable the symbologies that your app requires as
         // every additional enabled symbology has an impact on processing times.
-        HashSet<Symbology> symbologies = new HashSet<Symbology>
-        {
+        HashSet<Symbology> symbologies =
+        [
             Symbology.Ean13Upca,
             Symbology.Ean8,
             Symbology.Upce,
             Symbology.Code39,
             Symbology.Code128
-        };
+        ];
 
         this.BarcodeBatchSettings.EnableSymbologies(symbologies);
         this.BarcodeBatch = BarcodeBatch.Create(this.DataCaptureContext, this.BarcodeBatchSettings);

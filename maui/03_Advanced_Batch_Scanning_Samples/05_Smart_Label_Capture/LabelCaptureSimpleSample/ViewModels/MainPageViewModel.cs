@@ -28,6 +28,7 @@ public class MainPageViewModel(
 {
     private LabelCaptureBasicOverlay? labelCaptureOverlay;
     private LabelCaptureValidationFlowOverlay? validationFlowOverlay;
+    private bool shouldResumeScanning = true;
 
     public DataCaptureContext DataCaptureContext { get; } = dataCaptureContext;
 
@@ -41,17 +42,9 @@ public class MainPageViewModel(
         return this.validationFlowOverlay ??= labelCaptureService.BuildValidationFlowOverlay(
             onLabelScanned: async label =>
             {
-                // Pause scanning when a label is captured
-                await this.PauseScanningAsync();
-                // Show the alert
+                await cameraService.PauseFrameSourceAsync();
                 await this.ShowLabelCapturedAlertAsync(label);
             });
-    }
-
-    private async Task PauseScanningAsync()
-    {
-        await cameraService.PauseFrameSourceAsync();
-        labelCaptureService.Disable();
     }
 
     private async Task ResumeScanningAsync()
@@ -85,8 +78,11 @@ public class MainPageViewModel(
             }
         }
 
-        await cameraService.ResumeFrameSourceAsync();
-        labelCaptureService.Enable();
+        if (this.shouldResumeScanning)
+        {
+            await cameraService.ResumeFrameSourceAsync();
+            labelCaptureService.Enable();
+        }
 
         this.validationFlowOverlay?.OnResume();
     }
@@ -94,6 +90,8 @@ public class MainPageViewModel(
     public override async Task SleepAsync()
     {
         this.validationFlowOverlay?.OnPause();
+
+        this.shouldResumeScanning = labelCaptureService.IsEnabled;
 
         await cameraService.PauseFrameSourceAsync();
         labelCaptureService.Disable();
