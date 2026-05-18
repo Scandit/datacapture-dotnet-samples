@@ -24,7 +24,7 @@ public interface ILabelCaptureService
     public void Initialize(DataCaptureContext dataCaptureContext);
     public void Enable();
     public void Disable();
-    public LabelCaptureBasicOverlay BuildOverlay(Context context);
+    public LabelCaptureBasicOverlay BuildOverlay();
     public LabelCaptureValidationFlowOverlay BuildValidationFlowOverlay(
         Context context, Action<string> onLabelScanned);
 }

@@ -99,7 +99,7 @@ public class ScanFragment : AndroidX.Fragment.App.Fragment
         ViewGroup? dataCaptureViewContainer = root.FindViewById<ViewGroup>(Resource.Id.data_capture_view_container)
             ?? throw new ArgumentNullException(nameof(Resource.Id.data_capture_view_container));
 
-        var labelCaptureOverlay = this.viewModel.BuildOverlay(this.RequireContext());
+        var labelCaptureOverlay = this.viewModel.BuildOverlay();
         this.validationFlowOverlay = this.viewModel.GetValidationFlowOverlay(this.RequireContext());
         this.dataCaptureView = DataCaptureView.Create(this.viewModel.DataCaptureContext);
         this.dataCaptureView.AddOverlay(labelCaptureOverlay);

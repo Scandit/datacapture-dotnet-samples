@@ -15,6 +15,9 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
+using AndroidX.Activity;
+using AndroidX.Core.View;
 
 namespace LabelCaptureSimpleSample;
 
@@ -25,4 +28,36 @@ namespace LabelCaptureSimpleSample;
     ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
+    protected override void OnCreate(Bundle? savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+
+        EdgeToEdge.Enable(this);
+
+        var rootView = FindViewById(Android.Resource.Id.Content);
+        ViewCompat.SetOnApplyWindowInsetsListener(rootView, new SystemBarsInsetsListener());
+    }
+
+    private sealed class SystemBarsInsetsListener : Java.Lang.Object, IOnApplyWindowInsetsListener
+    {
+        public WindowInsetsCompat? OnApplyWindowInsets(Android.Views.View? v, WindowInsetsCompat? insets)
+        {
+            if (v == null || insets == null)
+            {
+                return insets;
+            }
+
+            var bottomInsets = insets.GetInsets(WindowInsetsCompat.Type.NavigationBars() | WindowInsetsCompat.Type.Ime());
+            if (bottomInsets != null)
+            {
+                v.SetPadding(
+                    left: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: bottomInsets.Bottom
+                );
+            }
+            return insets;
+        }
+    }
 }

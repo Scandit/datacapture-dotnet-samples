@@ -152,8 +152,10 @@ public partial class SearchViewController : UIViewController
 
         this.View?.AddSubview(this.captureView);
 
-        // Add a barcode capture overlay to the data capture view to render the location of captured barcodes on top of
-        // the video preview. This is optional, but recommended for better visual feedback.
+        // Add a Barcode Capture overlay to the data capture view to render the location of captured
+        // barcodes on top of the video preview. Viewfinders are visual components only, and as such
+        // will not restrict the scan area.
+        // This is optional, but recommended for better visual feedback.
         this.overlay = BarcodeCaptureOverlay.Create(
             barcodeCapture: barcodeCapture,
             view: this.captureView);

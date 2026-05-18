@@ -16,6 +16,7 @@ using Android.Content;
 using LabelCaptureSimpleSample.Services.Internals.Listeners;
 using Scandit.DataCapture.Barcode.Data;
 using Scandit.DataCapture.Core.Capture;
+using Scandit.DataCapture.Core.UI.Style;
 using Scandit.DataCapture.Label.Capture;
 using Scandit.DataCapture.Label.Data;
 using Scandit.DataCapture.Label.UI.Overlay;
@@ -39,7 +40,7 @@ internal class LabelCaptureService : ILabelCaptureService
         this.labelCapture = LabelCapture.Create(dataCaptureContext, labelCaptureSettings);
     }
 
-    public LabelCaptureBasicOverlay BuildOverlay(Context context)
+    public LabelCaptureBasicOverlay BuildOverlay()
     {
         if (this.labelCapture == null)
         {
@@ -47,7 +48,7 @@ internal class LabelCaptureService : ILabelCaptureService
         }
 
         var overlay = LabelCaptureBasicOverlay.Create(this.labelCapture);
-        overlay.Listener = new LabelCaptureBasicOverlayListener(context);
+        overlay.LabelBrush = Brush.TransparentBrush;
 
         return overlay;
     }

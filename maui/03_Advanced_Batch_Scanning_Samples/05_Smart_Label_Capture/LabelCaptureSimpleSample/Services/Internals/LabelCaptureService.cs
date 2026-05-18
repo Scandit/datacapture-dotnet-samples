@@ -19,6 +19,7 @@ using Scandit.DataCapture.Label.Capture;
 using Scandit.DataCapture.Label.Data;
 using Scandit.DataCapture.Label.UI.Overlay;
 using Scandit.DataCapture.Label.UI.Overlay.Validation;
+using Brush = Scandit.DataCapture.Core.UI.Style.Brush;
 
 namespace LabelCaptureSimpleSample.Services.Internals;
 
@@ -39,7 +40,7 @@ internal class LabelCaptureService(DataCaptureContext dataCaptureContext) : ILab
         }
 
         var overlay = LabelCaptureBasicOverlay.Create(this.labelCapture);
-        overlay.Listener = new LabelCaptureBasicOverlayListener();
+        overlay.LabelBrush = Brush.TransparentBrush;
 
         return overlay;
     }

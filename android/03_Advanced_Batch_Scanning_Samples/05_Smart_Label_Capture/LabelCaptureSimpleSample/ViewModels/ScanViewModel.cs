@@ -49,9 +49,9 @@ public class ScanViewModel
         this.labelCaptureService.Initialize(this.DataCaptureContext);
     }
 
-    public LabelCaptureBasicOverlay BuildOverlay(Context context)
+    public LabelCaptureBasicOverlay BuildOverlay()
     {
-        return this.labelCaptureService.BuildOverlay(context);
+        return this.labelCaptureService.BuildOverlay();
     }
 
     public LabelCaptureValidationFlowOverlay GetValidationFlowOverlay(Context context)
