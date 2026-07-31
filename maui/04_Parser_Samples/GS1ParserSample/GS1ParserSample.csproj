@@ -43,11 +43,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scandit.DataCapture.Core" Version="8.5.1" />
-    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="8.5.1" />
-    <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.5.1" />
-    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="8.5.1" />
-    <PackageReference Include="Scandit.DataCapture.Parser" Version="8.5.1" />
+    <PackageReference Include="Scandit.DataCapture.Core" Version="8.5.2" />
+    <PackageReference Include="Scandit.DataCapture.Core.Maui" Version="8.5.2" />
+    <PackageReference Include="Scandit.DataCapture.Barcode" Version="8.5.2" />
+    <PackageReference Include="Scandit.DataCapture.Barcode.Maui" Version="8.5.2" />
+    <PackageReference Include="Scandit.DataCapture.Parser" Version="8.5.2" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.40" />
