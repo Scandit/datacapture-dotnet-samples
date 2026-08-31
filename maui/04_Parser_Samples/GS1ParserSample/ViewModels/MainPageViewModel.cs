@@ -175,9 +175,10 @@ namespace GS1ParserSample.ViewModels
                 MessageService.ShowAsync(sb.ToString(), "Parser result")
                               .ContinueWith((task) => barcodeCapture.Enabled = true);
             }
-            catch (ArgumentException e)
+            catch (ParserException e)
             {
-                // Print the parser failure and continue.
+                // A non-GS1 (or otherwise unparsable) code reaches us as a ParserException.
+                // Print the parser failure and continue scanning instead of crashing.
                 Debug.WriteLine(e.Message);
                 barcodeCapture.Enabled = true;
             }
